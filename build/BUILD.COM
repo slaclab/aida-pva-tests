@@ -16,6 +16,12 @@ $ @java$jni_example:scan_globals_for_option *.OBJ 'GLB_OPT'.OPT
 $
 $! link native shareable
 $!
-$ LINK /MAP/DEBUG/SHARE=aida-pva.EXE global_symbol_option /OPT, library_option /OPT, slcopt:slc_common/opt
+$ LINK -
+   /MAP/DEBUG/SHARE=aida-pva.EXE -
+   global_symbol_option /OPT, -
+   library_option /OPT, -
+   SLCOPT:SLC_COMMON.OPT /OPT, -
+   SLCOPT:ALPHA_SYSSHR.OPT /OPT, -
+   SLCOPT:DBSYMBOL /OPT
 $!
 $ copy aida-pva.exe [-.lib]
