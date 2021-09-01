@@ -25,9 +25,12 @@
 
 #include "aida_server_helper.h"
 #include "db_server.h"
+
+
 /*
  * Local Static
  */
+static vmsstat_t LCL_JNI_PARSENAME(const char* uri, int4u* prim_pi, int4u* micr_pi, int4u* lunit_pi, int4u* secn_pi, char* astsChannelName);
 static const $DESCRIPTOR( process_name, "AidaDbIf");
 
 /*
@@ -204,9 +207,9 @@ double aidaRequestDouble(JNIEnv* env, const char* uri, Arguments arguments)
 
 	DB_GET_SCALAR(double, "Unable to get double");
 
-	// TODO Verify that this works with doubles
-	unsigned short one = 1;
-	cvt_vms_to_ieee_flt(&item, &item, &one);
+	// TODO Find a way to convert doubles before return
+	//	unsigned short one = 1;
+	//	cvt_vms_to_ieee_flt(&item, &item, &one);
 
 	// Return the item
 	return item;
@@ -311,6 +314,8 @@ char* aidaRequestString(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestBooleanArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(int, "Unable to get boolean array")
 
 	// Return the boolean array
@@ -327,6 +332,8 @@ Array aidaRequestBooleanArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestByteArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(char, "Unable to get byte array")
 
 	// Return the byte array
@@ -343,6 +350,8 @@ Array aidaRequestByteArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestShortArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(short int, "Unable to get short array")
 
 	// Return the short array
@@ -359,6 +368,8 @@ Array aidaRequestShortArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestIntegerArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(int, "Unable to get integer array")
 
 	// Return the integer array
@@ -375,6 +386,8 @@ Array aidaRequestIntegerArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestLongArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(long, "Unable to get long array")
 
 	// Return the long array
@@ -391,9 +404,12 @@ Array aidaRequestLongArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestFloatArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(float, "Unable to get float array")
-	unsigned short one = 1;
-	cvt_vms_to_ieee_flt(&itemArray, &itemArray, &one);
+	// TODO Find a way to convert the floats
+	//	unsigned short one = 1;
+	//	cvt_vms_to_ieee_flt(&itemArray, &itemArray, &one);
 
 	// Return the float array
 	return itemArray;
@@ -409,9 +425,12 @@ Array aidaRequestFloatArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 Array aidaRequestDoubleArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
+	Array itemArray;
+
 	DB_GET_ARRAYS(double, "Unable to get double array")
-	unsigned short one = 1;
-	cvt_vms_to_ieee_flt(&itemArray, &itemArray, &one);
+	// TODO Find a way to convert doubles before return
+	//	unsigned short one = 1;
+	//	cvt_vms_to_ieee_flt(&itemArray, &itemArray, &one);
 
 	// Return the double array
 	return itemArray;
@@ -427,12 +446,13 @@ Array aidaRequestDoubleArray(JNIEnv* env, const char* uri, Arguments arguments)
  */
 StringArray aidaRequestStringArray(JNIEnv* env, const char* uri, Arguments arguments)
 {
-	StringArray stringArray;
-	stringArray.count = 0;
+	StringArray itemArray;
+
+	itemArray.count = 0;
 
 	// Not Implemented
 	// Return empty string array
-	return stringArray;
+	return itemArray;
 }
 
 /**
@@ -463,9 +483,7 @@ Table aidaRequestTable(JNIEnv* env, const char* uri, Arguments arguments)
  * @param astsChannelName
  * @return status
  */
-static vmsstat_t LCL_JNI_PARSENAME(char* uri, int4u* prim_pi, int4u* micr_pi, int4u* lunit_pi, int4u* secn_pi,
-		char* astsChannelName)
-{
+static vmsstat_t LCL_JNI_PARSENAME(const char* uri, int4u* prim_pi, int4u* micr_pi, int4u* lunit_pi, int4u* secn_pi, char* astsChannelName) {
 	int i;
 	int cindex, clen;  /* Char index and length */
 	int num_converted; /* Number of items converted by sscanf */

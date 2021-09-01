@@ -76,7 +76,6 @@ extern "C" {
  */
 #define DB_GET_ARRAYS(type, message) \
 { \
-	Array itemArray; \
 	itemArray.count = 0; \
 	int itemSize = sizeof(type); \
 	DB_LIST_DEFINE_VARS_AND_PARSE_NAME(type) \
