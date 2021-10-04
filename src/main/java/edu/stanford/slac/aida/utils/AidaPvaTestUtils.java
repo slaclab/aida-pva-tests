@@ -14,6 +14,58 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
  * Test Suite
  * -- Tests
  * ---+-- Test Cases
+ * <p>
+ * In order to write a test its very easy.
+ * <p>
+ * e.g. 1: Simple get
+ * <pre>{@code
+ *      testSuiteHeader("AIDA-PVA SLC TESTS");
+ *      testHeader(1, "Acquire scalar types SLC PMUS");
+ *      getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
+ * }</pre>
+ * <p>
+ * e.g. 2: Multiple arguments
+ * <pre>{@code
+ *      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
+ *      testHeader(2, "Get values of 4 BPMs");
+ *      channel("NDRFACET//BUFFACQ", "BPM Values")
+ *                     .with("BPMD", 57)
+ *                     .with("NRPOS", 180)
+ *                     .with("BPMS", Arrays.asList(
+ *                             "BPMS:LI11:501",
+ *                             "BPMS:LI11:601",
+ *                             "BPMS:LI11:701",
+ *                             "BPMS:LI11:801"))
+ *                     .get();
+ * }</pre>
+ * <p>
+ * e.g. 3: Simple set
+ * <pre>{@code
+ *      testSuiteHeader("AIDA-PVA SLC TESTS");
+ *      testHeader(testId, "Set value test");
+ *      setWithNoArguments("XCOR:LI31:41//BCON", 5.0f);
+ * }</pre>
+ * <p>
+ * e.g. 4: Advanced set
+ * <pre>{@code
+ *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
+ *      testHeader(testId, "Deactivate the specified klystron");
+ *      channel("KLYS:LI31:31//TACT", "Deactivated")
+ *                     .with("BEAM", 8)
+ *                     .with("DGRP", "DEV_DGRP")
+ *                     .set(0);
+ * }</pre>
+ * <p>
+ * e.g. 5: Selecting the return value type
+ * <pre>{@code
+ *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
+ *      testHeader(testId, "Acquire STRING type");
+ *      channel("KLYS:LI31:31//TACT", "String")
+ *                     .with("BEAM", 8)
+ *                     .with("DGRP", "DEV_DGRP")
+ *                     .returning(STRING)
+ *                     .get();
+ * }</pre>
  */
 public class AidaPvaTestUtils {
     // For pretty output - colors

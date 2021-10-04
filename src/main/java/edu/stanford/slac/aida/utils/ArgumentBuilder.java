@@ -16,7 +16,7 @@ import java.util.Map;
  * the object.
  * <p>
  * e.g.
- * <pre>{@code java
+ * <pre>{@code
  *      Structure argumentBuilder = new ArgumentBuilder()
  *          .argumentBuilder.addStringArgument("TYPE", "FLOAT");
  *
