@@ -18,7 +18,7 @@ find the epics providers.  All you need to do is to set the `EPICS_PVA_ADDR_LIST
 network or host you want to search.  
 
 Test are all named starting with SLC and then the short code identifying the provider followed by `Test`. 
-e.g. `SlcBpmTest`
+e.g. [`SlcBpmTest`](./src/main/java/edu/stanford/slac/aida/SlcBpmTest.java)
 Each test is in a the `edu.stanford.slac.aida` package directory so the full path to a test is something
 like `edu.stanford.slac.aida.SlcBpmTest`.
 
