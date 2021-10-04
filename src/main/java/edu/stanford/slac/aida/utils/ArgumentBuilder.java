@@ -16,7 +16,7 @@ import java.util.Map;
  * the object.
  * <p>
  * e.g.
- * <pre>{@code
+ * <pre>{@code java
  *      Structure argumentBuilder = new ArgumentBuilder()
  *          .argumentBuilder.addStringArgument("TYPE", "FLOAT");
  *
@@ -25,8 +25,8 @@ import java.util.Map;
  *
  *      Structure uriStructure =
  *         fieldCreate.createStructure("epics:nt/NTURI:1.0",
- *                 new String[]{"path", "query"},
- *                 new Field[]{fieldCreate.createScalar(ScalarType.pvString), arguments}
+ *                 new String[]{"path", "query"&#125;,
+ *                 new Field[]{fieldCreate.createScalar(ScalarType.pvString), arguments&#125;
  *         );
  *
  *      // Make the query (contains the uri and arguments
