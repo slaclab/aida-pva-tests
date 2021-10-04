@@ -18,22 +18,22 @@ find the epics providers.  All you need to do is to set the `EPICS_PVA_ADDR_LIST
 network or host you want to search.  
 
 Test are all named starting with SLC and then the short code identifying the provider followed by `Test`. 
-e.g. `SlcBpmTest`.  
+e.g. `SlcBpmTest`
 Each test is in a the `edu.stanford.slac.aida` package directory so the full path to a test is something
 like `edu.stanford.slac.aida.SlcBpmTest`.
 
 As the jar is shaded it includes everything it needs so no need for a complicated classpath.
 The full procedure to run the tests is as follows:
 
-
-e.g. 1 Run the SLC Utility Provider tests 
+### e.g. 1 Run the SLC Utility Provider tests 
+#### commands
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
 java -cp aida-pva-tests.jar "edu.stanford.slac.aida.SlcUtilTest"
 ```
 
-The output will be something like this:
+#### output
 ```shell
 #################################################
 AIDA-PVA SLC TESTS
@@ -207,14 +207,14 @@ set: XCOR:LI31:41//BCON (VALUE=5.0) ✔
     
 ```
 
-e.g. 2 Run one test from the SLC Utility Provider test suite
+### e.g. 2 Run one test from the SLC Utility Provider test suite
+#### commands
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
 java -cp aida-pva-tests.jar "edu.stanford.slac.aida.SlcUtilTest" 2
 ```
-
-The output will be something like this:
+#### output
 ```shell
 #################################################
 AIDA-PVA SLC Utility TESTS
@@ -282,14 +282,14 @@ Utility class to facilitate running all the AIDA-PVA tests
 <p>
 In order to write a test its very easy.
 <p>
-e.g. 1: Simple get
+#### e.g. 1: Simple get
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC TESTS");
      testHeader(1, "Acquire scalar types SLC PMUS");
      getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT"
 }</pre>
 <p>
-e.g. 2: Multiple arguments
+#### e.g. 2: Multiple arguments
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
      testHeader(2, "Get values of 4 BPMs");
@@ -304,14 +304,14 @@ e.g. 2: Multiple arguments
                     .get();
 }</pre>
 <p>
-e.g. 3: Simple set
+#### e.g. 3: Simple set
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC TESTS");
      testHeader(testId, "Set value test");
      setWithNoArguments("XCOR:LI31:41//BCON", 5.0f);
 }</pre>
 <p>
-e.g. 4: Advanced set
+#### e.g. 4: Advanced set
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Deactivate the specified klystron");
@@ -321,7 +321,7 @@ e.g. 4: Advanced set
                     .set(0);
 }</pre>
 <p>
-e.g. 5: Selecting the return value type
+#### e.g. 5: Selecting the return value type
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Acquire STRING type");
