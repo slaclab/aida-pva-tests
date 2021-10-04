@@ -9,10 +9,40 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A private class used to build arguments.
+ * Used to build arguments for use with the AidaPvaRequest.
+ * <p>
  * This follows the builder pattern except that you need to call initialise after build,
  * so you need to keep the object around after build. And add methods don't return
  * the object.
+ * <p>
+ * e.g.
+ * <pre>{@code
+ *      Structure argumentBuilder = new ArgumentBuilder()
+ *          .argumentBuilder.addStringArgument("TYPE", "FLOAT");
+ *
+ *      // Prepare the arguments
+ *      Structure arguments = argumentBuilder.build();
+ *
+ *      Structure uriStructure =
+ *         fieldCreate.createStructure("epics:nt/NTURI:1.0",
+ *                 new String[]{"path", "query"},
+ *                 new Field[]{fieldCreate.createScalar(ScalarType.pvString), arguments}
+ *         );
+ *
+ *      // Make the query (contains the uri and arguments
+ *       PVStructure request = PVDataFactory
+ *          .getPVDataCreate()
+ *              .createPVStructure(uriStructure);
+ *
+ *      // Set the request path
+ *      request.getStringField("path").put("XCOR:LI03:120:LEFF");
+ *
+ *      // Set the request query values
+ *      PVStructure query = request.getStructureField("query");
+ *      argumentBuilder.initializeQuery(query);
+ *
+ *      ...
+ * }</pre>
  */
 class ArgumentBuilder {
     /**
@@ -27,6 +57,7 @@ class ArgumentBuilder {
 
     /**
      * Add a string argument
+     * See {@link ArgumentBuilder} for more information.
      *
      * @param name  name of argument
      * @param value string setTo of argument
@@ -37,6 +68,7 @@ class ArgumentBuilder {
 
     /**
      * Builds the set of arguments based on the ones you've specified
+     * See {@link ArgumentBuilder} for more information.
      *
      * @return EPICS PVStructure containing the fields you've specified
      */
@@ -76,11 +108,12 @@ class ArgumentBuilder {
     }
 
     /**
-     * Set the field values in the query
+     * Set the field values in the arguments in the query.
+     * See {@link ArgumentBuilder} for more information.
      *
      * @param query the query
      */
-    public void initialize(PVStructure query) {
+    public void initializeQuery(PVStructure query) {
         for (Map.Entry<String, Object> entrySet : fieldMap.entrySet()) {
             String name = entrySet.getKey();
             Object value = entrySet.getValue();

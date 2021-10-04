@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 
+/**
+ * This class is used to test the SLC Buffered Acquisition AIDA-PVA provider
+ */
 public class SlcBuffAcqTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");

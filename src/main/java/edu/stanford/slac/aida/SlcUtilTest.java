@@ -4,6 +4,9 @@ import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 import static edu.stanford.slac.aida.utils.AidaType.SHORT;
 import static edu.stanford.slac.aida.utils.AidaType.STRING;
 
+/**
+ * This class is used to test the SLC Utility AIDA-PVA provider
+ */
 public class SlcUtilTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC Utility TESTS");

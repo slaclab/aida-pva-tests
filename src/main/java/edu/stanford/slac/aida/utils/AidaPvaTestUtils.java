@@ -12,8 +12,8 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
 /**
  * Utility class to facilitate running all the AIDA-PVA tests
  * Test Suite
- * - Tests
- * - Test Cases
+ * -- Tests
+ * ---+-- Test Cases
  */
 public class AidaPvaTestUtils {
     // For pretty output - colors
@@ -251,7 +251,7 @@ public class AidaPvaTestUtils {
             Class<T> clazz = type.toPVFieldClass();
 
             System.out.print("    " + message + ": ");
-            if ( type == VOID || clazz == null ) {
+            if (type == VOID || clazz == null) {
                 System.out.println(" " + TEST_SUCCESS);
                 return;
             }
@@ -334,7 +334,8 @@ public class AidaPvaTestUtils {
         // Determine the number of rows by looking into the first column and checking its length
         int rows = ((PVArray) (columnValues[0])).getLength();
 
-        // Not allocate enough space to store the string versions of the column labels, column names, and column data
+        // Not allocate enough space to store the string versions of the column labels,
+        // column names, and column data
         String[] stringLabels = new String[columns];
         String[] stringNames = new String[columns];
         String[][] stringData = new String[rows][columns];
@@ -353,30 +354,55 @@ public class AidaPvaTestUtils {
         /*
          * First pass we will simply extract all the strings and populate the tables
          */
+        tableFirstPass(columns, labels, columnValues, columnWidths, stringLabels, stringNames, stringData);
+
+        /*
+         * Second pass we will display all the collected strings
+         */
+        tableSecondPass(rows, columns, columnWidths, stringLabels, stringNames, stringData);
+    }
+
+    /**
+     * First pass we will simply extract all the strings and populate the tables. We will
+     * calculate the width of each column by finding the max string length for that column
+     * and adding 1
+     *
+     * @param columns      the number of columns in the table
+     * @param resultLabels the list of labels in the table
+     * @param resultValues an array containing the values of all the columns - an array of PVArrays
+     * @param columnWidths place we will store the calculated width of each column
+     * @param columnLabels place we will store all the string column labels for the caller
+     * @param columnNames  place we will store the string column names for the caller
+     * @param tableData    place we will store the string data for each column's rows to be returned to caller
+     */
+    private static void tableFirstPass(
+            int columns, PVStringArray resultLabels, PVField[] resultValues,
+            Integer[] columnWidths, String[] columnLabels, String[] columnNames,
+            String[][] tableData) {
 
         // Get labels
         {
-            stringArrayLoop(labels, (s, i) -> {
+            stringArrayLoop(resultLabels, (s, i) -> {
                 columnWidths[i] = Math.max(columnWidths[i], s.length());
-                stringLabels[i] = s;
+                columnLabels[i] = s;
             });
         }
 
         // field names
         for (int column = 0; column < columns; column++) {
-            String s = columnValues[column].getFieldName();
+            String s = resultValues[column].getFieldName();
             columnWidths[column] = Math.max(columnWidths[column], s.length());
-            stringNames[column] = s;
+            columnNames[column] = s;
         }
 
         // Get each value on the first pass and store them in the stringData two-dimensional array
         for (int column = 0; column < columns; column++) {
-            final PVArray array = ((PVArray) columnValues[column]);
+            final PVArray array = ((PVArray) resultValues[column]);
 
             int c = column;
             arrayLoop(array, (s, r) -> {
                 columnWidths[c] = Math.max(columnWidths[c], s.toString().length());
-                stringData[r][c] = s.toString();
+                tableData[r][c] = s.toString();
             });
         }
 
@@ -384,17 +410,32 @@ public class AidaPvaTestUtils {
         for (int column = 0; column < columns; column++) {
             columnWidths[column] += 1;
         }
+    }
 
-        /*
-         * Second pass we will display all the collected strings
-         */
+    /**
+     * Second pass we will display all the collected strings.  We will receive a two dimensional
+     * array of all the columns in the table and will
+     * also receive an array with the widths of each column, an array with the labels
+     * and one with the names
+     *
+     * @param rows         the number of rows in the table
+     * @param columns      the number of columns in the table
+     * @param columnWidths the list of column widths
+     * @param columnLabels the list of labels
+     * @param columnNames  the list of string names
+     * @param tableData    the two-dimensional array of table data
+     */
+    private static void tableSecondPass(
+            int rows, int columns,
+            Integer[] columnWidths, String[] columnLabels, String[] columnNames,
+            String[][] tableData) {
 
         // Labels
         boolean inverse = true;
         for (int column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
             inverse = inverse(ANSI_CYAN, inverse);
-            System.out.print(padLeft(stringLabels[column], columnWidths[column]));
+            System.out.print(padLeft(columnLabels[column], columnWidths[column]));
         }
         System.out.println(ANSI_NORMAL + ANSI_CYAN);
 
@@ -404,7 +445,7 @@ public class AidaPvaTestUtils {
         for (int column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
             inverse = inverse(ANSI_CYAN, inverse);
-            System.out.print(padLeft(stringNames[column], columnWidths[column]));
+            System.out.print(padLeft(columnNames[column], columnWidths[column]));
         }
         System.out.println(ANSI_NORMAL + ANSI_CYAN);
 
@@ -413,7 +454,7 @@ public class AidaPvaTestUtils {
             inverse = true;
             for (int column = 0; column < columns; column++) {
                 inverse = alternate(ANSI_CYAN, ANSI_WHITE, inverse);
-                System.out.print(padLeft(stringData[row][column], columnWidths[column]));
+                System.out.print(padLeft(tableData[row][column], columnWidths[column]));
             }
             System.out.println();
         }

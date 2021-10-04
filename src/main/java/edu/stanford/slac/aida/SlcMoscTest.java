@@ -4,6 +4,9 @@ import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 import static edu.stanford.slac.aida.utils.AidaType.BOOLEAN;
 import static edu.stanford.slac.aida.utils.AidaType.TABLE;
 
+/**
+ * This class is used to test the SLC Master Oscillator AIDA-PVA provider
+ */
 public class SlcMoscTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC Master Oscillator TESTS");

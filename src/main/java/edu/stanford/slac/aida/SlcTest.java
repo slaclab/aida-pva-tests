@@ -3,6 +3,9 @@ package edu.stanford.slac.aida;
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 import static edu.stanford.slac.aida.utils.AidaType.*;
 
+/**
+ * This class is used to test the SLC Database AIDA-PVA provider
+ */
 public class SlcTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC TESTS");

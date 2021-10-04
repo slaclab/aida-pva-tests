@@ -222,7 +222,7 @@ public class AidaPvaRequest {
         request.getStringField("path").put(channelName);
         // Set the request query values
         PVStructure query = request.getStructureField("query");
-        argumentBuilder.initialize(query);
+        argumentBuilder.initializeQuery(query);
 
         // Execute the query
         RPCClientImpl client = new RPCClientImpl(channelName);

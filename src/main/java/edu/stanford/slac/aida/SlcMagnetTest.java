@@ -2,6 +2,9 @@ package edu.stanford.slac.aida;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 
+/**
+ * This class is used to test the SLC Magnet AIDA-PVA provider
+ */
 public class SlcMagnetTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC Magnet TESTS");

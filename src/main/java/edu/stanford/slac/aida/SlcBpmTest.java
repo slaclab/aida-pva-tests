@@ -2,6 +2,9 @@ package edu.stanford.slac.aida;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 
+/**
+ * This class is used to test the SLC BPM Orbit Data AIDA-PVA provider
+ */
 public class SlcBpmTest {
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC BPM TESTS");

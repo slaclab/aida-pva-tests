@@ -2,6 +2,9 @@ package edu.stanford.slac.aida.utils;
 
 import org.epics.pvdata.pv.*;
 
+/**
+ * To manage the different Aida Types that are useful in the AIDA-PVA test framework
+ */
 public enum AidaType {
     VOID,               // Means that this setter does not return a value (only valid for setters)
     BOOLEAN,            // Getter returns a boolean
@@ -25,7 +28,7 @@ public enum AidaType {
     TABLE              // Getter or setter returns a table
     ;
 
-    // Normative type strucure IDs
+    // Normative type structure IDs
     public static final String NTURI_ID = "epics:nt/NTURI:1.0";
     public static final String NTSCALAR_ID = "epics:nt/NTScalar:1.0";
     public static final String NTSCALARARRAY_ID = "epics:nt/NTScalarArray:1.0";
@@ -81,13 +84,20 @@ public enum AidaType {
     /**
      * Get the AIDA Type from the result
      *
-     * @param result
+     * @param result the result to determine the type of
      * @return aida type
      */
     public static AidaType from(PVStructure result) {
         return from(result, NT_FIELD_NAME);
     }
 
+    /**
+     * Get the AIDA Type from the result
+     *
+     * @param result the result to determine the type of
+     * @param fieldName the name of the field within the results to determine the type of
+     * @return aida type
+     */
     public static AidaType from(PVStructure result, String fieldName) {
         if (result.getStructure().getID().equals(NTTABLE_ID)) {
             return TABLE;
