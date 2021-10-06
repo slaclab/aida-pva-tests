@@ -313,7 +313,7 @@ public class AidaPvaTestUtils {
                     scalarResults(clazz, isForCharOrCharArray, result);
                     return;
                 case NTSCALARARRAY_ID:
-                    scalarArrayResults(clazz, isForCharOrCharArray, result);
+                    scalarArrayResults(result, clazz, isForCharOrCharArray);
                     return;
                 case NTTABLE_ID:
                     tableResults(result);
@@ -340,7 +340,7 @@ public class AidaPvaTestUtils {
             PVStructure result = supplier.get();
             System.out.print("    " + message + ": ");
             assertNTScalarArray(result);
-            scalarArrayResults(clazz, isForCharArray, result);
+            scalarArrayResults(result, clazz, isForCharArray);
         } catch (Exception e) {
             errors(e);
         }
@@ -527,12 +527,11 @@ public class AidaPvaTestUtils {
 
     /**
      * Display scalar array results in a standardised way
-     *
+     * @param result         the results
      * @param clazz          the class of the scalar array
      * @param isForCharArray is this for a char array
-     * @param result         the results
      */
-    private static <T extends PVField> void scalarArrayResults(Class<T> clazz, boolean isForCharArray, PVStructure result) {
+    private static <T extends PVField> void scalarArrayResults(PVStructure result, Class<T> clazz, boolean isForCharArray) {
         List<Object> values = getScalarArrayValues(result, clazz, isForCharArray);
         System.out.println();
         for (Object value : values) {
