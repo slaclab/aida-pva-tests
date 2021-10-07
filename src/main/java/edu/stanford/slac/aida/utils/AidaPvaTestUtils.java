@@ -662,6 +662,10 @@ public class AidaPvaTestUtils {
             exceptionMessage = exceptionMessage.substring(0, newLineLen);
             length = newLineLen;
         }
+        int cause = exceptionMessage.indexOf(", cause:");
+        if ( cause != -1 ) {
+            exceptionMessage = exceptionMessage.substring(0, cause);
+        }
 
         if (length > MAX__MESSAGE_LEN) {
             return exceptionMessage.substring(0, MAX__MESSAGE_LEN) + " ...";
