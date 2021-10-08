@@ -18,27 +18,27 @@ public class SlcMoscTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method");
-            channel("MASTEROSC//VAL", "VAL").get();
+            channel("MASTEROSC:VAL", "VAL").get();
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method for double");
-            getWithNoArguments("MASTEROSC//VAL", BOOLEAN, "VAL");
+            getWithNoArguments("MASTEROSC:VAL", BOOLEAN, "VAL");
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method for table");
-            getWithNoArguments("MASTEROSC//VAL", TABLE, "VAL");
+            getWithNoArguments("MASTEROSC:VAL", TABLE, "VAL");
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set");
-            setWithNoArguments("MASTEROSC//VAL", 0.328f);
+            setWithNoArguments("MASTEROSC:VAL", 0.328f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set method Set value is relative energy.  Ring is HER");
-            channel("MASTEROSC//VAL", "VAL")
+            channel("MASTEROSC:VAL", "VAL")
                     .with("UNITS", "ENERGY")
                     .with("RING", "HER")
                     .set(1.0f);
@@ -46,7 +46,7 @@ public class SlcMoscTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set method Set value is relative energy.  Ring is LER");
-            channel("MASTEROSC//VAL", "VAL")
+            channel("MASTEROSC:VAL", "VAL")
                     .with("UNITS", "ENERGY")
                     .with("RING", "LER")
                     .set(1.0f);
@@ -54,7 +54,7 @@ public class SlcMoscTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set");
-            setWithNoArguments("MASTEROSC//VAL", 0.328f);
+            setWithNoArguments("MASTEROSC:VAL", 0.328f);
         }
 
         // Because of threads started in background to process requests

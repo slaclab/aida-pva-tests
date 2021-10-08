@@ -17,7 +17,7 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire SHORT type");
-            channel("KLYS:LI31:31//TACT", "Short")
+            channel("KLYS:LI31:31:TACT", "Short")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(SHORT)
@@ -26,7 +26,7 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire STRING type");
-            channel("KLYS:LI31:31//TACT", "String")
+            channel("KLYS:LI31:31:TACT", "String")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(STRING)
@@ -35,7 +35,7 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Deactivate the specified klystron");
-            channel("KLYS:LI31:31//TACT", "Deactivated")
+            channel("KLYS:LI31:31:TACT", "Deactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(0);
@@ -43,7 +43,7 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Reactivate the specified klystron");
-            channel("KLYS:LI31:31//TACT", "Reactivated")
+            channel("KLYS:LI31:31:TACT", "Reactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(1);
@@ -51,24 +51,24 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a sub-booster or klystron PDES value and trim it");
-            channel("KLYS:LI31:31//PDES", "PDES").set(90.0f);
+            channel("KLYS:LI31:31:PDES", "PDES").set(90.0f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a subbooster or klystron PDES value without the trim operation");
-            channel("KLYS:LI31:31//PDES", "PDES")
+            channel("KLYS:LI31:31:PDES", "PDES")
                     .with("TRIM", "NO")
                     .set(90.0f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a subbooster or klystron KPHR value");
-            channel("KLYS:LI31:31//KPHR", "KPHR").set(60.0f);
+            channel("KLYS:LI31:31:KPHR", "KPHR").set(60.0f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set configuration secondary PCON value");
-            setWithNoArguments("KLYS:LI31:31//PCON", 5.0f);
+            setWithNoArguments("KLYS:LI31:31:PCON", 5.0f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {

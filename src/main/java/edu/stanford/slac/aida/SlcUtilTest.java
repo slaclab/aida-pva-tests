@@ -19,7 +19,7 @@ public class SlcUtilTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -29,7 +29,7 @@ public class SlcUtilTest {
             }
             testHeader(testId, "reversing sign of relative delta");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -42,7 +42,7 @@ public class SlcUtilTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -52,7 +52,7 @@ public class SlcUtilTest {
             }
             testHeader(testId, "reversing sign of relative delta");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -65,7 +65,7 @@ public class SlcUtilTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  sleeping for 5 seconds between runs. The requested set operation should fail since the specified multiknob file is absolute, which is not permitted");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
                         .set(1.0f);
                 try {
@@ -75,7 +75,7 @@ public class SlcUtilTest {
             }
             testHeader(testId, "reversing sign of relative delta");
             for (int i = 0; i < 3; i++) {
-                channel("MKB//VAL", "MKB VAL")
+                channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
                         .set(-1.0f);
                 try {

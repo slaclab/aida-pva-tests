@@ -44,7 +44,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Test of magnet set");
-            channel("MAGNETSET//BDES", "Magnet Set")
+            channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
                     .set(value);
         }
@@ -56,7 +56,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Test of magnet set");
-            channel("MAGNETSET//BDES", "Magnet Set")
+            channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
                     .set(value);
         }
@@ -68,7 +68,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Test of magnet set");
-            channel("MAGNETSET//BDES", "Magnet Set")
+            channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
                     .set(value);
         }
@@ -80,7 +80,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Error handling test of magnet set");
-            channel("MAGNETSET//BDES", "Magnet Set")
+            channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
                     .set(value);
         }
@@ -92,7 +92,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Test of magnet set");
-            channel("MAGNETSET//BDES", "Magnet Set")
+            channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
                     .set(value);
         }
@@ -104,7 +104,7 @@ public class SlcMagnetTest {
                     "}";
 
             testHeader(testId, "Test of magnet set");
-            channel("MAGNETSET//BCON", "Magnet Set").set(value);
+            channel("MAGNETSET:BCON", "Magnet Set").set(value);
         }
         // Because of threads started in background to process requests
         System.exit(0);
