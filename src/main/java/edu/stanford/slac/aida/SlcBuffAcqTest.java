@@ -1,6 +1,7 @@
 package edu.stanford.slac.aida;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 
@@ -18,15 +19,15 @@ public class SlcBuffAcqTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get values of given BPM for 1 pulse");
-            channel("NDRFACET//BUFFACQ", "BPM Values")
+            channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
-                    .with("BPMS", "[\"BPMS:LI11:501\"]")
+                    .with("BPMS", Collections.singletonList("BPMS:LI11:501"))
                     .get();
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get values of 4 BPMs");
-            channel("NDRFACET//BUFFACQ", "BPM Values")
+            channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("NRPOS", 180)
                     .with("BPMS", Arrays.asList(
@@ -45,7 +46,7 @@ public class SlcBuffAcqTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Bad argument Name - superfish=7");
-            channel("NDRFACET//BUFFACQ", "BPM Values")
+            channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("superfish", 7)
                     .get();
@@ -53,9 +54,9 @@ public class SlcBuffAcqTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Bad argument value BPM1=BPMS:GREG:DOESNTEXIST");
-            channel("NDRFACET//BUFFACQ", "BPM Values")
+            channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
-                    .with("BPMS", "[\"BPMS:GREG:DOESNTEXIST\"]")
+                    .with("BPMS", Collections.singletonList("BPMS:GREG:DOESNTEXIST"))
                     .get();
         }
         // Because of threads started in background to process requests

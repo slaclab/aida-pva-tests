@@ -60,79 +60,8 @@ public class AidaPvaRequest {
      * @param value to set for argument
      * @return AidaPvaRequestExecutor
      */
-    public AidaPvaRequest with(String name, Integer value) {
-        argumentBuilder.addStringArgument(name, value.toString());
-        return this;
-    }
-
-    /**
-     * To add an argument to the request
-     *
-     * @param name  name of argument
-     * @param value to set for argument
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest with(String name, Long value) {
-        argumentBuilder.addStringArgument(name, value.toString());
-        return this;
-    }
-
-    /**
-     * To add an argument to the request
-     *
-     * @param name  name of argument
-     * @param value to set for argument
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest with(String name, Float value) {
-        argumentBuilder.addStringArgument(name, value.toString());
-        return this;
-    }
-
-    /**
-     * To add an argument to the request
-     *
-     * @param name  name of argument
-     * @param value to set for argument
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest with(String name, Double value) {
-        argumentBuilder.addStringArgument(name, value.toString());
-        return this;
-    }
-
-    /**
-     * To add an argument to the request
-     *
-     * @param name  name of argument
-     * @param value to set for argument
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest with(String name, String value) {
-        argumentBuilder.addStringArgument(name, value);
-        return this;
-    }
-
-    /**
-     * To add an argument to the request
-     *
-     * @param name  name of argument
-     * @param value to set for argument
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest with(String name, List<Object> value) {
-        argumentBuilder.addStringArgument(name,
-                "[" + value
-                        .stream()
-                        .map((s) -> {
-                            if (s instanceof String) {
-                                return "\"" + s + "\"";
-                            }
-                            return s.toString();
-                        })
-                        .collect(Collectors.joining(","))
-                        + "]"
-        );
+    public AidaPvaRequest with(String name, Object value) {
+        argumentBuilder.addArgument(name, value);
         return this;
     }
 
@@ -151,7 +80,7 @@ public class AidaPvaRequest {
             isForCharArray = true;
             type = BYTE_ARRAY;
         }
-        argumentBuilder.addStringArgument("TYPE", type.toString());
+        argumentBuilder.addArgument("TYPE", type.toString());
         return this;
     }
 
@@ -161,7 +90,7 @@ public class AidaPvaRequest {
      * @param value to set
      */
     public void set(Object value) {
-        argumentBuilder.addStringArgument("VALUE", value.toString());
+        argumentBuilder.addArgument("VALUE", value.toString());
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
         AidaPvaTestUtils.displayResult(() -> setter(null), message, false);
     }
@@ -174,7 +103,7 @@ public class AidaPvaRequest {
      */
     public PVStructure setter(Object value) throws RPCRequestException {
         if (value != null) {
-            argumentBuilder.addStringArgument("VALUE", value.toString());
+            argumentBuilder.addArgument("VALUE", value.toString());
         }
         return execute();
     }
@@ -211,12 +140,13 @@ public class AidaPvaRequest {
         // Build the uri structure
         Structure uriStructure =
                 fieldCreate.createStructure(NTURI_ID,
-                        new String[]{"path", "query"},
-                        new Field[]{fieldCreate.createScalar(ScalarType.pvString), arguments}
+                        new String[]{"path", "scheme", "query"},
+                        new Field[]{fieldCreate.createScalar(ScalarType.pvString), fieldCreate.createScalar(ScalarType.pvString), arguments}
                 );
 
         // Make the query (contains the uri and arguments
         PVStructure request = PVDataFactory.getPVDataCreate().createPVStructure(uriStructure);
+        request.getStringField("scheme").put("pva");
 
         // Set the request path
         request.getStringField("path").put(channelName);

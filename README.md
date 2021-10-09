@@ -58,9 +58,9 @@ get: XCOR:LI03:120:ADCP => SHORT
     Wchar ADCP: 48 ✔
 get: XCOR:LI03:120:PSNM => STRING
     String PSNM: UNKNOWN  ✔
-get: XCOR:LI03:120//PSNM => STRING
+get: XCOR:LI03:120:PSNM => STRING
     WString PSNM: UNKNOWN  ✔
-get: XCOR:LI03:120//PSNM => BYTE_ARRAY
+get: XCOR:LI03:120:PSNM => BYTE_ARRAY
     Byte array PSNM:
         85 ✔
         78 ✔
@@ -70,7 +70,7 @@ get: XCOR:LI03:120//PSNM => BYTE_ARRAY
         87 ✔
         78 ✔
         32 ✔
-get: XCOR:LI03:120//PSNM => CHAR_ARRAY
+get: XCOR:LI03:120:PSNM => CHAR_ARRAY
     Char array PSNM:
         'U' ✔
         'N' ✔
@@ -84,19 +84,19 @@ get: XCOR:LI03:120//PSNM => CHAR_ARRAY
 ████ Test 2: Acquire FLOAT type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//BACT => FLOAT
+get: XCOR:LI03:120:BACT => FLOAT
     BACT: 0.0 ✔
 
 ████ Test 3: Acquire LONG INT type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//VSTA => LONG
+get: XCOR:LI03:120:VSTA => LONG
     VSTA: 8256 ✔
 
 ████ Test 4: Acquire array of FLOAT type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//IMMS => FLOAT_ARRAY
+get: XCOR:LI03:120:IMMS => FLOAT_ARRAY
     IMMS:
         -5.0 ✔
         5.0 ✔
@@ -105,7 +105,7 @@ get: XCOR:LI03:120//IMMS => FLOAT_ARRAY
 ████ Test 5: Acquire array of DOUBLE type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//IMMS => DOUBLE_ARRAY
+get: XCOR:LI03:120:IMMS => DOUBLE_ARRAY
     IMMS:
         -5.0 ✔
         5.0 ✔
@@ -114,7 +114,7 @@ get: XCOR:LI03:120//IMMS => DOUBLE_ARRAY
 ████ Test 6: Acquire array of SHORT type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//NSCY => SHORT_ARRAY
+get: XCOR:LI03:120:NSCY => SHORT_ARRAY
     NSCY:
         0 ✔
         0 ✔
@@ -122,7 +122,7 @@ get: XCOR:LI03:120//NSCY => SHORT_ARRAY
 ████ Test 7: Acquire array of LONG type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//RAMP => LONG_ARRAY
+get: XCOR:LI03:120:RAMP => LONG_ARRAY
     RAMP:
         0 ✔
         -1149191961165430640 ✔
@@ -130,7 +130,7 @@ get: XCOR:LI03:120//RAMP => LONG_ARRAY
 ████ Test 8: Acquire array of BOOLEAN type SLC PMUS
 _________________________________________________
 
-get: XCOR:LI03:120//RAMP => BOOLEAN_ARRAY
+get: XCOR:LI03:120:RAMP => BOOLEAN_ARRAY
     RAMP:
         true ✔
         false ✔
@@ -138,63 +138,63 @@ get: XCOR:LI03:120//RAMP => BOOLEAN_ARRAY
 ████ Test 9: Acquire FLOAT type SLC Database PV
 _________________________________________________
 
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
 
 ████ Test 10: Looping acquire FLOAT type SLC Database PV pausing 10 seconds between each.
 _________________________________________________
 
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
-get: XCOR:LI03:120//LEFF => FLOAT
+get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
 
 ████ Test 11: ASTS channel name test
 _________________________________________________
 
-get: ASTS:LI00:ISOPLAN2//DATA => FLOAT
+get: ASTS:LI00:ISOPLAN2:DATA => FLOAT
     DATA: 0.0 ✔
-get: ASTS:PR02:VP3012//DATA => FLOAT
+get: ASTS:PR02:VP3012:DATA => FLOAT
     DATA: 0.0 ✔
-get: ASTS:PR02:VP3012//STAT => SHORT
+get: ASTS:PR02:VP3012:STAT => SHORT
     STAT: 40 ✔
-get: ASTS:PR02:T2092BLW//LIM1 => FLOAT
+get: ASTS:PR02:T2092BLW:LIM1 => FLOAT
     LIM1: 32.0 ✔
-get: ASTS:PR02:T2092BLW//LIM2 => FLOAT
+get: ASTS:PR02:T2092BLW:LIM2 => FLOAT
     LIM2: 150.0 ✔
-get: ASTS:PR02:T2092BLW//LIMS => FLOAT_ARRAY
+get: ASTS:PR02:T2092BLW:LIMS => FLOAT_ARRAY
     LIMS:
         32.0 ✔
         150.0 ✔
-get: ASTS:PR02:T2092QUA//SCAL => FLOAT_ARRAY
+get: ASTS:PR02:T2092QUA:SCAL => FLOAT_ARRAY
     SCAL:
         32.0 ✔
         1.8 ✔
-get: ASTS:PR02:T2092QUA//RAW => FLOAT
+get: ASTS:PR02:T2092QUA:RAW => FLOAT
     RAW: 1.0E-9 ✔
-get: ASTS:PR02:T2092QUA//STAT => STRING
+get: ASTS:PR02:T2092QUA:STAT => STRING
     STAT: CamErr   RED        ✔
 
 ████ Test 12: ASTS channel name with one of the pseudo-secondaries STAT, CTRL, or VSTA
 _________________________________________________
 
-get: ASTS:PR02:T2092QUA//STAT => STRING_ARRAY
+get: ASTS:PR02:T2092QUA:STAT => STRING_ARRAY
     STAT:
         CamErr   ✔
         RED      ✔
@@ -203,7 +203,7 @@ get: ASTS:PR02:T2092QUA//STAT => STRING_ARRAY
 ████ Test 13: Set value test
 _________________________________________________
 
-set: XCOR:LI31:41//BCON (VALUE=5.0) ✔
+set: XCOR:LI31:41:BCON (VALUE=5.0) ✔
     
 ```
 
@@ -223,19 +223,19 @@ AIDA-PVA SLC Utility TESTS
 ████ Test 2: set value for MKB.  sleeping for 5 seconds between runs
 _________________________________________________
 
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name          Value
               name          value
  XCOR:LI31:41:BDES -1.5949696E-23
  YCOR:LI31:41:BDES  9.0401356E-33
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name          Value
               name          value
  XCOR:LI31:41:BDES   4.1969155E-8
  YCOR:LI31:41:BDES -1.50365043E14
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name         Value
               name         value
@@ -245,19 +245,19 @@ set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=1.0)
 ████ Test 2: reversing sign of relative delta
 _________________________________________________
 
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name          Value
               name          value
  XCOR:LI31:41:BDES   4.1969155E-8
  YCOR:LI31:41:BDES -1.50365043E14
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name          Value
               name          value
  XCOR:LI31:41:BDES -1.5949696E-23
  YCOR:LI31:41:BDES  9.0401356E-33
-set: MKB//VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
+set: MKB:VAL (MKB=mkb:gregstestli31.mkb, VALUE=-1.0)
     MKB VAL:  2 rows retrieved: ✔
        Device Name        Value
               name        value
@@ -293,7 +293,7 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
      testHeader(2, "Get values of 4 BPMs");
-     channel("NDRFACET//BUFFACQ", "BPM Values")
+     channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("NRPOS", 180)
                     .with("BPMS", Arrays.asList(
@@ -308,14 +308,14 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC TESTS");
      testHeader(testId, "Set value test");
-     setWithNoArguments("XCOR:LI31:41//BCON", 5.0f);
+     setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
 }</pre>
 <p>
 #### e.g. 4: Advanced set
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Deactivate the specified klystron");
-     channel("KLYS:LI31:31//TACT", "Deactivated")
+     channel("KLYS:LI31:31:TACT", "Deactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(0);
@@ -325,7 +325,7 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Acquire STRING type");
-     channel("KLYS:LI31:31//TACT", "String")
+     channel("KLYS:LI31:31:TACT", "String")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(STRING)

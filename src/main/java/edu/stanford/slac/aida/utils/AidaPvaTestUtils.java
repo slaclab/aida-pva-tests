@@ -28,7 +28,7 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
  * <pre>{@code
  *      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
  *      testHeader(2, "Get values of 4 BPMs");
- *      channel("NDRFACET//BUFFACQ", "BPM Values")
+ *      channel("NDRFACET:BUFFACQ", "BPM Values")
  *                     .with("BPMD", 57)
  *                     .with("NRPOS", 180)
  *                     .with("BPMS", Arrays.asList(
@@ -43,14 +43,14 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
  * <pre>{@code
  *      testSuiteHeader("AIDA-PVA SLC TESTS");
  *      testHeader(testId, "Set value test");
- *      setWithNoArguments("XCOR:LI31:41//BCON", 5.0f);
+ *      setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
  * }</pre>
  * <p>
  * e.g. 4: Advanced set
  * <pre>{@code
  *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
  *      testHeader(testId, "Deactivate the specified klystron");
- *      channel("KLYS:LI31:31//TACT", "Deactivated")
+ *      channel("KLYS:LI31:31:TACT", "Deactivated")
  *                     .with("BEAM", 8)
  *                     .with("DGRP", "DEV_DGRP")
  *                     .set(0);
@@ -60,7 +60,7 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
  * <pre>{@code
  *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
  *      testHeader(testId, "Acquire STRING type");
- *      channel("KLYS:LI31:31//TACT", "String")
+ *      channel("KLYS:LI31:31:TACT", "String")
  *                     .with("BEAM", 8)
  *                     .with("DGRP", "DEV_DGRP")
  *                     .returning(STRING)
@@ -610,7 +610,7 @@ public class AidaPvaTestUtils {
     /**
      * To display errors in a standard way
      *
-     * @param e the exception that occured
+     * @param e the exception that occurred
      */
     private static void errors(Exception e) {
         System.out.print(" " + ANSI_RED);

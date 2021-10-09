@@ -73,23 +73,23 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set configuration secondary ACON value");
-            setWithNoArguments("KLYS:LI31:31//ACON", 5.0f);
+            setWithNoArguments("KLYS:LI31:31:ACON", 5.0f);
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get configuration secondary PDES value");
-            getWithNoArguments("KLYS:LI31:31//PDES", FLOAT, "PDES value");
+            getWithNoArguments("KLYS:LI31:31:PDES", FLOAT, "PDES value");
         }
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get configuration secondary KPHR value");
-            getWithNoArguments("KLYS:LI31:31//KPHR", FLOAT, "KPHR value");
+            getWithNoArguments("KLYS:LI31:31:KPHR", FLOAT, "KPHR value");
         }
 
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Error Test: Invalid BEAM");
-            channel("KLYS:LI31:31//TACT", "PDES")
+            channel("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", "XYZ")
                     .with("DGRP", "DEV_DGRP")
                     .set(1);
@@ -97,7 +97,7 @@ public class SlcKlysTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Error Test: Invalid BEAM");
-            channel("KLYS:LI31:31//TACT", "PDES")
+            channel("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", 1)
                     .with("DGRP", "LIN_KLYS")
                     .returning(SHORT)
