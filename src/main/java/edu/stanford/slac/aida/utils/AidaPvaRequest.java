@@ -90,7 +90,7 @@ public class AidaPvaRequest {
      * @param value to set
      */
     public void set(Object value) {
-        argumentBuilder.addArgument("VALUE", value.toString());
+        argumentBuilder.addArgument("VALUE", value);
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
         AidaPvaTestUtils.displayResult(() -> setter(null), message, false);
     }
@@ -103,7 +103,7 @@ public class AidaPvaRequest {
      */
     public PVStructure setter(Object value) throws RPCRequestException {
         if (value != null) {
-            argumentBuilder.addArgument("VALUE", value.toString());
+            argumentBuilder.addArgument("VALUE", value);
         }
         return execute();
     }
