@@ -193,57 +193,53 @@ class ArgumentBuilder {
             PVField pvField = structure.getSubField(name);
 
             if (pvField instanceof PVBoolean) {
-                structure.getBooleanField(name).put((Boolean) value);
+                ((PVBoolean)(pvField)).put((Boolean) value);
             } else if (pvField instanceof PVByte) {
-                convert.fromByte((PVScalar) pvField, (Byte) value);
+                ((PVByte)(pvField)).put((Byte) value);
             } else if (pvField instanceof PVShort) {
-                convert.fromShort((PVScalar) pvField, (Short) value);
+                ((PVShort)(pvField)).put((Short) value);
             } else if (pvField instanceof PVInt) {
-                convert.fromInt((PVScalar) pvField, (Integer) value);
+                ((PVInt)(pvField)).put((Integer) value);
             } else if (pvField instanceof PVLong) {
-                convert.fromLong((PVScalar) pvField, (Long) value);
+                ((PVLong)(pvField)).put((Long) value);
             } else if (pvField instanceof PVFloat) {
-                convert.fromFloat((PVScalar) pvField, (Float) value);
+                ((PVFloat)(pvField)).put((Float) value);
             } else if (pvField instanceof PVDouble) {
-                convert.fromDouble((PVScalar) pvField, (Double) value);
+                ((PVDouble)(pvField)).put((Double) value);
             } else if (pvField instanceof PVString) {
-                convert.fromString((PVScalar) pvField, (String) value);
+                ((PVString)(pvField)).put((String) value);
             } else if (pvField instanceof PVBooleanArray) {
                 List<Boolean> valueList = (List<Boolean>) value;
-                byte[] list = new byte[valueList.size()];
-                for (int i = 0; i < valueList.size(); i++) {
-                    list[i] = valueList.get(i) ? (byte) 1 : (byte) 0;
-                }
-                convert.fromByteArray((PVScalarArray) pvField, 0, valueList.size(), list, 0);
+                Boolean[] list = valueList.toArray(new Boolean[0]);
+                ((PVBooleanArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVByteArray) {
                 List<Byte> valueList = (List<Byte>) value;
                 Byte[] list = valueList.toArray(new Byte[0]);
-                convert.fromByteArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVByteArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVShortArray) {
                 List<Short> valueList = (List<Short>) value;
                 Short[] list = valueList.toArray(new Short[0]);
-                convert.fromShortArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVShortArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVIntArray) {
                 List<Integer> valueList = (List<Integer>) value;
                 Integer[] list = valueList.toArray(new Integer[0]);
-                convert.fromIntArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVIntArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVLongArray) {
                 List<Long> valueList = (List<Long>) value;
                 Long[] list = valueList.toArray(new Long[0]);
-                convert.fromLongArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVLongArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVFloatArray) {
                 List<Float> valueList = (List<Float>) value;
                 Float[] list = valueList.toArray(new Float[0]);
-                convert.fromFloatArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVFloatArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVDoubleArray) {
                 List<Double> valueList = (List<Double>) value;
                 Double[] list = valueList.toArray(new Double[0]);
-                convert.fromDoubleArray((PVScalarArray) pvField, 0, valueList.size(), toPrimitive(list), 0);
+                ((PVDoubleArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVStringArray) {
-                // TODO check for empty string array because this is the default so it may be empty
                 List<String> valueList = (List<String>) value;
                 String[] list = valueList.toArray(new String[0]);
-                convert.fromStringArray((PVScalarArray) pvField, 0, valueList.size(), list, 0);
+                ((PVStringArray)(pvField)).put(0, list.length, list, 0);
             } else if (pvField instanceof PVStructure) {
                 Map<String, Object> subValueMap = (Map<String, Object>) value;
                 initializeStructure((PVStructure) pvField, subValueMap);

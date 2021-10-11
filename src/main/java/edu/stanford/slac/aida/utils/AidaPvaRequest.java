@@ -1,5 +1,6 @@
 package edu.stanford.slac.aida.utils;
 
+import org.epics.pvaccess.ClientFactory;
 import org.epics.pvaccess.client.rpc.RPCClientImpl;
 import org.epics.pvaccess.server.rpc.RPCRequestException;
 import org.epics.pvdata.factory.FieldFactory;
@@ -134,6 +135,9 @@ public class AidaPvaRequest {
      * @throws RPCRequestException if there is an error calling the channel
      */
     private PVStructure execute() throws RPCRequestException {
+        ClientFactory.start();
+        RPCClientImpl client = new RPCClientImpl(channelName);
+
         // Build the arguments structure
         Structure arguments = argumentBuilder.build();
 
@@ -155,9 +159,9 @@ public class AidaPvaRequest {
         argumentBuilder.initializeQuery(query);
 
         // Execute the query
-        RPCClientImpl client = new RPCClientImpl(channelName);
         PVStructure result = client.request(request, 3.0);
         client.destroy();
+        ClientFactory.stop();
         return result;
     }
 }

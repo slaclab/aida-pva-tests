@@ -1,5 +1,7 @@
 package edu.stanford.slac.aida;
 
+import java.util.Collections;
+
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 import static edu.stanford.slac.aida.utils.AidaType.*;
 
@@ -106,7 +108,7 @@ public class SlcTest {
 
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set value test");
-            setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
+            setWithNoArguments("XCOR:LI31:41:BCON", Collections.singletonList(5.0f));
         }
         // Because of threads started in background to process requests
         System.exit(0);

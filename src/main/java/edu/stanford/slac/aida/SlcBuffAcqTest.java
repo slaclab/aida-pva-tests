@@ -29,7 +29,7 @@ public class SlcBuffAcqTest {
             testHeader(testId, "Get values of 4 BPMs");
             channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
-                    .with("NRPOS", 180)
+                    .with("NRPOS", 180) // TODO ERROR when add this parameter!!!!!!
                     .with("BPMS", Arrays.asList(
                             "BPMS:LI11:501",
                             "BPMS:LI11:601",
