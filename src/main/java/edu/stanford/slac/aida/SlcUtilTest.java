@@ -16,6 +16,7 @@ public class SlcUtilTest {
             testNumber = Integer.valueOf(args[0]);
         }
 
+        // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (int i = 0; i < 3; i++) {
@@ -39,6 +40,7 @@ public class SlcUtilTest {
             }
         }
 
+        // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (int i = 0; i < 3; i++) {
@@ -62,6 +64,7 @@ public class SlcUtilTest {
             }
         }
 
+        // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  sleeping for 5 seconds between runs. The requested set operation should fail since the specified multiknob file is absolute, which is not permitted");
             for (int i = 0; i < 3; i++) {
@@ -85,6 +88,7 @@ public class SlcUtilTest {
             }
         }
 
+        // 04
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "PROD environment test Extract device string and secondary value vectors.  This test should only be run in the PROD environment");
             for (int i = 0; i < 3; i++) {
@@ -109,17 +113,20 @@ public class SlcUtilTest {
         }
 
 
+        // 05
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire SHORT type");
             getWithNoArguments("TRIG:LI31:109:TACT", SHORT, "TACT");
         }
 
 
+        // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire STRING type");
             getWithNoArguments("TRIG:LI31:109:TACT", STRING, "TACT");
         }
 
+        // 07
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Deactivate the specified TRIG device");
             channel("TRIG:LI31:109:TACT", "Deactivated")
@@ -127,6 +134,7 @@ public class SlcUtilTest {
                     .set(0);
         }
 
+        // 08
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Reactivate the specified TRIG device");
             channel("TRIG:LI31:109:TACT", "Reactivated")
@@ -134,6 +142,7 @@ public class SlcUtilTest {
                     .set(1);
         }
 
+        // 09
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"Y\"");
             channel("BGRP:VAL", "Variable: T_CAV")
@@ -142,6 +151,7 @@ public class SlcUtilTest {
                     .set("N");
         }
 
+        // 10
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"N\"");
             channel("BGRP:VAL", "Variable: T_CAV")

@@ -53,15 +53,6 @@ public class AidaPvaRequest {
     }
 
     /**
-     * Set expectation that this test will fail
-     * @return AidaPvaRequestExecutor
-     */
-    public AidaPvaRequest fail() {
-        expectToFail=true;
-        return this;
-    }
-
-    /**
      * To add an argument to the request
      *
      * @param name  name of argument
@@ -104,6 +95,18 @@ public class AidaPvaRequest {
     }
 
     /**
+     * To set VALUE argument of the request and execute the request but expect it to fail
+     *
+     * @param value to set
+     */
+    public void setAndExpectFailure(Object value) {
+        expectToFail=true;
+        argumentBuilder.addArgument("VALUE", value);
+        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
+        AidaPvaTestUtils.displayResult(() -> setter(null), message, false, expectToFail);
+    }
+
+    /**
      * To set VALUE argument of the request and execute the request
      *
      * @param value to set
@@ -123,6 +126,15 @@ public class AidaPvaRequest {
     public <T extends PVField> void get() {
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
         AidaPvaTestUtils.displayResult(this::getter, message, isForChar || isForCharArray, expectToFail);
+    }
+
+    /**
+     * To get the query but expect to fail.  This will add all the arguments you've specified
+     * and then get the request
+     */
+    public <T extends PVField> void getAndExpectFailure() {
+        expectToFail=true;
+        get();
     }
 
     /**
@@ -166,7 +178,7 @@ public class AidaPvaRequest {
         argumentBuilder.initializeQuery(query);
 
         // Execute the query
-        PVStructure result = client.request(request, 3.0);
+        PVStructure result = client.request(request, 20.0);
         client.destroy();
         ClientFactory.stop();
         return result;

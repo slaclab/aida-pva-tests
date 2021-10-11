@@ -15,6 +15,7 @@ public class SlcKlysTest {
             testNumber = Integer.valueOf(args[0]);
         }
 
+        // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire SHORT type");
             channel("KLYS:LI31:31:TACT", "Short")
@@ -24,6 +25,7 @@ public class SlcKlysTest {
                     .get();
         }
 
+        // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire STRING type");
             channel("KLYS:LI31:31:TACT", "String")
@@ -33,6 +35,7 @@ public class SlcKlysTest {
                     .get();
         }
 
+        // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire TABLE type");
             channel("KLYS:LI31:31:TACT", "Table")
@@ -42,6 +45,7 @@ public class SlcKlysTest {
                     .get();
         }
 
+        // 04
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Deactivate the specified klystron");
             channel("KLYS:LI31:31:TACT", "Deactivated")
@@ -50,6 +54,7 @@ public class SlcKlysTest {
                     .set(0);
         }
 
+        // 05
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Reactivate the specified klystron");
             channel("KLYS:LI31:31:TACT", "Reactivated")
@@ -58,11 +63,13 @@ public class SlcKlysTest {
                     .set(1);
         }
 
+        // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a sub-booster or klystron PDES value and trim it");
             channel("KLYS:LI31:31:PDES", "PDES").set(90.0f);
         }
 
+        // 07
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a subbooster or klystron PDES value without the trim operation");
             channel("KLYS:LI31:31:PDES", "PDES")
@@ -70,49 +77,54 @@ public class SlcKlysTest {
                     .set(90.0f);
         }
 
+        // 08
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set a subbooster or klystron KPHR value");
             channel("KLYS:LI31:31:KPHR", "KPHR").set(60.0f);
         }
 
+        // 09
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set configuration secondary PCON value");
             setWithNoArguments("KLYS:LI31:31:PCON", 5.0f);
         }
 
+        // 10
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Set configuration secondary ACON value");
             setWithNoArguments("KLYS:LI31:31:ACON", 5.0f);
         }
 
+        // 11
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get configuration secondary PDES value");
             getWithNoArguments("SLC::KLYS:LI31:31:PDES", FLOAT, "PDES value");
         }
 
+        // 12
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get configuration secondary KPHR value");
             getWithNoArguments("SLC::KLYS:LI31:31:KPHR", FLOAT, "KPHR value");
         }
 
 
+        // 13
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Error Test: Invalid BEAM");
             channel("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", "XYZ")
                     .with("DGRP", "DEV_DGRP")
-                    .fail()
-                    .set(1);
+                    .setAndExpectFailure(1);
         }
 
+        // 14
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Error Test: Invalid BEAM");
             channel("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", 1)
                     .with("DGRP", "LIN_KLYS")
                     .returning(SHORT)
-                    .fail()
-                    .get();
+                    .getAndExpectFailure();
         }
 
         // Because of threads started in background to process requests

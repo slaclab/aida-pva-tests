@@ -11,17 +11,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-
-        <!-- Matching versions of Core modules -->
         <epics-core.version>7.0.7</epics-core.version>
-<!--
-        <epics-util.version>1.0.5-SNAPSHOT</epics-util.version>
-        <epics-vtype.version>1.0.5-SNAPSHOT</epics-vtype.version>
-        <epics-pvdata.version>6.1.7-SNAPSHOT</epics-pvdata.version>
-        <epics-ntypes.version>0.3.7-SNAPSHOT</epics-ntypes.version>
-        <epics-pvaccess.version>5.1.7-SNAPSHOT</epics-pvaccess.version>
--->
-        <jca.version>2.3.6</jca.version>
     </properties>
 
     <dependencies>
@@ -39,35 +29,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
-
-        <!--
-        &lt;!&ndash; EPICS Core Libraries &ndash;&gt;
-        <dependency>
-            <groupId>org.epics</groupId>
-            <artifactId>epics-util</artifactId>
-            <version>${epics-util.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.epics</groupId>
-            <artifactId>epics-pvdata</artifactId>
-            <version>${epics-pvdata.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.epics</groupId>
-            <artifactId>epics-ntypes</artifactId>
-            <version>${epics-ntypes.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.epics</groupId>
-            <artifactId>epics-pvaccess</artifactId>
-            <version>${epics-pvaccess.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.epics</groupId>
-            <artifactId>jca</artifactId>
-            <version>${jca.version}</version>
-        </dependency>
--->
     </dependencies>
 
     <build>

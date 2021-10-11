@@ -16,26 +16,31 @@ public class SlcMoscTest {
             testNumber = Integer.valueOf(args[0]);
         }
 
+        // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method");
             channel("MASTEROSC:VAL", "VAL").get();
         }
 
+        // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method for double");
             getWithNoArguments("MASTEROSC:VAL", BOOLEAN, "VAL");
         }
 
+        // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method for table");
             getWithNoArguments("MASTEROSC:VAL", TABLE, "VAL");
         }
 
+        // 04
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set");
             setWithNoArguments("MASTEROSC:VAL", 0.328f);
         }
 
+        // 05
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set method Set value is relative energy.  Ring is HER");
             channel("MASTEROSC:VAL", "VAL")
@@ -44,6 +49,7 @@ public class SlcMoscTest {
                     .set(1.0f);
         }
 
+        // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set method Set value is relative energy.  Ring is LER");
             channel("MASTEROSC:VAL", "VAL")
@@ -52,6 +58,7 @@ public class SlcMoscTest {
                     .set(1.0f);
         }
 
+        // 07
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator set");
             setWithNoArguments("MASTEROSC:VAL", 0.328f);
