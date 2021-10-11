@@ -9,20 +9,39 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <!-- Matching versions of Core modules -->
+        <epics-core.version>7.0.7</epics-core.version>
+<!--
         <epics-util.version>1.0.5-SNAPSHOT</epics-util.version>
         <epics-vtype.version>1.0.5-SNAPSHOT</epics-vtype.version>
         <epics-pvdata.version>6.1.7-SNAPSHOT</epics-pvdata.version>
         <epics-ntypes.version>0.3.7-SNAPSHOT</epics-ntypes.version>
         <epics-pvaccess.version>5.1.7-SNAPSHOT</epics-pvaccess.version>
+-->
         <jca.version>2.3.6</jca.version>
     </properties>
 
     <dependencies>
-        <!-- EPICS Core Libraries -->
+        <!-- https://mvnrepository.com/artifact/org.epics/epics-core -->
+         <dependency>
+             <groupId>org.epics</groupId>
+             <artifactId>epics-core</artifactId>
+             <version>${epics-core.version}</version>
+             <type>pom</type>
+         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <!--
+        &lt;!&ndash; EPICS Core Libraries &ndash;&gt;
         <dependency>
             <groupId>org.epics</groupId>
             <artifactId>epics-util</artifactId>
@@ -48,6 +67,7 @@
             <artifactId>jca</artifactId>
             <version>${jca.version}</version>
         </dependency>
+-->
     </dependencies>
 
     <build>

@@ -49,6 +49,7 @@ public class SlcBuffAcqTest {
             channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("superfish", 7)
+                    .fail()
                     .get();
         }
 
@@ -57,6 +58,7 @@ public class SlcBuffAcqTest {
             channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("BPMS", Collections.singletonList("BPMS:GREG:DOESNTEXIST"))
+                    .fail()
                     .get();
         }
         // Because of threads started in background to process requests

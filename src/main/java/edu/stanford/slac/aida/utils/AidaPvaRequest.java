@@ -7,9 +7,6 @@ import org.epics.pvdata.factory.FieldFactory;
 import org.epics.pvdata.factory.PVDataFactory;
 import org.epics.pvdata.pv.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static edu.stanford.slac.aida.utils.AidaType.*;
 
 /**
@@ -33,6 +30,7 @@ public class AidaPvaRequest {
     private AidaType queryType = null;
     private Boolean isForChar = false;
     private Boolean isForCharArray = false;
+    private Boolean expectToFail = false;
 
     /**
      * Constructor
@@ -52,6 +50,15 @@ public class AidaPvaRequest {
     public AidaPvaRequest(String channelName, String message) {
         this.channelName = channelName;
         this.message = message;
+    }
+
+    /**
+     * Set expectation that this test will fail
+     * @return AidaPvaRequestExecutor
+     */
+    public AidaPvaRequest fail() {
+        expectToFail=true;
+        return this;
     }
 
     /**
@@ -93,7 +100,7 @@ public class AidaPvaRequest {
     public void set(Object value) {
         argumentBuilder.addArgument("VALUE", value);
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
-        AidaPvaTestUtils.displayResult(() -> setter(null), message, false);
+        AidaPvaTestUtils.displayResult(() -> setter(null), message, false, expectToFail);
     }
 
     /**
@@ -115,7 +122,7 @@ public class AidaPvaRequest {
      */
     public <T extends PVField> void get() {
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
-        AidaPvaTestUtils.displayResult(this::getter, message, isForChar || isForCharArray);
+        AidaPvaTestUtils.displayResult(this::getter, message, isForChar || isForCharArray, expectToFail);
     }
 
     /**

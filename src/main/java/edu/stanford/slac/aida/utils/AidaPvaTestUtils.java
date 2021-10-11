@@ -198,7 +198,7 @@ public class AidaPvaTestUtils {
             new AidaPvaRequest(query).setter(value);
             System.out.println(" " + TEST_SUCCESS);
         } catch (Exception e) {
-            errors(e);
+            errors(e, false);
         }
     }
 
@@ -291,11 +291,11 @@ public class AidaPvaTestUtils {
      * Display a scalar result.  This displays one line in a standard way for any scalar result.
      * It uses the supplied result-supplier to get the result so that if it gives an
      * error, the error can be displayed in a standard way too.
-     *
-     * @param supplier the supplier of the results
+     *  @param supplier the supplier of the results
      * @param message  any message to be displayed preceding the result
+     * @param expectToFail
      */
-    public static <T extends PVField> void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray) {
+    public static <T extends PVField> void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
         try {
             PVStructure result = supplier.get();
 
@@ -304,22 +304,22 @@ public class AidaPvaTestUtils {
 
             System.out.print("    " + message + ": ");
             if (type == VOID || clazz == null) {
-                System.out.println(" " + TEST_SUCCESS);
+                System.out.println(" " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
                 return;
             }
 
             switch (result.getStructure().getID()) {
                 case NTSCALAR_ID:
-                    scalarResults(clazz, isForCharOrCharArray, result);
+                    scalarResults(clazz, isForCharOrCharArray, result, expectToFail);
                     return;
                 case NTSCALARARRAY_ID:
-                    scalarArrayResults(result, clazz, isForCharOrCharArray);
+                    scalarArrayResults(result, clazz, isForCharOrCharArray, expectToFail);
                     return;
                 case NTTABLE_ID:
-                    tableResults(result);
+                    tableResults(result, expectToFail);
             }
         } catch (Exception e) {
-            errors(e);
+            errors(e, expectToFail);
         }
     }
 
@@ -340,9 +340,9 @@ public class AidaPvaTestUtils {
             PVStructure result = supplier.get();
             System.out.print("    " + message + ": ");
             assertNTScalarArray(result);
-            scalarArrayResults(result, clazz, isForCharArray);
+            scalarArrayResults(result, clazz, isForCharArray, false);
         } catch (Exception e) {
-            errors(e);
+            errors(e, false);
         }
     }
 
@@ -362,9 +362,9 @@ public class AidaPvaTestUtils {
             PVStructure result = supplier.get();
             System.out.print("    " + message + ": ");
             assertNTScalar(result);
-            scalarResults(scalarFieldClass, isForChar, result);
+            scalarResults(scalarFieldClass, isForChar, result, false);
         } catch (Exception e) {
-            errors(e);
+            errors(e, false);
         }
     }
 
@@ -372,8 +372,9 @@ public class AidaPvaTestUtils {
      * To display formatted table results in a standard way
      *
      * @param result the results to be displayed
+     * @param expectToFail
      */
-    private static void tableResults(PVStructure result) {
+    private static void tableResults(PVStructure result, boolean expectToFail) {
         // Get the labels array and the table values
         PVStringArray labels = result.getSubField(PVStringArray.class, NT_LABELS_NAME);
         PVStructure values = result.getSubField(PVStructure.class, NT_FIELD_NAME);
@@ -400,7 +401,7 @@ public class AidaPvaTestUtils {
         }
 
         // Now show the number of rows
-        System.out.println(" " + rows + " rows retrieved: " + TEST_SUCCESS);
+        System.out.println(" " + rows + " rows retrieved: " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
         System.out.print(ANSI_CYAN);
 
         /*
@@ -514,15 +515,15 @@ public class AidaPvaTestUtils {
 
     /**
      * Display scalar results in a standardised way
-     *
-     * @param clazz     the class of the scalar array
+     *  @param clazz     the class of the scalar array
      * @param isForChar is this for a char
      * @param result    the result
+     * @param expectToFail
      */
-    private static <T extends PVField> void scalarResults(Class<T> clazz, boolean isForChar, PVStructure result) {
+    private static <T extends PVField> void scalarResults(Class<T> clazz, boolean isForChar, PVStructure result, boolean expectToFail) {
         System.out.print(ANSI_CYAN);
         System.out.print(getScalarValue(result, clazz, isForChar));
-        System.out.println(" " + TEST_SUCCESS);
+        System.out.println(" " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
     }
 
     /**
@@ -530,13 +531,14 @@ public class AidaPvaTestUtils {
      * @param result         the results
      * @param clazz          the class of the scalar array
      * @param isForCharArray is this for a char array
+     * @param expectToFail
      */
-    private static <T extends PVField> void scalarArrayResults(PVStructure result, Class<T> clazz, boolean isForCharArray) {
+    private static <T extends PVField> void scalarArrayResults(PVStructure result, Class<T> clazz, boolean isForCharArray, boolean expectToFail) {
         List<Object> values = getScalarArrayValues(result, clazz, isForCharArray);
         System.out.println();
         for (Object value : values) {
             System.out.print(ANSI_CYAN);
-            System.out.println("        " + value + " " + TEST_SUCCESS);
+            System.out.println("        " + value + " " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
             System.out.print(ANSI_RESET);
         }
     }
@@ -611,11 +613,16 @@ public class AidaPvaTestUtils {
      * To display errors in a standard way
      *
      * @param e the exception that occurred
+     * @param expectToFail
      */
-    private static void errors(Exception e) {
+    private static void errors(Exception e, boolean expectToFail) {
         System.out.print(" " + ANSI_RED);
         System.err.print(abbreviate(e));
-        System.out.println(" " + TEST_FAILURE);
+        if ( expectToFail ) {
+            System.out.println(" " + TEST_SUCCESS);
+        } else {
+            System.out.println(" " + TEST_FAILURE);
+        }
     }
 
     /**
