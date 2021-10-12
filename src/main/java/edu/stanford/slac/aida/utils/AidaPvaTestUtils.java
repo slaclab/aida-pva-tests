@@ -651,7 +651,11 @@ public class AidaPvaTestUtils {
      * @param expectToFail
      */
     private static void errors(Exception e, boolean expectToFail) {
-        System.out.print(" " + ANSI_RED);
+        if ( expectToFail ) {
+            System.out.print(" " + ANSI_RESET);
+        } else {
+            System.out.print(" " + ANSI_RED);
+        }
         System.err.print(abbreviate(e));
         if (expectToFail) {
             System.out.println(" " + TEST_SUCCESS);

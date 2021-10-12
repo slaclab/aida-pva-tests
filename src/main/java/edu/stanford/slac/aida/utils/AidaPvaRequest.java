@@ -178,7 +178,7 @@ public class AidaPvaRequest {
         argumentBuilder.initializeQuery(query);
 
         // Execute the query
-        var result = client.request(request, 20.0);
+        var result = client.request(request, 3.0);
         client.destroy();
         ClientFactory.stop();
         return result;

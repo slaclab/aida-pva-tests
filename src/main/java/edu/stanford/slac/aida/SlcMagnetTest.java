@@ -81,10 +81,10 @@ public class SlcMagnetTest {
 
         // 08
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Error handling test of magnet set");
+            testHeader(testId, "Error handling invalid name: magnet set");
             channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
-                    .set(new HashMap<String, Object>() {{
+                    .setAndExpectFailure(new HashMap<String, Object>() {{
                         put("names", Collections.singletonList("XCOZ:LI31:41"));
                         put("values", Collections.singletonList(4.0f));
                     }});
@@ -92,10 +92,10 @@ public class SlcMagnetTest {
 
         // 09
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Test of magnet set");
+            testHeader(testId, "Error handling values out of limits: magnet set");
             channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
-                    .set(new HashMap<String, Object>() {{
+                    .setAndExpectFailure(new HashMap<String, Object>() {{
                         put("names", Collections.singletonList("XCOR:LI31:41"));
                         put("values", Collections.singletonList(10.0f));
                     }});
