@@ -311,7 +311,7 @@ public class AidaPvaTestUtils {
      *
      * @param supplier     the supplier of the results
      * @param message      any message to be displayed preceding the result
-     * @param expectToFail
+     * @param expectToFail if this test is expected to fail set to true
      */
     public static void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
         try {
@@ -408,7 +408,7 @@ public class AidaPvaTestUtils {
      * To display formatted table results in a standard way
      *
      * @param result       the results to be displayed
-     * @param expectToFail
+     * @param expectToFail if this test is expected to fail set to true
      */
     private static void tableResults(PVStructure result, boolean expectToFail) {
         // Get the labels array and the table values
@@ -552,7 +552,7 @@ public class AidaPvaTestUtils {
      * @param clazz        the class of the scalar array
      * @param isForChar    is this for a char
      * @param result       the result
-     * @param expectToFail
+     * @param expectToFail if this test is expected to fail set to true
      */
     private static <T extends PVField> void scalarResults(Class<T> clazz, boolean isForChar, PVStructure result, boolean expectToFail) {
         System.out.print(ANSI_CYAN);
@@ -566,7 +566,7 @@ public class AidaPvaTestUtils {
      * @param result         the results
      * @param clazz          the class of the scalar array
      * @param isForCharArray is this for a char array
-     * @param expectToFail
+     * @param expectToFail   if this test is expected to fail set to true
      */
     private static <T extends PVField> void scalarArrayResults(PVStructure result, Class<T> clazz, boolean isForCharArray, boolean expectToFail) {
         var values = getScalarArrayValues(result, clazz, isForCharArray);
@@ -648,7 +648,7 @@ public class AidaPvaTestUtils {
      * To display errors in a standard way
      *
      * @param e            the exception that occurred
-     * @param expectToFail
+     * @param expectToFail if this test is expected to fail set to true
      */
     private static void errors(Exception e, boolean expectToFail) {
         if ( expectToFail ) {
