@@ -57,10 +57,10 @@ public class SlcMagnetTest {
 
         // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
-            String value = "{" +
-                                "\"names\": [\"XCOR:LI31:41\"]," +
-                                "\"values\": [4.0]" +
-                                "}";
+            var value = "{" +
+                    "\"names\": [\"XCOR:LI31:41\"]," +
+                    "\"values\": [4.0]" +
+                    "}";
 
             testHeader(testId, "Test of magnet set using JSON");
             channel("MAGNETSET:BDES", "Magnet Set")

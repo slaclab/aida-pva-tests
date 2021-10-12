@@ -85,11 +85,11 @@ public class SlcTest {
 
         // 10
         if (testNumber.equals(++testId) || testNumber == 0) {
-            int numberOfAcquisitionsToMake = 10;        // Make 10 iterations
-            int delayMilliseconds = 10 * 1000;          // pausing 10 seconds between each iteration
+            var numberOfAcquisitionsToMake = 10;        // Make 10 iterations
+            var delayMilliseconds = 10 * 1000;          // pausing 10 seconds between each iteration
 
             testHeader(testId, "Looping acquire FLOAT type SLC Database PV" + " pausing " + delayMilliseconds / 1000 + " seconds between each.");
-            for (int i = 0; i < numberOfAcquisitionsToMake; i++) {
+            for (var i = 0; i < numberOfAcquisitionsToMake; i++) {
                 getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "LEFF");
                 try {
                     Thread.sleep(delayMilliseconds);

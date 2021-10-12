@@ -86,12 +86,13 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void booleanArrayLoop(PVBooleanArray array, BiConsumer<Boolean, Integer> consumer) {
-        int index = 0;
-        BooleanArrayData data = new BooleanArrayData();
-        int offset = 0, len = array.getLength();
+        var index = 0;
+        var data = new BooleanArrayData();
+        var offset = 0;
+        var len = array.getLength();
         while (offset < len) {
-            int num = array.get(offset, (len - offset), data);
-            for (int i = 0; i < num; i++) {
+            var num = array.get(offset, (len - offset), data);
+            for (var i = 0; i < num; i++) {
                 consumer.accept(data.data[offset + i], index++);
             }
             offset += num;
@@ -121,12 +122,13 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void stringArrayLoop(PVStringArray array, BiConsumer<String, Integer> consumer) {
-        int index = 0;
-        StringArrayData data = new StringArrayData();
-        int offset = 0, len = array.getLength();
+        var index = 0;
+        var data = new StringArrayData();
+        var offset = 0;
+        var len = array.getLength();
         while (offset < len) {
-            int num = array.get(offset, (len - offset), data);
-            for (int i = 0; i < num; i++) {
+            var num = array.get(offset, (len - offset), data);
+            for (var i = 0; i < num; i++) {
                 consumer.accept(data.data[offset + i], index++);
             }
             offset += num;
@@ -156,8 +158,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void doubleArrayLoop(PVDoubleArray array, BiConsumer<Double, Integer> consumer) {
-        int index = 0;
-        IteratorDouble it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextDouble(), index++);
         }
@@ -186,8 +188,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void floatArrayLoop(PVFloatArray array, BiConsumer<Float, Integer> consumer) {
-        int index = 0;
-        IteratorFloat it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextFloat(), index++);
         }
@@ -216,8 +218,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void longArrayLoop(PVLongArray array, BiConsumer<Long, Integer> consumer) {
-        int index = 0;
-        IteratorLong it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextLong(), index++);
         }
@@ -246,8 +248,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void integerArrayLoop(PVIntArray array, BiConsumer<Integer, Integer> consumer) {
-        int index = 0;
-        IteratorInteger it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextInt(), index++);
         }
@@ -276,8 +278,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void shortArrayLoop(PVShortArray array, BiConsumer<Short, Integer> consumer) {
-        int index = 0;
-        IteratorShort it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextShort(), index++);
         }
@@ -306,8 +308,8 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void byteArrayLoop(PVByteArray array, BiConsumer<Byte, Integer> consumer) {
-        int index = 0;
-        IteratorByte it = array.get().iterator();
+        var index = 0;
+        var it = array.get().iterator();
         while (it.hasNext()) {
             consumer.accept(it.nextByte(), index++);
         }

@@ -19,7 +19,7 @@ public class SlcUtilTest {
         // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
@@ -29,7 +29,7 @@ public class SlcUtilTest {
                 }
             }
             testHeader(testId, "reversing sign of relative delta");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
@@ -43,7 +43,7 @@ public class SlcUtilTest {
         // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
@@ -53,7 +53,7 @@ public class SlcUtilTest {
                 }
             }
             testHeader(testId, "reversing sign of relative delta");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
@@ -66,21 +66,23 @@ public class SlcUtilTest {
 
         // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  sleeping for 5 seconds between runs. The requested set operation should fail since the specified multiknob file is absolute, which is not permitted");
-            for (int i = 0; i < 3; i++) {
+            testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  " +
+                    "sleeping for 5 seconds between runs. The requested set operation should " +
+                    "fail since the specified multiknob file is absolute, which is not permitted");
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
-                        .set(1.0f);
+                        .setAndExpectFailure(1.0f);
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException ignored) {
                 }
             }
             testHeader(testId, "reversing sign of relative delta");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
-                        .set(-1.0f);
+                        .setAndExpectFailure(-1.0f);
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException ignored) {
@@ -89,9 +91,10 @@ public class SlcUtilTest {
         }
 
         // 04
+/*
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "PROD environment test Extract device string and secondary value vectors.  This test should only be run in the PROD environment");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li02b_xb.mkb")
                         .set(1.0f);
@@ -101,7 +104,7 @@ public class SlcUtilTest {
                 }
             }
             testHeader(testId, "reversing sign of relative delta");
-            for (int i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li02b_xb.mkb")
                         .set(-1.0f);
@@ -111,19 +114,26 @@ public class SlcUtilTest {
                 }
             }
         }
+*/
 
 
         // 05
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire SHORT type");
-            getWithNoArguments("TRIG:LI31:109:TACT", SHORT, "TACT");
+            channel("TRIG:LI31:109:TACT", "TACT")
+                    .with("BEAM", 1)
+                    .returning(SHORT)
+                    .get();
         }
 
 
         // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Acquire STRING type");
-            getWithNoArguments("TRIG:LI31:109:TACT", STRING, "TACT");
+            channel("TRIG:LI31:109:TACT", "TACT")
+                    .with("BEAM", 1)
+                    .returning(STRING)
+                    .get();
         }
 
         // 07

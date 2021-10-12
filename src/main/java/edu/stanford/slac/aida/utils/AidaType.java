@@ -103,7 +103,7 @@ public enum AidaType {
             return TABLE;
         }
 
-        PVField field = result.getSubField(fieldName);
+        var field = result.getSubField(fieldName);
         if (field instanceof PVBoolean) {
             return BOOLEAN;
         } else if (field instanceof PVByte) {

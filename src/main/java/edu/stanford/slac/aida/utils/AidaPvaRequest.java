@@ -155,30 +155,30 @@ public class AidaPvaRequest {
      */
     private PVStructure execute() throws RPCRequestException {
         ClientFactory.start();
-        RPCClientImpl client = new RPCClientImpl(channelName);
+        var client = new RPCClientImpl(channelName);
 
         // Build the arguments structure
-        Structure arguments = argumentBuilder.build();
+        var arguments = argumentBuilder.build();
 
         // Build the uri structure
-        Structure uriStructure =
+        var uriStructure =
                 fieldCreate.createStructure(NTURI_ID,
                         new String[]{"path", "scheme", "query"},
                         new Field[]{fieldCreate.createScalar(ScalarType.pvString), fieldCreate.createScalar(ScalarType.pvString), arguments}
                 );
 
         // Make the query (contains the uri and arguments
-        PVStructure request = PVDataFactory.getPVDataCreate().createPVStructure(uriStructure);
+        var request = PVDataFactory.getPVDataCreate().createPVStructure(uriStructure);
         request.getStringField("scheme").put("pva");
 
         // Set the request path
         request.getStringField("path").put(channelName);
         // Set the request query values
-        PVStructure query = request.getStructureField("query");
+        var query = request.getStructureField("query");
         argumentBuilder.initializeQuery(query);
 
         // Execute the query
-        PVStructure result = client.request(request, 20.0);
+        var result = client.request(request, 20.0);
         client.destroy();
         ClientFactory.stop();
         return result;

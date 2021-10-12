@@ -122,7 +122,7 @@ public class AidaPvaTestUtils {
      */
     public static void testCaseHeader(String query, String arguments, String returning, Boolean withNewLine) {
         // If there is a VALUE argument then this is a setter otherwise its a getter
-        boolean isGetter = arguments == null || !arguments.toUpperCase().contains("VALUE=");
+        var isGetter = arguments == null || !arguments.toUpperCase().contains("VALUE=");
 
         System.out.print(isGetter ? "get:" : "set:");
         System.out.print(ANSI_YELLOW);
@@ -178,8 +178,10 @@ public class AidaPvaTestUtils {
      * @param message any message to display next to the returned data
      */
     public static void getWithNoArguments(final String query, AidaType type, String message) {
-        String stringType = type.toString();
-        if (stringType.endsWith("_ARRAY")) {
+        var stringType = type.toString();
+        if (type.equals(TABLE)) {
+            getTableWithNoArguments(query, message);
+        } else if (stringType.endsWith("_ARRAY")) {
             getArrayWithNoArguments(query, type, message);
         } else {
             getScalarWithNoArguments(query, type, message);
@@ -209,8 +211,8 @@ public class AidaPvaTestUtils {
      * @param type    the scalar type expected
      * @param message any message to display next to the returned data
      */
-    private static <T extends PVField> void getScalarWithNoArguments(final String query, AidaType type, String message) {
-        Class<T> clazz = type.toPVFieldClass();
+    private static void getScalarWithNoArguments(final String query, AidaType type, String message) {
+        var clazz = type.toPVFieldClass();
         testCaseHeader(query, null, pseudoReturnType(type), true);
         displayScalarResult(
                 () -> new AidaPvaRequest(query)
@@ -237,6 +239,21 @@ public class AidaPvaTestUtils {
     }
 
     /**
+     * Call this to run a test and display results for scalar array channels with no arguments
+     *
+     * @param query   the channel
+     * @param message any message to display above the returned data
+     */
+    private static void getTableWithNoArguments(final String query, String message) {
+        testCaseHeader(query, null, "TABLE", true);
+        displayTableResults(
+                () -> new AidaPvaRequest(query)
+                        .returning(TABLE)
+                        .getter(),
+                message);
+    }
+
+    /**
      * This will get a scalar value from the returned result structure.
      * In AIDA-PVA CHAR does not exist so requests are made using BYTE and marshalled into char on return
      *
@@ -246,7 +263,7 @@ public class AidaPvaTestUtils {
      * @return the object of the desired type
      */
     private static <T extends PVField> Object getScalarValue(PVStructure result, Class<T> clazz, boolean isForChar) {
-        T value = result.getSubField(clazz, NT_FIELD_NAME);
+        var value = result.getSubField(clazz, NT_FIELD_NAME);
         return getDisplayValue(value, isForChar);
     }
 
@@ -258,7 +275,7 @@ public class AidaPvaTestUtils {
      * @return the displayable value
      */
     static Object getDisplayValue(PVField value, boolean isForChar) {
-        Object extractedValue = extractScalarValue(value);
+        var extractedValue = extractScalarValue(value);
         if (extractedValue instanceof Byte && isForChar) {
             return "'" + (char) ((Byte) extractedValue & 0xFF) + "'";
         } else {
@@ -277,8 +294,8 @@ public class AidaPvaTestUtils {
      * @return the list of objects of the desired type
      */
     public static <T extends PVField> List<Object> getScalarArrayValues(PVStructure result, Class<T> clazz, boolean isForCharArray) {
-        List<Object> values = new ArrayList<>();
-        T array = result.getSubField(clazz, NT_FIELD_NAME);
+        var values = new ArrayList<>();
+        var array = result.getSubField(clazz, NT_FIELD_NAME);
         if (PVByteArray.class.equals(clazz)) {
             byteArrayIterator((PVByteArray) array, b -> values.add(isForCharArray ? "'" + (char) (b & 0xFF) + "'" : b));
         } else {
@@ -291,16 +308,17 @@ public class AidaPvaTestUtils {
      * Display a scalar result.  This displays one line in a standard way for any scalar result.
      * It uses the supplied result-supplier to get the result so that if it gives an
      * error, the error can be displayed in a standard way too.
-     *  @param supplier the supplier of the results
-     * @param message  any message to be displayed preceding the result
+     *
+     * @param supplier     the supplier of the results
+     * @param message      any message to be displayed preceding the result
      * @param expectToFail
      */
-    public static <T extends PVField> void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
+    public static void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
         try {
-            PVStructure result = supplier.get();
+            var result = supplier.get();
 
-            AidaType type = AidaType.from(result);
-            Class<T> clazz = type.toPVFieldClass();
+            var type = AidaType.from(result);
+            var clazz = type.toPVFieldClass();
 
             System.out.print("    " + message + ": ");
             if (type == VOID || clazz == null) {
@@ -337,7 +355,7 @@ public class AidaPvaTestUtils {
     public static <T extends PVField> void displayScalarArrayResults(
             AidaGetter<PVStructure> supplier, Class<T> clazz, String message, boolean isForCharArray) {
         try {
-            PVStructure result = supplier.get();
+            var result = supplier.get();
             System.out.print("    " + message + ": ");
             assertNTScalarArray(result);
             scalarArrayResults(result, clazz, isForCharArray, false);
@@ -351,18 +369,36 @@ public class AidaPvaTestUtils {
      * It uses the supplied result-supplier to get the result so that if it gives an
      * error, the error can be displayed in a standard way too.
      *
-     * @param supplier         the supplier of the results
-     * @param scalarFieldClass the class of the scalar data returned in the structure
-     * @param message          any message to be displayed preceding the result
-     * @param isForChar        if this is for a pseudo-type CHAR
+     * @param supplier  the supplier of the results
+     * @param clazz     the class of the scalar data returned in the structure
+     * @param message   any message to be displayed preceding the result
+     * @param isForChar if this is for a pseudo-type CHAR
      */
     public static <T extends PVField> void displayScalarResult(
-            AidaGetter<PVStructure> supplier, Class<T> scalarFieldClass, String message, boolean isForChar) {
+            AidaGetter<PVStructure> supplier, Class<T> clazz, String message, boolean isForChar) {
         try {
-            PVStructure result = supplier.get();
+            var result = supplier.get();
             System.out.print("    " + message + ": ");
             assertNTScalar(result);
-            scalarResults(scalarFieldClass, isForChar, result, false);
+            scalarResults(clazz, isForChar, result, false);
+        } catch (Exception e) {
+            errors(e, false);
+        }
+    }
+
+    /**
+     * Display a table result.  This displays tabular results in a standard way
+     * It uses the supplied result-supplier to get the result so that if it gives an
+     * error, the error can be displayed in a standard way too.
+     *
+     * @param supplier  the supplier of the results
+     * @param message   any message to be displayed preceding the result
+     */
+    private static void displayTableResults(AidaGetter<PVStructure> supplier, String message) {
+        try {
+            var result = supplier.get();
+            System.out.print("    " + message + ": ");
+            tableResults(result, false);
         } catch (Exception e) {
             errors(e, false);
         }
@@ -371,32 +407,32 @@ public class AidaPvaTestUtils {
     /**
      * To display formatted table results in a standard way
      *
-     * @param result the results to be displayed
+     * @param result       the results to be displayed
      * @param expectToFail
      */
     private static void tableResults(PVStructure result, boolean expectToFail) {
         // Get the labels array and the table values
-        PVStringArray labels = result.getSubField(PVStringArray.class, NT_LABELS_NAME);
-        PVStructure values = result.getSubField(PVStructure.class, NT_FIELD_NAME);
+        var labels = result.getSubField(PVStringArray.class, NT_LABELS_NAME);
+        var values = result.getSubField(PVStructure.class, NT_FIELD_NAME);
 
         // Determine the number of columns and
         // get the fields that are the column arrays from the table values structure
-        int columns = labels.getLength();
-        PVField[] columnValues = values.getPVFields();
+        var columns = labels.getLength();
+        var columnValues = values.getPVFields();
 
         // Determine the number of rows by looking into the first column and checking its length
-        int rows = ((PVArray) (columnValues[0])).getLength();
+        var rows = ((PVArray) (columnValues[0])).getLength();
 
         // Not allocate enough space to store the string versions of the column labels,
         // column names, and column data
-        String[] stringLabels = new String[columns];
-        String[] stringNames = new String[columns];
-        String[][] stringData = new String[rows][columns];
+        var stringLabels = new String[columns];
+        var stringNames = new String[columns];
+        var stringData = new String[rows][columns];
 
         // An array to record the max widths for each column
-        Integer[] columnWidths = new Integer[columns];
+        var columnWidths = new Integer[columns];
         // Initialise with 0
-        for (int column = 0; column < columns; column++) {
+        for (var column = 0; column < columns; column++) {
             columnWidths[column] = 0;
         }
 
@@ -434,25 +470,22 @@ public class AidaPvaTestUtils {
             String[][] tableData) {
 
         // Get labels
-        {
-            stringArrayLoop(resultLabels, (s, i) -> {
-                columnWidths[i] = Math.max(columnWidths[i], s.length());
-                columnLabels[i] = s;
-            });
-        }
+        stringArrayLoop(resultLabels, (s, i) -> {
+            columnWidths[i] = Math.max(columnWidths[i], s.length());
+            columnLabels[i] = s;
+        });
 
         // field names
-        for (int column = 0; column < columns; column++) {
-            String s = resultValues[column].getFieldName();
+        for (var column = 0; column < columns; column++) {
+            var s = resultValues[column].getFieldName();
             columnWidths[column] = Math.max(columnWidths[column], s.length());
             columnNames[column] = s;
         }
 
         // Get each value on the first pass and store them in the stringData two-dimensional array
-        for (int column = 0; column < columns; column++) {
-            final PVArray array = ((PVArray) resultValues[column]);
-
-            int c = column;
+        for (var column = 0; column < columns; column++) {
+            final var array = ((PVArray) resultValues[column]);
+            var c = column;
             arrayLoop(array, (s, r) -> {
                 columnWidths[c] = Math.max(columnWidths[c], s.toString().length());
                 tableData[r][c] = s.toString();
@@ -460,7 +493,7 @@ public class AidaPvaTestUtils {
         }
 
         // Increase all column widths by 1
-        for (int column = 0; column < columns; column++) {
+        for (var column = 0; column < columns; column++) {
             columnWidths[column] += 1;
         }
     }
@@ -484,8 +517,8 @@ public class AidaPvaTestUtils {
             String[][] tableData) {
 
         // Labels
-        boolean inverse = true;
-        for (int column = 0; column < columns; column++) {
+        var inverse = true;
+        for (var column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
             inverse = inverse(ANSI_CYAN, inverse);
             System.out.print(padLeft(columnLabels[column], columnWidths[column]));
@@ -495,7 +528,7 @@ public class AidaPvaTestUtils {
         // Field names
         inverse = true;
         System.out.print(ANSI_INVERSE);
-        for (int column = 0; column < columns; column++) {
+        for (var column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
             inverse = inverse(ANSI_CYAN, inverse);
             System.out.print(padLeft(columnNames[column], columnWidths[column]));
@@ -503,9 +536,9 @@ public class AidaPvaTestUtils {
         System.out.println(ANSI_NORMAL + ANSI_CYAN);
 
         // Data
-        for (int row = 0; row < rows; row++) {
+        for (var row = 0; row < rows; row++) {
             inverse = true;
-            for (int column = 0; column < columns; column++) {
+            for (var column = 0; column < columns; column++) {
                 inverse = alternate(ANSI_CYAN, ANSI_WHITE, inverse);
                 System.out.print(padLeft(tableData[row][column], columnWidths[column]));
             }
@@ -515,9 +548,10 @@ public class AidaPvaTestUtils {
 
     /**
      * Display scalar results in a standardised way
-     *  @param clazz     the class of the scalar array
-     * @param isForChar is this for a char
-     * @param result    the result
+     *
+     * @param clazz        the class of the scalar array
+     * @param isForChar    is this for a char
+     * @param result       the result
      * @param expectToFail
      */
     private static <T extends PVField> void scalarResults(Class<T> clazz, boolean isForChar, PVStructure result, boolean expectToFail) {
@@ -528,15 +562,16 @@ public class AidaPvaTestUtils {
 
     /**
      * Display scalar array results in a standardised way
+     *
      * @param result         the results
      * @param clazz          the class of the scalar array
      * @param isForCharArray is this for a char array
      * @param expectToFail
      */
     private static <T extends PVField> void scalarArrayResults(PVStructure result, Class<T> clazz, boolean isForCharArray, boolean expectToFail) {
-        List<Object> values = getScalarArrayValues(result, clazz, isForCharArray);
+        var values = getScalarArrayValues(result, clazz, isForCharArray);
         System.out.println();
-        for (Object value : values) {
+        for (var value : values) {
             System.out.print(ANSI_CYAN);
             System.out.println("        " + value + " " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
             System.out.print(ANSI_RESET);
@@ -612,13 +647,13 @@ public class AidaPvaTestUtils {
     /**
      * To display errors in a standard way
      *
-     * @param e the exception that occurred
+     * @param e            the exception that occurred
      * @param expectToFail
      */
     private static void errors(Exception e, boolean expectToFail) {
         System.out.print(" " + ANSI_RED);
         System.err.print(abbreviate(e));
-        if ( expectToFail ) {
+        if (expectToFail) {
             System.out.println(" " + TEST_SUCCESS);
         } else {
             System.out.println(" " + TEST_FAILURE);
@@ -657,20 +692,20 @@ public class AidaPvaTestUtils {
      * @return an abbreviated string
      */
     private static String abbreviate(Exception exception) {
-        String exceptionMessage = exception.getMessage();
-        String exceptionRaised = exception.getClass().toString();
+        var exceptionMessage = exception.getMessage();
+        var exceptionRaised = exception.getClass().toString();
         if (exceptionMessage == null) {
             return "TestUtil: can't determine error: " + exceptionRaised;
         }
 
-        int length = exceptionMessage.length();
-        int newLineLen = exceptionMessage.indexOf("\n");
+        var length = exceptionMessage.length();
+        var newLineLen = exceptionMessage.indexOf("\n");
         if (newLineLen != -1) {
             exceptionMessage = exceptionMessage.substring(0, newLineLen);
             length = newLineLen;
         }
-        int cause = exceptionMessage.indexOf(", cause:");
-        if ( cause != -1 ) {
+        var cause = exceptionMessage.indexOf(", cause:");
+        if (cause != -1) {
             exceptionMessage = exceptionMessage.substring(0, cause);
         }
 

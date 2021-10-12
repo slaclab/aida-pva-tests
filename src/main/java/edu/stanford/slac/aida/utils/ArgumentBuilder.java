@@ -91,14 +91,13 @@ class ArgumentBuilder {
      * @return the corresponding structure
      */
     private Structure getStructure(Map<String, Object> valueMap) {
-        List<String> names = new ArrayList<>();
-        List<Field> fields = new ArrayList<>();
+        var names = new ArrayList<String>();
+        var fields = new ArrayList<Field>();
 
         // Create the list of names and fields to create the structure with
-        for (Map.Entry<String, Object> entrySet : valueMap.entrySet()) {
+        for (var entrySet : valueMap.entrySet()) {
             names.add(entrySet.getKey());
-            Object value = entrySet.getValue();
-            fields.add(getField(value));
+            fields.add(getField(entrySet.getValue()));
         }
 
         // Create the query structure that will host the fields
@@ -134,11 +133,11 @@ class ArgumentBuilder {
             return (fieldCreate.createScalar(ScalarType.pvString));
         } else if (value instanceof List) {
             // determine type of list by getting first element.
-            List<?> valueList = (List<?>) value;
+            var valueList = (List<?>) value;
             if (valueList.isEmpty()) {
                 return fieldCreate.createScalarArray(ScalarType.pvString);
             }
-            Object firstElement = valueList.get(0);
+            var firstElement = valueList.get(0);
             if (firstElement instanceof Boolean) {
                 return (fieldCreate.createScalarArray(ScalarType.pvBoolean));
             } else if (firstElement instanceof Byte) {
@@ -160,7 +159,7 @@ class ArgumentBuilder {
         } else if (value instanceof Map) {
             // For structures then we recurse through this creating subfields for each key
             // with fields for the associated values
-            @SuppressWarnings("unchecked") Map<String, Object> map = (Map<String, Object>) value;
+            @SuppressWarnings("unchecked") var map = (Map<String, Object>) value;
             return getStructure(map);
         } else {
             throw new RuntimeException("Unknown type specified for argument value");
@@ -187,61 +186,61 @@ class ArgumentBuilder {
      */
     @SuppressWarnings("unchecked")
     public void initializeStructure(PVStructure structure, Map<String, Object> valueMap) {
-        for (Map.Entry<String, Object> entrySet : valueMap.entrySet()) {
-            String name = entrySet.getKey();
-            Object value = entrySet.getValue();
-            PVField pvField = structure.getSubField(name);
+        for (var entrySet : valueMap.entrySet()) {
+            var name = entrySet.getKey();
+            var value = entrySet.getValue();
+            var pvField = structure.getSubField(name);
 
             if (pvField instanceof PVBoolean) {
-                ((PVBoolean)(pvField)).put((Boolean) value);
+                ((PVBoolean) (pvField)).put((Boolean) value);
             } else if (pvField instanceof PVByte) {
-                ((PVByte)(pvField)).put((Byte) value);
+                ((PVByte) (pvField)).put((Byte) value);
             } else if (pvField instanceof PVShort) {
-                ((PVShort)(pvField)).put((Short) value);
+                ((PVShort) (pvField)).put((Short) value);
             } else if (pvField instanceof PVInt) {
-                ((PVInt)(pvField)).put((Integer) value);
+                ((PVInt) (pvField)).put((Integer) value);
             } else if (pvField instanceof PVLong) {
-                ((PVLong)(pvField)).put((Long) value);
+                ((PVLong) (pvField)).put((Long) value);
             } else if (pvField instanceof PVFloat) {
-                ((PVFloat)(pvField)).put((Float) value);
+                ((PVFloat) (pvField)).put((Float) value);
             } else if (pvField instanceof PVDouble) {
-                ((PVDouble)(pvField)).put((Double) value);
+                ((PVDouble) (pvField)).put((Double) value);
             } else if (pvField instanceof PVString) {
-                ((PVString)(pvField)).put((String) value);
+                ((PVString) (pvField)).put((String) value);
             } else if (pvField instanceof PVBooleanArray) {
-                List<Boolean> valueList = (List<Boolean>) value;
-                Boolean[] list = valueList.toArray(new Boolean[0]);
-                ((PVBooleanArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Boolean>) value;
+                var list = valueList.toArray(new Boolean[0]);
+                ((PVBooleanArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVByteArray) {
-                List<Byte> valueList = (List<Byte>) value;
-                Byte[] list = valueList.toArray(new Byte[0]);
-                ((PVByteArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Byte>) value;
+                var list = valueList.toArray(new Byte[0]);
+                ((PVByteArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVShortArray) {
-                List<Short> valueList = (List<Short>) value;
-                Short[] list = valueList.toArray(new Short[0]);
-                ((PVShortArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Short>) value;
+                var list = valueList.toArray(new Short[0]);
+                ((PVShortArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVIntArray) {
-                List<Integer> valueList = (List<Integer>) value;
-                Integer[] list = valueList.toArray(new Integer[0]);
-                ((PVIntArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Integer>) value;
+                var list = valueList.toArray(new Integer[0]);
+                ((PVIntArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVLongArray) {
-                List<Long> valueList = (List<Long>) value;
-                Long[] list = valueList.toArray(new Long[0]);
-                ((PVLongArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Long>) value;
+                var list = valueList.toArray(new Long[0]);
+                ((PVLongArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVFloatArray) {
-                List<Float> valueList = (List<Float>) value;
-                Float[] list = valueList.toArray(new Float[0]);
-                ((PVFloatArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Float>) value;
+                var list = valueList.toArray(new Float[0]);
+                ((PVFloatArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVDoubleArray) {
-                List<Double> valueList = (List<Double>) value;
-                Double[] list = valueList.toArray(new Double[0]);
-                ((PVDoubleArray)(pvField)).put(0, list.length, toPrimitive(list), 0);
+                var valueList = (List<Double>) value;
+                var list = valueList.toArray(new Double[0]);
+                ((PVDoubleArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVStringArray) {
-                List<String> valueList = (List<String>) value;
-                String[] list = valueList.toArray(new String[0]);
-                ((PVStringArray)(pvField)).put(0, list.length, list, 0);
+                var valueList = (List<String>) value;
+                var list = valueList.toArray(new String[0]);
+                ((PVStringArray) (pvField)).put(0, list.length, list, 0);
             } else if (pvField instanceof PVStructure) {
-                Map<String, Object> subValueMap = (Map<String, Object>) value;
+                var subValueMap = (Map<String, Object>) value;
                 initializeStructure((PVStructure) pvField, subValueMap);
             } else {
                 throw new RuntimeException("Unknown type specified for argument value");
@@ -251,11 +250,11 @@ class ArgumentBuilder {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean firstTime = true;
+        var stringBuilder = new StringBuilder();
+        var firstTime = true;
         for (Map.Entry<String, Object> entrySet : fieldMap.entrySet()) {
-            String name = entrySet.getKey();
-            Object value = entrySet.getValue();
+            var name = entrySet.getKey();
+            var value = entrySet.getValue();
             if (!firstTime) {
                 stringBuilder.append(", ");
             }

@@ -1,8 +1,7 @@
 package edu.stanford.slac.aida;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
-import static edu.stanford.slac.aida.utils.AidaType.BOOLEAN;
-import static edu.stanford.slac.aida.utils.AidaType.TABLE;
+import static edu.stanford.slac.aida.utils.AidaType.*;
 
 /**
  * This class is used to test the SLC Master Oscillator AIDA-PVA provider
@@ -19,13 +18,13 @@ public class SlcMoscTest {
         // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method");
-            channel("MASTEROSC:VAL", "VAL").get();
+            getWithNoArguments("MASTEROSC:VAL", TABLE, "VAL");
         }
 
         // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Test of Master Oscillator get method for double");
-            getWithNoArguments("MASTEROSC:VAL", BOOLEAN, "VAL");
+            getWithNoArguments("MASTEROSC:VAL", DOUBLE, "VAL");
         }
 
         // 03
