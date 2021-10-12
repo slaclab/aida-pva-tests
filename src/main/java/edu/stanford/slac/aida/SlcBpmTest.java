@@ -6,12 +6,20 @@ import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
  * This class is used to test the SLC BPM Orbit Data AIDA-PVA provider
  */
 public class SlcBpmTest {
+
     public static void main(String[] args) {
         testSuiteHeader("AIDA-PVA SLC BPM TESTS");
-
         Integer testNumber = 0, testId = 0;
-        if (args.length != 0) {
-            testNumber = Integer.valueOf(args[0]);
+        var argc = 0;
+        if (args.length != argc) {
+            // Optionally allow color flag to enable tests in color
+            if (args[argc].equals("-color") || args[argc].equals("-c")) {
+                NO_COLOR_FLAG = false;
+                argc++;
+            }
+            if (args.length != argc) {
+                testNumber = Integer.valueOf(args[argc]);
+            }
         }
 
         // 01

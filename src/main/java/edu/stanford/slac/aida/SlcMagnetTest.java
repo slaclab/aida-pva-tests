@@ -13,8 +13,16 @@ public class SlcMagnetTest {
         testSuiteHeader("AIDA-PVA SLC Magnet TESTS");
 
         Integer testNumber = 0, testId = 0;
-        if (args.length != 0) {
-            testNumber = Integer.valueOf(args[0]);
+        var argc = 0;
+        if (args.length != argc) {
+            // Optionally allow color flag to enable tests in color
+            if (args[argc].equals("-color") || args[argc].equals("-c")) {
+                NO_COLOR_FLAG = false;
+                argc++;
+            }
+            if (args.length != argc) {
+                testNumber = Integer.valueOf(args[argc]);
+            }
         }
 
         // 01

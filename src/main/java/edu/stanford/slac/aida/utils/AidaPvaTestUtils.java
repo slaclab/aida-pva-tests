@@ -69,6 +69,8 @@ import static edu.stanford.slac.aida.utils.PVUtils.*;
  */
 public class AidaPvaTestUtils {
     // For pretty output - colors
+    public static boolean NO_COLOR_FLAG = true;
+
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
@@ -83,8 +85,10 @@ public class AidaPvaTestUtils {
     private static final String ANSI_NORMAL = "\u001B[m";
 
     // To show success and failure signs
-    private static final String TEST_SUCCESS = ANSI_GREEN + "✔" + ANSI_RESET;
-    private static final String TEST_FAILURE = ANSI_RED + "✘" + ANSI_RESET;
+    private static final String TEST_SUCCESS = "✔";
+    private static final String TEST_FAILURE = "✘";
+    private static final String TEST_SUCCESS_COLOR = ANSI_GREEN + "✔" + ANSI_RESET;
+    private static final String TEST_FAILURE_COLOR = ANSI_RED + "✘" + ANSI_RESET;
 
     // To introduce each test
     private static final String BLOCK = "████";
@@ -108,7 +112,7 @@ public class AidaPvaTestUtils {
      */
     public static void testSuiteHeader(String heading) {
         System.out.println("#################################################");
-        System.out.println(ANSI_CYAN + heading + ANSI_RESET);
+        System.out.println(color(ANSI_CYAN) + heading + color(ANSI_RESET));
         System.out.println("#################################################");
     }
 
@@ -125,21 +129,21 @@ public class AidaPvaTestUtils {
         var isGetter = arguments == null || !arguments.toUpperCase().contains("VALUE=");
 
         System.out.print(isGetter ? "get:" : "set:");
-        System.out.print(ANSI_YELLOW);
+        System.out.print(color(ANSI_YELLOW));
         System.out.print(" " + query);
-        System.out.print(ANSI_RESET);
+        System.out.print(color(ANSI_RESET));
         if (arguments != null) {
             System.out.print(" (");
-            System.out.print(ANSI_YELLOW);
+            System.out.print(color(ANSI_YELLOW));
             System.out.print(arguments);
-            System.out.print(ANSI_RESET);
+            System.out.print(color(ANSI_RESET));
             System.out.print(")");
         }
         if (returning != null) {
             System.out.print(" => ");
-            System.out.print(ANSI_YELLOW);
+            System.out.print(color(ANSI_YELLOW));
             System.out.print(returning);
-            System.out.print(ANSI_RESET);
+            System.out.print(color(ANSI_RESET));
         }
         if (withNewLine) {
             System.out.println();
@@ -154,8 +158,8 @@ public class AidaPvaTestUtils {
      */
     public static void testHeader(Integer number, String heading) {
         System.out.println();
-        System.out.println(ANSI_CYAN + BLOCK + " Test " + number + ": " + ANSI_WHITE + heading + ANSI_RESET);
-        System.out.println(ANSI_CYAN + "_________________________________________________\n" + ANSI_RESET);
+        System.out.println(color(ANSI_CYAN + BLOCK) + " Test " + number + ": " + color(ANSI_WHITE) + heading + color(ANSI_RESET));
+        System.out.println(color(ANSI_CYAN) + "_________________________________________________\n" + color(ANSI_RESET));
     }
 
     /**
@@ -322,7 +326,7 @@ public class AidaPvaTestUtils {
 
             System.out.print("    " + message + ": ");
             if (type == VOID || clazz == null) {
-                System.out.println(" " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
+                System.out.println(" " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
                 return;
             }
 
@@ -391,8 +395,8 @@ public class AidaPvaTestUtils {
      * It uses the supplied result-supplier to get the result so that if it gives an
      * error, the error can be displayed in a standard way too.
      *
-     * @param supplier  the supplier of the results
-     * @param message   any message to be displayed preceding the result
+     * @param supplier the supplier of the results
+     * @param message  any message to be displayed preceding the result
      */
     private static void displayTableResults(AidaGetter<PVStructure> supplier, String message) {
         try {
@@ -437,8 +441,8 @@ public class AidaPvaTestUtils {
         }
 
         // Now show the number of rows
-        System.out.println(" " + rows + " rows retrieved: " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
-        System.out.print(ANSI_CYAN);
+        System.out.println(" " + rows + " rows retrieved: " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
+        System.out.print(color(ANSI_CYAN));
 
         /*
          * First pass we will simply extract all the strings and populate the tables
@@ -520,26 +524,26 @@ public class AidaPvaTestUtils {
         var inverse = true;
         for (var column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
-            inverse = inverse(ANSI_CYAN, inverse);
+            inverse = inverse(color(ANSI_CYAN), inverse);
             System.out.print(padLeft(columnLabels[column], columnWidths[column]));
         }
-        System.out.println(ANSI_NORMAL + ANSI_CYAN);
+        System.out.println(color(ANSI_NORMAL + ANSI_CYAN));
 
         // Field names
         inverse = true;
-        System.out.print(ANSI_INVERSE);
+        System.out.print(color(ANSI_INVERSE));
         for (var column = 0; column < columns; column++) {
             // Alternate CYAN and WHITE
-            inverse = inverse(ANSI_CYAN, inverse);
+            inverse = inverse(color(ANSI_CYAN), inverse);
             System.out.print(padLeft(columnNames[column], columnWidths[column]));
         }
-        System.out.println(ANSI_NORMAL + ANSI_CYAN);
+        System.out.println(color(ANSI_NORMAL + ANSI_CYAN));
 
         // Data
         for (var row = 0; row < rows; row++) {
             inverse = true;
             for (var column = 0; column < columns; column++) {
-                inverse = alternate(ANSI_CYAN, ANSI_WHITE, inverse);
+                inverse = alternate(color(ANSI_CYAN), color(ANSI_WHITE), inverse);
                 System.out.print(padLeft(tableData[row][column], columnWidths[column]));
             }
             System.out.println();
@@ -555,9 +559,9 @@ public class AidaPvaTestUtils {
      * @param expectToFail if this test is expected to fail set to true
      */
     private static <T extends PVField> void scalarResults(Class<T> clazz, boolean isForChar, PVStructure result, boolean expectToFail) {
-        System.out.print(ANSI_CYAN);
+        System.out.print(color(ANSI_CYAN));
         System.out.print(getScalarValue(result, clazz, isForChar));
-        System.out.println(" " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
+        System.out.println(" " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
     }
 
     /**
@@ -572,9 +576,9 @@ public class AidaPvaTestUtils {
         var values = getScalarArrayValues(result, clazz, isForCharArray);
         System.out.println();
         for (var value : values) {
-            System.out.print(ANSI_CYAN);
-            System.out.println("        " + value + " " + (expectToFail ? TEST_FAILURE : TEST_SUCCESS));
-            System.out.print(ANSI_RESET);
+            System.out.print(color(ANSI_CYAN));
+            System.out.println("        " + value + " " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
+            System.out.print(color(ANSI_RESET));
         }
     }
 
@@ -606,7 +610,7 @@ public class AidaPvaTestUtils {
      * @return the last value of inverse flag (alternates each pass)
      */
     private static boolean inverse(String primary, boolean inverse) {
-        return alternate(primary + ANSI_INVERSE, ANSI_WHITE + ANSI_INVERSE, inverse);
+        return alternate(primary + color(ANSI_INVERSE), color(ANSI_WHITE + ANSI_INVERSE), inverse);
     }
 
     /**
@@ -651,16 +655,16 @@ public class AidaPvaTestUtils {
      * @param expectToFail if this test is expected to fail set to true
      */
     private static void errors(Exception e, boolean expectToFail) {
-        if ( expectToFail ) {
-            System.out.print(" " + ANSI_RESET);
+        if (expectToFail) {
+            System.out.print(" " + color(ANSI_RESET));
         } else {
-            System.out.print(" " + ANSI_RED);
+            System.out.print(" " + color(ANSI_RED));
         }
         System.err.print(abbreviate(e));
         if (expectToFail) {
-            System.out.println(" " + TEST_SUCCESS);
+            System.out.println(" " + color(TEST_SUCCESS_COLOR, TEST_SUCCESS));
         } else {
-            System.out.println(" " + TEST_FAILURE);
+            System.out.println(" " + color(TEST_FAILURE_COLOR, TEST_FAILURE));
         }
     }
 
@@ -718,6 +722,26 @@ public class AidaPvaTestUtils {
         } else {
             return exceptionMessage;
         }
+    }
+
+    /**
+     * Outputs the given color string if color is enabled otherwise it is suppressed
+     *
+     * @param colorString the given color string
+     * @return the color string or nothing if color is not enabled
+     */
+    private static String color(String colorString) {
+        return color(colorString, "");
+    }
+
+    /**
+     * Outputs the given color string if color is enabled otherwise it is suppressed
+     *
+     * @param colorString the given color string
+     * @return the color string or nothing if color is not enabled
+     */
+    private static String color(String colorString, String replacement) {
+        return NO_COLOR_FLAG ? replacement : colorString;
     }
 }
 

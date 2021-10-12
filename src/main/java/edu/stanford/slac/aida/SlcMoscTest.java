@@ -1,7 +1,8 @@
 package edu.stanford.slac.aida;
 
 import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
-import static edu.stanford.slac.aida.utils.AidaType.*;
+import static edu.stanford.slac.aida.utils.AidaType.DOUBLE;
+import static edu.stanford.slac.aida.utils.AidaType.TABLE;
 
 /**
  * This class is used to test the SLC Master Oscillator AIDA-PVA provider
@@ -11,8 +12,16 @@ public class SlcMoscTest {
         testSuiteHeader("AIDA-PVA SLC Master Oscillator TESTS");
 
         Integer testNumber = 0, testId = 0;
-        if (args.length != 0) {
-            testNumber = Integer.valueOf(args[0]);
+        var argc = 0;
+        if (args.length != argc) {
+            // Optionally allow color flag to enable tests in color
+            if (args[argc].equals("-color") || args[argc].equals("-c")) {
+                NO_COLOR_FLAG = false;
+                argc++;
+            }
+            if (args.length != argc) {
+                testNumber = Integer.valueOf(args[argc]);
+            }
         }
 
         // 01
