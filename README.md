@@ -30,7 +30,7 @@ The full procedure to run the tests is as follows:
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
-java -cp aida-pva-tests.jar "edu.stanford.slac.aida.SlcUtilTest"
+java -cp aida-pva-tests-1.0-SNAPSHOT.jar  "edu.stanford.slac.aida.SlcTest"
 ```
 
 #### output
@@ -44,6 +44,8 @@ _________________________________________________
 
 get: XCOR:LI03:120:LEFF => FLOAT
     Float BACT: 0.262 ✔
+get: XCOR:LI03:120//LEFF => FLOAT
+    Backwards compatibility - using legacy channel format: Float BACT: 0.262 ✔
 get: XCOR:LI03:120:LEFF => DOUBLE
     Double BACT: 0.2619999945163727 ✔
 get: XCOR:LI03:120:VSTA => BOOLEAN
@@ -54,12 +56,12 @@ get: XCOR:LI03:120:ADCP => BYTE
     Byte ADCP: 48 ✔
 get: XCOR:LI03:120:ADCP => CHAR
     Char ADCP: '0' ✔
-get: XCOR:LI03:120:ADCP => SHORT
-    Wchar ADCP: 48 ✔
+get: XCOR:LI03:120:ADCP => CHAR
+    WCHAR not possible in AIDA-PVA: Falling back to CHAR: ADCP: '0' ✔
 get: XCOR:LI03:120:PSNM => STRING
     String PSNM: UNKNOWN  ✔
 get: XCOR:LI03:120:PSNM => STRING
-    WString PSNM: UNKNOWN  ✔
+    WSTRING not possible in AIDA-PVA: Falling back to STRING: PSNM: UNKNOWN  ✔
 get: XCOR:LI03:120:PSNM => BYTE_ARRAY
     Byte array PSNM:
         85 ✔
@@ -125,7 +127,7 @@ _________________________________________________
 get: XCOR:LI03:120:RAMP => LONG_ARRAY
     RAMP:
         0 ✔
-        -1149191961165430640 ✔
+        -1149219448956125168 ✔
 
 ████ Test 8: Acquire array of BOOLEAN type SLC PMUS
 _________________________________________________
@@ -203,8 +205,7 @@ get: ASTS:PR02:T2092QUA:STAT => STRING_ARRAY
 ████ Test 13: Set value test
 _________________________________________________
 
-set: XCOR:LI31:41:BCON (VALUE=5.0) ✔
-    
+set: XCOR:LI31:41:BCON (VALUE=[5.0]) ✔    
 ```
 
 ### e.g. 2 Run one test from the SLC Utility Provider test suite
