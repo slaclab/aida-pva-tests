@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
@@ -228,7 +229,10 @@ class ArgumentBuilder {
                 var list = valueList.toArray(new Long[0]);
                 ((PVLongArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVFloatArray) {
-                var valueList = (List<Float>) value;
+                var valueList = (List<Float>) ((List<Object>) value)
+                        .stream()
+                        .map(o -> (o instanceof Float ? (Float) o : (o instanceof Double ? ((Double) o).floatValue() : Float.parseFloat(o.toString()))))
+                        .collect(Collectors.toList());
                 var list = valueList.toArray(new Float[0]);
                 ((PVFloatArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVDoubleArray) {
