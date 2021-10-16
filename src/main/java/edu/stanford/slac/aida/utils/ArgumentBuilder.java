@@ -229,6 +229,7 @@ class ArgumentBuilder {
                 var list = valueList.toArray(new Long[0]);
                 ((PVLongArray) (pvField)).put(0, list.length, toPrimitive(list), 0);
             } else if (pvField instanceof PVFloatArray) {
+                // Some values may be given as doubles even though we want floats (e.g. PI) so we need to coerce all to Floats first
                 var valueList = (List<Float>) ((List<Object>) value)
                         .stream()
                         .map(o -> (o instanceof Float ? (Float) o : (o instanceof Double ? ((Double) o).floatValue() : Float.parseFloat(o.toString()))))
