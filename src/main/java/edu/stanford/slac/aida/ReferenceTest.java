@@ -92,8 +92,8 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute05", "Long: 5 + x[-5]").with("x", -5).get();
             channel("AIDA:SAMPLE:TEST:attribute05", "Max (32bit): Long: 5 + x[" + (Integer.MAX_VALUE) + "]").with("x", (Integer.MAX_VALUE)).get();
             channel("AIDA:SAMPLE:TEST:attribute05", "Min (32bit): Long: 5 + x[" + (Integer.MIN_VALUE) + "]").with("x", (Integer.MIN_VALUE)).get();
-            channel("AIDA:SAMPLE:TEST:attribute05", "Max (64bit): Long: 5 + x[" + (Long.MAX_VALUE) + "]").with("x", (Long.MAX_VALUE)).get();
-            channel("AIDA:SAMPLE:TEST:attribute05", "Min (64bit): Long: 5 + x[" + (Long.MIN_VALUE) + "]").with("x", (Long.MIN_VALUE)).get();
+            channel("AIDA:SAMPLE:TEST:attribute05", "Max (64bit) Fail: Long: 5 + x[" + (Long.MAX_VALUE) + "]").with("x", (Long.MAX_VALUE)).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute05", "Min (64bit) Fail: Long: 5 + x[" + (Long.MIN_VALUE) + "]").with("x", (Long.MIN_VALUE)).getAndExpectFailure();
         }
 
         // 06
@@ -144,6 +144,9 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute11", "Boolean Array: x[[Boolean.TRUE, Boolean.FALSE]]")
                     .with("x", Arrays.asList(Boolean.TRUE, Boolean.FALSE))
                     .get();
+            channel("AIDA:SAMPLE:TEST:attribute11", "As Json: x[[1, 0]]")
+                    .with("x", "[1, 0]")
+                    .get();
         }
 
         // 10
@@ -157,6 +160,9 @@ public class ReferenceTest {
                     .with("x", Arrays.asList(0x40, 0x41, 0x48, 0x49))
                     .returning(CHAR_ARRAY)
                     .get();
+            channel("AIDA:SAMPLE:TEST:attribute12", "As Json: 12 | x[[0x4, 0x8, 0x48, 65]]")
+                    .with("x", "[4, 8, 72, 65]")
+                    .get();
         }
 
         // 11
@@ -169,6 +175,9 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute13", "Short Array: 13 + x[[32693, 32707, 32713, 32717, 32719, 32749]]")
                     .with("x", Arrays.asList(32693, 32707, 32713, 32717, 32719, 32749))
                     .get();
+            channel("AIDA:SAMPLE:TEST:attribute13", "As Json: 13 + x[[32693, 32707, 32713, 32717, 32719, 32749]]")
+                    .with("x", "[32693, 32707, 32713, 32717, 32719, 32749]")
+                    .get();
         }
 
         // 12
@@ -178,6 +187,9 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute14", "Integer Array: 14 + x[[10000019, 10000079,10000103,10000121,10000139,10000141]]")
                     .with("x", Arrays.asList(10000019, 10000079, 10000103, 10000121, 10000139, 10000141))
                     .get();
+            channel("AIDA:SAMPLE:TEST:attribute14", "As Json: 14 + x[[10000019, 10000079,10000103,10000121,10000139,10000141]]")
+                    .with("x", "[10000019, 10000079,10000103,10000121,10000139,10000141]")
+                    .get();
         }
 
         // 13
@@ -186,6 +198,9 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute15", "Long Array").get();
             channel("AIDA:SAMPLE:TEST:attribute15", "Long Array: 15 + x[[1000000007L, 1000000009L, 1000000021L, 1000000033L, 1000000087L, 1000000093L]]")
                     .with("x", Arrays.asList(1000000007L, 1000000009L, 1000000021L, 1000000033L, 1000000087L, 1000000093L))
+                    .get();
+            channel("AIDA:SAMPLE:TEST:attribute15", "As Json: 15 + x[[1000000007, 1000000009, 1000000021, 1000000033, 1000000087, 1000000093]]")
+                    .with("x", "[1000000007, 1000000009, 1000000021, 1000000033, 1000000087, 1000000093]")
                     .get();
         }
 
@@ -207,6 +222,9 @@ public class ReferenceTest {
                     .get();
             channel("AIDA:SAMPLE:TEST:attribute16", "Max/Min/pi/e: Float Array: 16.6 * x[[Float.MIN_VALUE, Float.MAX_VALUE, PI, E]]")
                     .with("x", Arrays.asList(Float.MIN_VALUE, Float.MAX_VALUE, PI, E))
+                    .get();
+            channel("AIDA:SAMPLE:TEST:attribute16", "Max/Min/pi/e: As Json Array: 16.6 * x[[1.4E-45, 3.4028235E38, 3.141592653589793, 2.718281828459045]]]")
+                    .with("x", "[1.4E-45, 3.4028235E38, 3.141592653589793, 2.718281828459045]")
                     .get();
         }
 
@@ -230,12 +248,21 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute17", "Max/Min/pi/e: Double Array: 17.7 * x[[Double.MIN_VALUE, Double.MAX_VALUE, PI, E]]")
                     .with("x", Arrays.asList(Double.MIN_VALUE, Double.MAX_VALUE, PI, E))
                     .get();
+            channel("AIDA:SAMPLE:TEST:attribute17", "Max/Min/pi/e: As Json Array: 17.7 * x[[4.9E-324, 1.7976931348623157E308, 3.141592653589793, 2.718281828459045]]")
+                    .with("x", "[4.9E-324, 1.7976931348623157E308, 3.141592653589793, 2.718281828459045]")
+                    .get();
         }
 
         // 16
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get String Array");
             channel("AIDA:SAMPLE:TEST:attribute18", "String Array").get();
+            channel("AIDA:SAMPLE:TEST:attribute18", "Multiple Strings")
+                    .with("x", Arrays.asList("Hello", "AIDA-PVA", "World", "Have", "a", "nice", "day"))
+                    .get();
+            channel("AIDA:SAMPLE:TEST:attribute18", "As json")
+                    .with("x", "[\"Hello\", \"AIDA-PVA\", \"World\", \"Have\", \"a\", \"json\", \"day\"]")
+                    .get();
         }
 
         // 17
