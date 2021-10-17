@@ -232,7 +232,7 @@ class ArgumentBuilder {
                 // Some values may be given as doubles even though we want floats (e.g. PI) so we need to coerce all to Floats first
                 var valueList = (List<Float>) ((List<Object>) value)
                         .stream()
-                        .map(o -> (o instanceof Float ? (Float) o : (o instanceof Double ? ((Double) o).floatValue() : Float.parseFloat(o.toString()))))
+                        .map(o -> o instanceof Float ? (Float) o : o instanceof Double ? ((Double) o).floatValue() : Float.parseFloat(o.toString()))
                         .collect(Collectors.toList());
                 var list = valueList.toArray(new Float[0]);
                 ((PVFloatArray) (pvField)).put(0, list.length, toPrimitive(list), 0);

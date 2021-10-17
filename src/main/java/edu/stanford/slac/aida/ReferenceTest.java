@@ -193,8 +193,8 @@ public class ReferenceTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get Float Array");
             channel("AIDA:SAMPLE:TEST:attribute16", "Float Array").get();
-            channel("AIDA:SAMPLE:TEST:attribute16", "Formats: Float Array: 16.6 * x[[1.1f, -1.1f, 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f]]")
-                    .with("x", Arrays.asList(1.1f, -1.1f, 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f))
+            channel("AIDA:SAMPLE:TEST:attribute16", "Formats: Float Array: 16.6 * x[[PI/16.6, E/16.6, 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f]]")
+                    .with("x", Arrays.asList(((float) (PI / 16.6)), ((float) (E / 16.6)), 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f))
                     .get();
             channel("AIDA:SAMPLE:TEST:attribute16", "Precision: Float Array: 16.6 * x[[1.2345678f, 1.2345679f, -1.2345678f, -1.2345679f, 1.0000001f, 1.0000002f, -1.0000001f, -1.0000002f]]")
                     .with("x", Arrays.asList(1.2345678f, 1.2345679f, -1.2345678f, -1.2345679f, 1.0000001f, 1.0000002f, -1.0000001f, -1.0000002f))
@@ -215,19 +215,19 @@ public class ReferenceTest {
             testHeader(testId, "Get Double Array");
             channel("AIDA:SAMPLE:TEST:attribute17", "Double Array").get();
 
-            channel("AIDA:SAMPLE:TEST:attribute16", "Formats: Double Array: 17.7 * x[[1.1, -1.1, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230]]")
-                    .with("x", Arrays.asList(1.1, -1.1, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230))
+            channel("AIDA:SAMPLE:TEST:attribute17", "Formats: Double Array: 17.7 * x[[PI/17.7, E/17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230]]")
+                    .with("x", Arrays.asList(PI / 17.7, E / 17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230))
                     .get();
-            channel("AIDA:SAMPLE:TEST:attribute16", "Precision: Double Array: 17.7 * x[[1.000000002345678, 1.000000002345679, -1.000000002345678, -1.000000002345679, 1.000000000000001, 1.000000000000002, -1.000000000000001, -1.000000000000002]]")
+            channel("AIDA:SAMPLE:TEST:attribute17", "Precision: Double Array: 17.7 * x[[1.000000002345678, 1.000000002345679, -1.000000002345678, -1.000000002345679, 1.000000000000001, 1.000000000000002, -1.000000000000001, -1.000000000000002]]")
                     .with("x", Arrays.asList(1.000000002345678, 1.000000002345679, -1.000000002345678, -1.000000002345679, 1.000000000000001, 1.000000000000002, -1.000000000000001, -1.000000000000002))
                     .get();
-            channel("AIDA:SAMPLE:TEST:attribute16", "Significance Limit: Double Array: 17.7 * x[[1.0000000023456789, 1.00000000234567896, -1.0000000023456789, -1.00000000234567896, 1.0000000000000001, 1.00000000000000016, -1.0000000000000001, -1.00000000000000016]]")
-                    .with("x", Arrays.asList(1.0000000023456789, 1.00000000234567896, -1.0000000023456789, -1.00000000234567896, 1.0000000000000001, 1.00000000000000016, -1.0000000000000001, -1.00000000000000016))
+            channel("AIDA:SAMPLE:TEST:attribute17", "Significance Limit: Double Array: 17.7 * x[[1.0000000023456787, 1.0000000023456788, -1.0000000023456787, -1.0000000023456788, 1.0000000000000017, 1.0000000000000018, -1.0000000000000017, -1.0000000000000018]]")
+                    .with("x", Arrays.asList(1.0000000023456787, 1.0000000023456788, -1.0000000023456787, -1.0000000023456788, 1.0000000000000017, 1.0000000000000018, -1.0000000000000017, -1.0000000000000018))
                     .get();
-            channel("AIDA:SAMPLE:TEST:attribute16", "Significance Limit e-notation: Double Array: 17.7 * x[[1.0000000023456789e-23, 1.00000000234567896e-23, 1.0000000023456789e+23, 1.00000000234567896e+23]]")
-                    .with("x", Arrays.asList(1.0000000023456789e-23, 1.00000000234567896e-23, 1.0000000023456789e+23, 1.00000000234567896e+23))
+            channel("AIDA:SAMPLE:TEST:attribute17", "Significance Limit e-notation: Double Array: 17.7 * x[[1.0000000023456787e-23, 1.0000000023456786e-23, 1.0000000023456787e+23, 1.0000000023456788e+23]]")
+                    .with("x", Arrays.asList(1.0000000023456787e-23, 1.0000000023456786e-23, 1.0000000023456787e+23, 1.0000000023456788e+23))
                     .get();
-            channel("AIDA:SAMPLE:TEST:attribute16", "Max/Min/pi/e: Double Array: 17.7 * x[[Double.MIN_VALUE, Double.MAX_VALUE, PI, E]]")
+            channel("AIDA:SAMPLE:TEST:attribute17", "Max/Min/pi/e: Double Array: 17.7 * x[[Double.MIN_VALUE, Double.MAX_VALUE, PI, E]]")
                     .with("x", Arrays.asList(Double.MIN_VALUE, Double.MAX_VALUE, PI, E))
                     .get();
         }
