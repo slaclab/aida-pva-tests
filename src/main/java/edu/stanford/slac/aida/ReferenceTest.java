@@ -232,7 +232,6 @@ public class ReferenceTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get Double Array");
             channel("AIDA:SAMPLE:TEST:attribute17", "Double Array").get();
-
             channel("AIDA:SAMPLE:TEST:attribute17", "Formats: Double Array: 17.7 * x[[PI/17.7, E/17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230]]")
                     .with("x", Arrays.asList(PI / 17.7, E / 17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230))
                     .get();
@@ -269,75 +268,63 @@ public class ReferenceTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get Table");
             channel("AIDA:SAMPLE:TEST:attribute20", "Table").get();
+            channel("AIDA:SAMPLE:TEST:attribute20", "Table x[same operations as scalar]")
+                    .with("x", "{" +
+                            "\"boolean\": " + "true," +
+                            "\"byte\": " + "102," +
+                            "\"short\": " + "103," +
+                            "\"integer\": " + "104," +
+                            "\"long\": " + "105," +
+                            "\"float\": " + "106.5," +
+                            "\"double\": " + "107.7," +
+                            "\"string\": " + "\"one hundred and eight\"" +
+                            "}")
+                    .get();
         }
 
         // 18
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Void Setter");
-            setWithNoArguments("AIDA:SAMPLE:TEST:attribute30", "Set");
+            setWithNoArguments("AIDA:SAMPLE:TEST:attribute30", Boolean.TRUE);
+            channel("AIDA:SAMPLE:TEST:attribute30", "Set Value: TRUE, x=FALSE")
+                    .with("x", Boolean.FALSE)
+                    .set(Boolean.TRUE);
         }
 
         // 19
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Setter returning Table");
-            setWithNoArguments("AIDA:SAMPLE:TEST:attribute31", "Set Table");
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: True, Return Table").set(Boolean.TRUE);
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: False, Return Table").set(Boolean.FALSE);
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: 1, Return Table").set(1);
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: 0, Return Table").set(0);
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: True, x=FALSE, Return Table")
+                    .with("x", Boolean.FALSE)
+                    .set(Boolean.TRUE);
         }
 
         // 20
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Arbitrary Getter Boolean");
+            testHeader(testId, "Arbitrary Getters on the same channel");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BOOLEAN, "Boolean");
-
-            testHeader(testId, "Arbitrary Getter Byte");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BYTE, "Byte");
-
-            testHeader(testId, "Arbitrary Getter Char");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", CHAR, "Char");
-
-            testHeader(testId, "Arbitrary Getter Short");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", SHORT, "Short");
-
-            testHeader(testId, "Arbitrary Getter Integer");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", INTEGER, "Integer");
-
-            testHeader(testId, "Arbitrary Getter Long");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", LONG, "Long");
-
-            testHeader(testId, "Arbitrary Getter Float");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", FLOAT, "Float");
-
-            testHeader(testId, "Arbitrary Getter Double");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", DOUBLE, "Double");
-
-            testHeader(testId, "Arbitrary Getter String");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", STRING, "String");
-
-            testHeader(testId, "Arbitrary Getter Boolean Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BOOLEAN, "Boolean Array");
-
-            testHeader(testId, "Arbitrary Getter Byte Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BOOLEAN_ARRAY, "Boolean Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BYTE_ARRAY, "Byte Array");
-
-            testHeader(testId, "Arbitrary Getter Char Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", CHAR_ARRAY, "Char Array");
-
-            testHeader(testId, "Arbitrary Getter Short Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", SHORT_ARRAY, "Short Array");
-
-            testHeader(testId, "Arbitrary Getter Integer Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", INTEGER_ARRAY, "Integer Array");
-
-            testHeader(testId, "Arbitrary Getter Long Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", LONG_ARRAY, "Long Array");
-
-            testHeader(testId, "Arbitrary Getter Float Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", FLOAT_ARRAY, "Float Array");
-
-            testHeader(testId, "Arbitrary Getter Double Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", DOUBLE_ARRAY, "Double Array");
-
-            testHeader(testId, "Arbitrary Getter String Array");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", STRING_ARRAY, "String Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", TABLE, "Table");
         }
 
         // 21
@@ -346,6 +333,74 @@ public class ReferenceTest {
             channel("AIDA:SAMPLE:TEST:attribute00", "Not Supported").getAndExpectFailure();
         }
 
+        // 22
+        if (testNumber.equals(++testId) || testNumber == 0) {
+            testHeader(testId, "Invalid Parameters");
+            channel("AIDA:SAMPLE:TEST:attribute01", "Boolean: y[1] ").with("y", 1).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | y[0x2]").with("y", 0x2).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute03", "Short: 3 + y[3]").with("y", 3).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute04", "Integer: 4 + y[4]").with("y", 4).getAndExpectFailure();
+
+            channel("AIDA:SAMPLE:TEST:attribute05", "Long: 5 + y[5]").with("y", 5).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute06", "Float: 6.6f * y[6.6f]").with("y", 6.6f).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute07", "Double: 7.7 * y[7.7]").with("y", 7.7).getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute08", "Concatenate String: \"eight: \" + y[\"Hello World\"]").with("y", "Hello World").getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute11", "Boolean Array: y[[\"TRUE\", \"FALSE\", \"T\", \"F\", \"Y\", \"N\", \"YES\", \"NO\"]]")
+                    .with("y", Arrays.asList("TRUE", "FALSE", "T", "F", "Y", "N", "YES", "NO"))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute12", "Byte Array: 12 | y[[0x4, 0x8, 0x48, 65]]")
+                    .with("y", Arrays.asList(0x4, 0x8, 0x48, 65))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute13", "Short Array: 13 + y[[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]]")
+                    .with("y", Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute14", "Integer Array: 14 + y[[10000019, 10000079,10000103,10000121,10000139,10000141]]")
+                    .with("y", Arrays.asList(10000019, 10000079, 10000103, 10000121, 10000139, 10000141))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute15", "Long Array: 15 + y[[1000000007L, 1000000009L, 1000000021L, 1000000033L, 1000000087L, 1000000093L]]")
+                    .with("y", Arrays.asList(1000000007L, 1000000009L, 1000000021L, 1000000033L, 1000000087L, 1000000093L))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute16", "Formats: Float Array: 16.6 * y[[PI/16.6, E/16.6, 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f]]")
+                    .with("y", Arrays.asList(((float) (PI / 16.6)), ((float) (E / 16.6)), 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute17", "Formats: Double Array: 17.7 * y[[PI/17.7, E/17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230]]")
+                    .with("y", Arrays.asList(PI / 17.7, E / 17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute18", "Multiple Strings")
+                    .with("y", Arrays.asList("Hello", "AIDA-PVA", "World", "Have", "a", "nice", "day"))
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute20", "Table y[same operations as scalar]")
+                    .with("y", "{" +
+                            "\"boolean\": " + "true," +
+                            "\"byte\": " + "102," +
+                            "\"short\": " + "103," +
+                            "\"integer\": " + "104," +
+                            "\"long\": " + "105," +
+                            "\"float\": " + "106.5," +
+                            "\"double\": " + "107.7," +
+                            "\"string\": " + "\"one hundred and eight\"" +
+                            "}")
+                    .getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute30", "Set Value: TRUE, y=FALSE")
+                    .with("y", Boolean.FALSE)
+                    .setAndExpectFailure(Boolean.TRUE);
+            channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: True, y=FALSE, Return Table")
+                    .with("y", Boolean.FALSE)
+                    .setAndExpectFailure(Boolean.TRUE);
+        }
+
+        // 23
+        if (testNumber.equals(++testId) || testNumber == 0) {
+            testHeader(testId, "Invalid Booleans");
+            channel("AIDA:SAMPLE:TEST:attribute01", "Valid Boolean: x[1100] ").with("x", 1100).get();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Valid Boolean: x[0.0] ").with("x", 0.0).get();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Valid Boolean: x[0.1] ").with("x", 0.1).get();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Invalid Boolean: x[\"truly\"] ").with("x", "truly").getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Invalid Boolean: x[\"UNTRUE\"] ").with("x", "UNTRUE").getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Invalid Boolean: x[\"O\"] ").with("x", "O").getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Invalid Boolean: x[\"yeah\"] ").with("x", "yeah").getAndExpectFailure();
+            channel("AIDA:SAMPLE:TEST:attribute01", "Invalid Boolean: x[\"naw\"] ").with("x", "naw").getAndExpectFailure();
+        }
 
         // Because of threads started in background to process requests
         System.exit(0);
