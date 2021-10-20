@@ -1,23 +1,27 @@
-package edu.stanford.slac.aida;
+/**
+ * @file
+ * @brief SLC Buffered Acquisition Native Channel Provider Tests
+ */
+package edu.stanford.slac.aida.test;
+
+import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
-
-import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
 
 /**
  * This class is used to test the SLC Buffered Acquisition AIDA-PVA provider
  */
 public class SlcBuffAcqTest {
     public static void main(String[] args) {
-        testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
+        AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
 
         Integer testNumber = 0, testId = 0;
         var argc = 0;
         if (args.length != argc) {
             // Optionally allow color flag to enable tests in color
             if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                NO_COLOR_FLAG = false;
+                AidaPvaTestUtils.NO_COLOR_FLAG = false;
                 argc++;
             }
             if (args.length != argc) {
@@ -27,8 +31,8 @@ public class SlcBuffAcqTest {
 
         // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Get values of given BPM for 1 pulse");
-            channel("NDRFACET:BUFFACQ", "BPM Values")
+            AidaPvaTestUtils.testHeader(testId, "Get values of given BPM for 1 pulse");
+            AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("BPMS", Collections.singletonList("BPMS:LI11:501"))
                     .get();
@@ -36,8 +40,8 @@ public class SlcBuffAcqTest {
 
         // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Get values of 4 BPMs");
-            channel("NDRFACET:BUFFACQ", "BPM Values")
+            AidaPvaTestUtils.testHeader(testId, "Get values of 4 BPMs");
+            AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("NRPOS", 180)
                     .with("BPMS", Arrays.asList(
@@ -56,8 +60,8 @@ public class SlcBuffAcqTest {
 
         // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Bad argument Name - superfish=7");
-            channel("NDRFACET:BUFFACQ", "BPM Values")
+            AidaPvaTestUtils.testHeader(testId, "Bad argument Name - superfish=7");
+            AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("superfish", 7)
                     .getAndExpectFailure();
@@ -65,8 +69,8 @@ public class SlcBuffAcqTest {
 
         // 04
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Bad argument value BPM1=BPMS:GREG:DOESNTEXIST");
-            channel("NDRFACET:BUFFACQ", "BPM Values")
+            AidaPvaTestUtils.testHeader(testId, "Bad argument value BPM1=BPMS:GREG:DOESNTEXIST");
+            AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("BPMS", Collections.singletonList("BPMS:GREG:DOESNTEXIST"))
                     .getAndExpectFailure();

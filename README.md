@@ -13,24 +13,24 @@ mvn install
 The shaded jar file is found in the target directory. `./target/aida-pva-tests-1.0-SNAPSHOT.jar`
 
 ## To run the tests
-Running the tests are equally simple.  You need to make sure that your environment is set up so that you can 
-find the epics providers.  All you need to do is to set the `EPICS_PVA_ADDR_LIST` variable to identify the 
-network or host you want to search.  
+Running the tests are equally simple. You need to make sure that your environment is set up so that you can find the
+epics providers. All you need to do is to set the `EPICS_PVA_ADDR_LIST` variable to identify the network or host you
+want to search.
 
-Test are all named starting with SLC and then the short code identifying the provider followed by `Test`. 
-e.g. [`SlcBpmTest`](./src/main/java/edu/stanford/slac/aida/SlcBpmTest.java)
+Test are all named starting with SLC and then the short code identifying the provider followed by `Test`.
+e.g. [`SlcBpmTest`](src/main/java/edu/stanford/slac/aida/test/SlcBpmTest.java)
 Each test is in a the `edu.stanford.slac.aida` package directory so the full path to a test is something
-like `edu.stanford.slac.aida.SlcBpmTest`.
+like `SlcBpmTest`.
 
-As the jar is shaded it includes everything it needs so no need for a complicated classpath.
-The full procedure to run the tests is as follows:
+As the jar is shaded it includes everything it needs so no need for a complicated classpath. The full procedure to run
+the tests is as follows:
 
 ### e.g. 1 Run the SLC Utility Provider tests 
 #### commands
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
-java -cp aida-pva-tests-1.0-SNAPSHOT.jar  "edu.stanford.slac.aida.SlcTest"
+java -cp aida-pva-tests-1.0-SNAPSHOT.jar  "SlcTest"
 ```
 
 #### output
@@ -213,7 +213,7 @@ set: XCOR:LI31:41:BCON (VALUE=[5.0]) ✔
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
-java -cp aida-pva-tests.jar "edu.stanford.slac.aida.SlcUtilTest" 2
+java -cp aida-pva-tests.jar "SlcUtilTest" 2
 ```
 #### output
 ```shell
@@ -274,7 +274,7 @@ For developers of new Providers this repository is where you'll write tests for 
 new provider before it is released into production.  The repository contains many utilities to make 
 the testing process very easy. 
 
-### [AidaPvaTestUtils](./src/main/java/edu/stanford/slac/aida/utils/AidaPvaTestUtils.java)
+### [AidaPvaTestUtils](src/main/java/edu/stanford/slac/aida/test/utils/AidaPvaTestUtils.java)
 
 Utility class to facilitate running all the AIDA-PVA tests
 - Test Suite

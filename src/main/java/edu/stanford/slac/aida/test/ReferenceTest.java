@@ -1,9 +1,14 @@
-package edu.stanford.slac.aida;
+/**
+ * @file
+ * @brief Reference Provider Tests
+ */
+package edu.stanford.slac.aida.test;
+
+import edu.stanford.slac.aida.test.utils.AidaType;
 
 import java.util.Arrays;
 
-import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
-import static edu.stanford.slac.aida.utils.AidaType.*;
+import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
 import static java.lang.Math.E;
 import static java.lang.Math.PI;
 
@@ -58,10 +63,10 @@ public class ReferenceTest {
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Get Byte");
             channel("AIDA:SAMPLE:TEST:attribute02", "Byte").get();
-            channel("AIDA:SAMPLE:TEST:attribute02", "Unprintable Char: 0x2").returning(CHAR).get();
+            channel("AIDA:SAMPLE:TEST:attribute02", "Unprintable Char: 0x2").returning(AidaType.CHAR).get();
             channel("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | x[0x4]").with("x", 0x4).get();
             channel("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | x[0x8]").with("x", 0x8).get();
-            channel("AIDA:SAMPLE:TEST:attribute02", "Char: 0x2 | x[0x48]").with("x", 0x48).returning(CHAR).get();
+            channel("AIDA:SAMPLE:TEST:attribute02", "Char: 0x2 | x[0x48]").with("x", 0x48).returning(AidaType.CHAR).get();
         }
 
         // 03
@@ -158,7 +163,7 @@ public class ReferenceTest {
                     .get();
             channel("AIDA:SAMPLE:TEST:attribute12", "Char Array: 12 | x[[0x40, 0x41, 0x48, 0x49]]")
                     .with("x", Arrays.asList(0x40, 0x41, 0x48, 0x49))
-                    .returning(CHAR_ARRAY)
+                    .returning(AidaType.CHAR_ARRAY)
                     .get();
             channel("AIDA:SAMPLE:TEST:attribute12", "As Json: 12 | x[[0x4, 0x8, 0x48, 65]]")
                     .with("x", "[4, 8, 72, 65]")
@@ -306,25 +311,25 @@ public class ReferenceTest {
         // 20
         if (testNumber.equals(++testId) || testNumber == 0) {
             testHeader(testId, "Arbitrary Getters on the same channel");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BOOLEAN, "Boolean");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BYTE, "Byte");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", CHAR, "Char");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", SHORT, "Short");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", INTEGER, "Integer");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", LONG, "Long");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", FLOAT, "Float");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", DOUBLE, "Double");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", STRING, "String");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BOOLEAN_ARRAY, "Boolean Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", BYTE_ARRAY, "Byte Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", CHAR_ARRAY, "Char Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", SHORT_ARRAY, "Short Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", INTEGER_ARRAY, "Integer Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", LONG_ARRAY, "Long Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", FLOAT_ARRAY, "Float Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", DOUBLE_ARRAY, "Double Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", STRING_ARRAY, "String Array");
-            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", TABLE, "Table");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BOOLEAN, "Boolean");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BYTE, "Byte");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.CHAR, "Char");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.SHORT, "Short");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.INTEGER, "Integer");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.LONG, "Long");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.FLOAT, "Float");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.DOUBLE, "Double");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.STRING, "String");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BOOLEAN_ARRAY, "Boolean Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BYTE_ARRAY, "Byte Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.CHAR_ARRAY, "Char Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.SHORT_ARRAY, "Short Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.INTEGER_ARRAY, "Integer Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.LONG_ARRAY, "Long Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.FLOAT_ARRAY, "Float Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.DOUBLE_ARRAY, "Double Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.STRING_ARRAY, "String Array");
+            getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.TABLE, "Table");
         }
 
         // 21

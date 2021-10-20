@@ -1,7 +1,10 @@
-package edu.stanford.slac.aida.utils;
+/**
+ * @file
+ * @brief Utilities to manipulate PVField.
+ */
+package edu.stanford.slac.aida.test.utils;
 
 import org.epics.pvdata.pv.*;
-import org.epics.util.array.*;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

@@ -1,22 +1,25 @@
-package edu.stanford.slac.aida;
+/**
+ * @file
+ * @brief SLC Util Native Channel Provider Tests
+ */
+package edu.stanford.slac.aida.test;
 
-import static edu.stanford.slac.aida.utils.AidaPvaTestUtils.*;
-import static edu.stanford.slac.aida.utils.AidaType.SHORT;
-import static edu.stanford.slac.aida.utils.AidaType.STRING;
+import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
+import edu.stanford.slac.aida.test.utils.AidaType;
 
 /**
  * This class is used to test the SLC Utility AIDA-PVA provider
  */
 public class SlcUtilTest {
     public static void main(String[] args) {
-        testSuiteHeader("AIDA-PVA SLC Utility TESTS");
+        AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC Utility TESTS");
 
         Integer testNumber = 0, testId = 0;
         var argc = 0;
         if (args.length != argc) {
             // Optionally allow color flag to enable tests in color
             if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                NO_COLOR_FLAG = false;
+                AidaPvaTestUtils.NO_COLOR_FLAG = false;
                 argc++;
             }
             if (args.length != argc) {
@@ -26,9 +29,9 @@ public class SlcUtilTest {
 
         // 01
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
+            AidaPvaTestUtils.testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -36,9 +39,9 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            testHeader(testId, "reversing sign of relative delta");
+            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -50,9 +53,9 @@ public class SlcUtilTest {
 
         // 02
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
+            AidaPvaTestUtils.testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -60,9 +63,9 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            testHeader(testId, "reversing sign of relative delta");
+            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -74,11 +77,11 @@ public class SlcUtilTest {
 
         // 03
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  " +
+            AidaPvaTestUtils.testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  " +
                     "sleeping for 5 seconds between runs. The requested set operation should " +
                     "fail since the specified multiknob file is absolute, which is not permitted");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
                         .setAndExpectFailure(1.0f);
                 try {
@@ -86,9 +89,9 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            testHeader(testId, "reversing sign of relative delta");
+            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
                         .setAndExpectFailure(-1.0f);
                 try {
@@ -127,43 +130,43 @@ public class SlcUtilTest {
 
         // 05
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Acquire SHORT type");
-            channel("TRIG:LI31:109:TACT", "TACT")
+            AidaPvaTestUtils.testHeader(testId, "Acquire SHORT type");
+            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
-                    .returning(SHORT)
+                    .returning(AidaType.SHORT)
                     .get();
         }
 
 
         // 06
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Acquire STRING type");
-            channel("TRIG:LI31:109:TACT", "TACT")
+            AidaPvaTestUtils.testHeader(testId, "Acquire STRING type");
+            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
-                    .returning(STRING)
+                    .returning(AidaType.STRING)
                     .get();
         }
 
         // 07
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Deactivate the specified TRIG device");
-            channel("TRIG:LI31:109:TACT", "Deactivated")
+            AidaPvaTestUtils.testHeader(testId, "Deactivate the specified TRIG device");
+            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "Deactivated")
                     .with("BEAM", 1)
                     .set(0);
         }
 
         // 08
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Reactivate the specified TRIG device");
-            channel("TRIG:LI31:109:TACT", "Reactivated")
+            AidaPvaTestUtils.testHeader(testId, "Reactivate the specified TRIG device");
+            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "Reactivated")
                     .with("BEAM", 1)
                     .set(1);
         }
 
         // 09
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"Y\"");
-            channel("BGRP:VAL", "Variable: T_CAV")
+            AidaPvaTestUtils.testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"Y\"");
+            AidaPvaTestUtils.channel("BGRP:VAL", "Variable: T_CAV")
                     .with("BGRP", "LCLS")
                     .with("VARNAME", "T_CAV")
                     .set("N");
@@ -171,8 +174,8 @@ public class SlcUtilTest {
 
         // 10
         if (testNumber.equals(++testId) || testNumber == 0) {
-            testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"N\"");
-            channel("BGRP:VAL", "Variable: T_CAV")
+            AidaPvaTestUtils.testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"N\"");
+            AidaPvaTestUtils.channel("BGRP:VAL", "Variable: T_CAV")
                     .with("BGRP", "LCLS")
                     .with("VARNAME", "T_CAV")
                     .set("Y");

@@ -1,4 +1,21 @@
-package edu.stanford.slac.aida.utils;
+/**
+ * @noop @formatter:off
+ * @file
+ * @brief Utility class to facilitate running all the AIDA-PVA tests.
+ * - Test Suite
+ *  - Tests
+ *    - Test Cases
+ *
+ * @see
+ *  AidaGetter::testSuiteHeader(),
+ *  testCaseHeader(),
+ *  testHeader(),
+ *  channel(),
+ *  getWithNoArguments(),
+ *  setWithNoArguments()
+ * @noop @formatter:on
+ */
+package edu.stanford.slac.aida.test.utils;
 
 import org.epics.pvaccess.server.rpc.RPCRequestException;
 import org.epics.pvdata.pv.*;
@@ -6,99 +23,90 @@ import org.epics.pvdata.pv.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.stanford.slac.aida.utils.AidaType.*;
-import static edu.stanford.slac.aida.utils.PVUtils.*;
-
 /**
- * Utility class to facilitate running all the AIDA-PVA tests
- * Test Suite
- * -- Tests
- * ---+-- Test Cases
- * <p>
+ * @noop @formatter:off
+ * Utility class to facilitate running all the AIDA-PVA tests.
+ *
+ * @paragraph Details
  * In order to write a test its very easy.
- * <p>
- * e.g. 1: Simple get
- * <pre>{@code
- *      testSuiteHeader("AIDA-PVA SLC TESTS");
- *      testHeader(1, "Acquire scalar types SLC PMUS");
- *      getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
- * }</pre>
- * <p>
- * e.g. 2: Multiple arguments
- * <pre>{@code
- *      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
- *      testHeader(2, "Get values of 4 BPMs");
- *      channel("NDRFACET:BUFFACQ", "BPM Values")
- *                     .with("BPMD", 57)
- *                     .with("NRPOS", 180)
- *                     .with("BPMS", Arrays.asList(
- *                             "BPMS:LI11:501",
- *                             "BPMS:LI11:601",
- *                             "BPMS:LI11:701",
- *                             "BPMS:LI11:801"))
- *                     .get();
- * }</pre>
- * <p>
- * e.g. 3: Simple set
- * <pre>{@code
- *      testSuiteHeader("AIDA-PVA SLC TESTS");
- *      testHeader(testId, "Set value test");
- *      setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
- * }</pre>
- * <p>
- * e.g. 4: Advanced set
- * <pre>{@code
- *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
- *      testHeader(testId, "Deactivate the specified klystron");
- *      channel("KLYS:LI31:31:TACT", "Deactivated")
- *                     .with("BEAM", 8)
- *                     .with("DGRP", "DEV_DGRP")
- *                     .set(0);
- * }</pre>
- * <p>
- * e.g. 5: Selecting the return value type
- * <pre>{@code
- *      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
- *      testHeader(testId, "Acquire STRING type");
- *      channel("KLYS:LI31:31:TACT", "String")
- *                     .with("BEAM", 8)
- *                     .with("DGRP", "DEV_DGRP")
- *                     .returning(STRING)
- *                     .get();
- * }</pre>
+ * @paragraph p1 e.g. 1: Simple get
+ * @code
+ *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
+ *  testHeader(1, "Acquire scalar types SLC PMUS");
+ *  getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
+ * @endcode
+ * @paragraph p2 e.g. 2: Multiple arguments
+ * @code
+ *  testSuiteHeader(" AIDA - PVA SLC Buffered Acquisition TESTS ");
+ *  testHeader(2, "Get values of 4 BPMs");
+ *  channel("NDRFACET:BUFFACQ", "BPM Values")
+ *      .with("BPMD", 57)
+ *      .with("NRPOS", 180)
+ *      .with("BPMS", Arrays.asList(
+ *              "BPMS:LI11:501",
+ *              "BPMS:LI11:601",
+ *              "BPMS:LI11:701",
+ *              "BPMS:LI11:801"))
+ *      .get();
+ * @endcode
+ * @paragraph p3 e.g. 3: Simple set
+ * @code
+ *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
+ *  testHeader(testId, "Set value test");
+ *  setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
+ * @endcode
+ * @paragraph p4 e.g. 4: Advanced set
+ * @code
+ *  testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
+ *  testHeader(testId, "Deactivate the specified klystron");
+ *  channel("KLYS:LI31:31:TACT", "Deactivated")
+ *      .with("BEAM", 8)
+ *      .with("DGRP", "DEV_DGRP")
+ *      .set(0);
+ * @endcode
+ * @paragraph p5 e.g. 5: Selecting the return value type
+ * @code testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
+ *  testHeader(testId, "Acquire STRING type");
+ *  channel("KLYS:LI31:31:TACT", "String")
+ *      .with("BEAM", 8)
+ *      .with("DGRP", "DEV_DGRP")
+ *      .returning(STRING)
+ *      .get();
+ * @endcode
+ * @noop @formatter:on
  */
 public class AidaPvaTestUtils {
     // For pretty output - colors
     public static boolean NO_COLOR_FLAG = true;
 
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
+    private static final String ANSI_RESET = "\u001B[0m";           //< ANSI escape sequence for RESET
+    private static final String ANSI_BLACK = "\u001B[30m";          //< ANSI escape sequence for BLACK
+    private static final String ANSI_RED = "\u001B[31m";            //< ANSI escape sequence for RED
+    private static final String ANSI_GREEN = "\u001B[32m";          //< ANSI escape sequence for GREEN
+    private static final String ANSI_YELLOW = "\u001B[33m";         //< ANSI escape sequence for YELLOW
+    private static final String ANSI_BLUE = "\u001B[34m";           //< ANSI escape sequence for BLUE
+    private static final String ANSI_PURPLE = "\u001B[35m";         //< ANSI escape sequence for PURPLE
+    private static final String ANSI_CYAN = "\u001B[36m";           //< ANSI escape sequence for CYAN
+    private static final String ANSI_WHITE = "\u001B[37m";          //< ANSI escape sequence for WHITE
 
-    private static final String ANSI_INVERSE = "\u001B[7m";
-    private static final String ANSI_NORMAL = "\u001B[m";
+    private static final String ANSI_INVERSE = "\u001B[7m";         //< ANSI escape sequence for INVERTED
+    private static final String ANSI_NORMAL = "\u001B[m";           //< ANSI escape sequence for NON-INVERTED
 
     // To show success and failure signs
-    private static final String TEST_SUCCESS = "✔";
-    private static final String TEST_FAILURE = "✘";
-    private static final String TEST_SUCCESS_COLOR = ANSI_GREEN + "✔" + ANSI_RESET;
-    private static final String TEST_FAILURE_COLOR = ANSI_RED + "✘" + ANSI_RESET;
+    private static final String TEST_SUCCESS = "✔";                 //< Check mark symbol
+    private static final String TEST_FAILURE = "✘";                 //< Cross symbol
+    private static final String TEST_SUCCESS_COLOR = ANSI_GREEN + "✔" + ANSI_RESET;     //< Colored Check mark symbol
+    private static final String TEST_FAILURE_COLOR = ANSI_RED + "✘" + ANSI_RESET;       //< Colored Cross symbol
 
     // To introduce each test
-    private static final String BLOCK = "████";
+    private static final String BLOCK = "████";                     //< A graphic block
 
     // For abbreviate(), this is the maximum length of messages that will be displayed
-    private static final int MAX__MESSAGE_LEN = 250;
+    private static final int MAX_MESSAGE_LEN = 250;                //< Maximum message length
 
     /**
      * This functional interface is the similar to a Supplier except that
-     * we throw  RPCRequestExceptions for errors and always return PVStructures
+     * we throw RPCRequestExceptions for errors and always return PVStructures
      */
     @FunctionalInterface
     public interface AidaGetter<T extends PVStructure> {
@@ -106,7 +114,7 @@ public class AidaPvaTestUtils {
     }
 
     /**
-     * Print out a standard test suite header
+     * Print out a standard test suite header.
      *
      * @param heading the heading text to include in the header
      */
@@ -183,7 +191,7 @@ public class AidaPvaTestUtils {
      */
     public static void getWithNoArguments(final String query, AidaType type, String message) {
         var stringType = type.toString();
-        if (type.equals(TABLE)) {
+        if (type.equals(AidaType.TABLE)) {
             getTableWithNoArguments(query, message);
         } else if (stringType.endsWith("_ARRAY")) {
             getArrayWithNoArguments(query, type, message);
@@ -209,85 +217,6 @@ public class AidaPvaTestUtils {
     }
 
     /**
-     * Call this to run a test and display results for scalar channels with no arguments
-     *
-     * @param query   the channel
-     * @param type    the scalar type expected
-     * @param message any message to display next to the returned data
-     */
-    private static void getScalarWithNoArguments(final String query, AidaType type, String message) {
-        var clazz = type.toPVFieldClass();
-        testCaseHeader(query, null, pseudoReturnType(type), true);
-        displayScalarResult(
-                () -> new AidaPvaRequest(query)
-                        .returning(AidaType.valueOf(realReturnType(type)))
-                        .getter(),
-                clazz, message, type.equals(CHAR));
-    }
-
-    /**
-     * Call this to run a test and display results for scalar array channels with no arguments
-     *
-     * @param query   the channel
-     * @param type    the scalar array type expected
-     * @param message any message to display above the returned data
-     */
-    private static <T extends PVField> void getArrayWithNoArguments(final String query, AidaType type, String message) {
-        Class<T> clazz = type.toPVFieldClass();
-        testCaseHeader(query, null, pseudoReturnType(type), true);
-        displayScalarArrayResults(
-                () -> new AidaPvaRequest(query)
-                        .returning(AidaType.valueOf(realReturnType(type)))
-                        .getter(),
-                clazz, message, type.equals(CHAR_ARRAY));
-    }
-
-    /**
-     * Call this to run a test and display results for scalar array channels with no arguments
-     *
-     * @param query   the channel
-     * @param message any message to display above the returned data
-     */
-    private static void getTableWithNoArguments(final String query, String message) {
-        testCaseHeader(query, null, "TABLE", true);
-        displayTableResults(
-                () -> new AidaPvaRequest(query)
-                        .returning(TABLE)
-                        .getter(),
-                message);
-    }
-
-    /**
-     * This will get a scalar value from the returned result structure.
-     * In AIDA-PVA CHAR does not exist so requests are made using BYTE and marshalled into char on return
-     *
-     * @param result    the result to retrieve value from
-     * @param clazz     the class to use to pull out the data.  Must extend PVField
-     * @param isForChar is this for the pseudo-type CHAR.
-     * @return the object of the desired type
-     */
-    private static <T extends PVField> Object getScalarValue(PVStructure result, Class<T> clazz, boolean isForChar) {
-        var value = result.getSubField(clazz, NT_FIELD_NAME);
-        return getDisplayValue(value, isForChar);
-    }
-
-    /**
-     * Get a value for display - this simply changes bytes to single quoted characters
-     *
-     * @param value     the value to display
-     * @param isForChar if this is for CHAR
-     * @return the displayable value
-     */
-    static Object getDisplayValue(PVField value, boolean isForChar) {
-        var extractedValue = extractScalarValue(value);
-        if (extractedValue instanceof Byte && isForChar) {
-            return "'" + (char) ((Byte) extractedValue & 0xFF) + "'";
-        } else {
-            return extractedValue;
-        }
-    }
-
-    /**
      * This will get a list of scalar value from the returned result structure.
      * In AIDA-PVA CHAR_ARRAY does not exist so requests are made using
      * BYTE_ARRAY and marshalled into CHAR_ARRAY on return
@@ -297,13 +226,13 @@ public class AidaPvaTestUtils {
      * @param isForCharArray is this for the pseudo-type CHAR_ARRAY.
      * @return the list of objects of the desired type
      */
-    public static <T extends PVField> List<Object> getScalarArrayValues(PVStructure result, Class<T> clazz, boolean isForCharArray) {
+    static <T extends PVField> List<Object> getScalarArrayValues(PVStructure result, Class<T> clazz, boolean isForCharArray) {
         var values = new ArrayList<>();
-        var array = result.getSubField(clazz, NT_FIELD_NAME);
+        var array = result.getSubField(clazz, AidaType.NT_FIELD_NAME);
         if (PVByteArray.class.equals(clazz)) {
-            byteArrayIterator((PVByteArray) array, b -> values.add(isForCharArray ? "'" + (char) (b & 0xFF) + "'" : b));
+            PVUtils.byteArrayIterator((PVByteArray) array, b -> values.add(isForCharArray ? "'" + (char) (b & 0xFF) + "'" : b));
         } else {
-            arrayIterator(array, values::add);
+            PVUtils.arrayIterator(array, values::add);
         }
         return values;
     }
@@ -317,7 +246,7 @@ public class AidaPvaTestUtils {
      * @param message      any message to be displayed preceding the result
      * @param expectToFail if this test is expected to fail set to true
      */
-    public static void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
+    static void displayResult(AidaGetter<PVStructure> supplier, String message, boolean isForCharOrCharArray, boolean expectToFail) {
         try {
             var result = supplier.get();
 
@@ -325,19 +254,19 @@ public class AidaPvaTestUtils {
             var clazz = type.toPVFieldClass();
 
             System.out.print("    " + message + ": ");
-            if (type == VOID || clazz == null) {
+            if (type == AidaType.VOID || clazz == null) {
                 System.out.println(" " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
                 return;
             }
 
             switch (result.getStructure().getID()) {
-                case NTSCALAR_ID:
+                case AidaType.NTSCALAR_ID:
                     scalarResults(clazz, isForCharOrCharArray, result, expectToFail);
                     return;
-                case NTSCALARARRAY_ID:
+                case AidaType.NTSCALARARRAY_ID:
                     scalarArrayResults(result, clazz, isForCharOrCharArray, expectToFail);
                     return;
-                case NTTABLE_ID:
+                case AidaType.NTTABLE_ID:
                     tableResults(result, expectToFail);
             }
         } catch (Exception e) {
@@ -356,7 +285,7 @@ public class AidaPvaTestUtils {
      * @param message        any message to be displayed on a line preceding the result
      * @param isForCharArray if this is for a pseudo-type CHAR_ARRAY
      */
-    public static <T extends PVField> void displayScalarArrayResults(
+    static <T extends PVField> void displayScalarArrayResults(
             AidaGetter<PVStructure> supplier, Class<T> clazz, String message, boolean isForCharArray) {
         try {
             var result = supplier.get();
@@ -378,7 +307,7 @@ public class AidaPvaTestUtils {
      * @param message   any message to be displayed preceding the result
      * @param isForChar if this is for a pseudo-type CHAR
      */
-    public static <T extends PVField> void displayScalarResult(
+    static <T extends PVField> void displayScalarResult(
             AidaGetter<PVStructure> supplier, Class<T> clazz, String message, boolean isForChar) {
         try {
             var result = supplier.get();
@@ -387,6 +316,97 @@ public class AidaPvaTestUtils {
             scalarResults(clazz, isForChar, result, false);
         } catch (Exception e) {
             errors(e, false);
+        }
+    }
+
+    /**
+     * Verify that the returned value is a scalar
+     *
+     * @param result the returned value
+     * @throws RuntimeException if not
+     */
+    static void assertNTScalar(PVStructure result) {
+        if (!result.getStructure().getID().equals(AidaType.NTSCALAR_ID)) {
+            throw new RuntimeException("Expected " + AidaType.NTSCALAR_ID + ", but got " + result.getStructure().getID());
+        }
+    }
+
+    /**
+     * Call this to run a test and display results for scalar channels with no arguments
+     *
+     * @param query   the channel
+     * @param type    the scalar type expected
+     * @param message any message to display next to the returned data
+     */
+    private static void getScalarWithNoArguments(final String query, AidaType type, String message) {
+        var clazz = type.toPVFieldClass();
+        testCaseHeader(query, null, pseudoReturnType(type), true);
+        displayScalarResult(
+                () -> new AidaPvaRequest(query)
+                        .returning(AidaType.valueOf(realReturnType(type)))
+                        .getter(),
+                clazz, message, type.equals(AidaType.CHAR));
+    }
+
+    /**
+     * Call this to run a test and display results for scalar array channels with no arguments
+     *
+     * @param query   the channel
+     * @param type    the scalar array type expected
+     * @param message any message to display above the returned data
+     */
+    private static <T extends PVField> void getArrayWithNoArguments(final String query, AidaType type, String message) {
+        Class<T> clazz = type.toPVFieldClass();
+        testCaseHeader(query, null, pseudoReturnType(type), true);
+        displayScalarArrayResults(
+                () -> new AidaPvaRequest(query)
+                        .returning(AidaType.valueOf(realReturnType(type)))
+                        .getter(),
+                clazz, message, type.equals(AidaType.CHAR_ARRAY));
+    }
+
+    /**
+     * Call this to run a test and display results for scalar array channels with no arguments
+     *
+     * @param query   the channel
+     * @param message any message to display above the returned data
+     */
+    private static void getTableWithNoArguments(final String query, String message) {
+        testCaseHeader(query, null, "TABLE", true);
+        displayTableResults(
+                () -> new AidaPvaRequest(query)
+                        .returning(AidaType.TABLE)
+                        .getter(),
+                message);
+    }
+
+    /**
+     * This will get a scalar value from the returned result structure.
+     * In AIDA-PVA CHAR does not exist so requests are made using BYTE and marshalled into char on return
+     *
+     * @param result    the result to retrieve value from
+     * @param clazz     the class to use to pull out the data.  Must extend PVField
+     * @param isForChar is this for the pseudo-type CHAR.
+     * @return the object of the desired type
+     */
+    private static <T extends PVField> Object getScalarValue(PVStructure result, Class<T> clazz, boolean isForChar) {
+        var value = result.getSubField(clazz, AidaType.NT_FIELD_NAME);
+        return getDisplayValue(value, isForChar);
+    }
+
+    /**
+     * Get a value for display - this simply changes bytes to single quoted characters
+     *
+     * @param value     the value to display
+     * @param isForChar if this is for CHAR
+     * @return the displayable value
+     */
+    static Object getDisplayValue(PVField value, boolean isForChar) {
+        var extractedValue = PVUtils.extractScalarValue(value);
+        if (extractedValue instanceof Byte && isForChar) {
+            return "'" + (char) ((Byte) extractedValue & 0xFF) + "'";
+        } else {
+            return extractedValue;
         }
     }
 
@@ -416,8 +436,8 @@ public class AidaPvaTestUtils {
      */
     private static void tableResults(PVStructure result, boolean expectToFail) {
         // Get the labels array and the table values
-        var labels = result.getSubField(PVStringArray.class, NT_LABELS_NAME);
-        var values = result.getSubField(PVStructure.class, NT_FIELD_NAME);
+        var labels = result.getSubField(PVStringArray.class, AidaType.NT_LABELS_NAME);
+        var values = result.getSubField(PVStructure.class, AidaType.NT_FIELD_NAME);
 
         // Determine the number of columns and
         // get the fields that are the column arrays from the table values structure
@@ -474,7 +494,7 @@ public class AidaPvaTestUtils {
             String[][] tableData) {
 
         // Get labels
-        stringArrayLoop(resultLabels, (s, i) -> {
+        PVUtils.stringArrayLoop(resultLabels, (s, i) -> {
             columnWidths[i] = Math.max(columnWidths[i], s.length());
             columnLabels[i] = s;
         });
@@ -490,7 +510,7 @@ public class AidaPvaTestUtils {
         for (var column = 0; column < columns; column++) {
             final var array = ((PVArray) resultValues[column]);
             var c = column;
-            arrayLoop(array, (s, r) -> {
+            PVUtils.arrayLoop(array, (s, r) -> {
                 columnWidths[c] = Math.max(columnWidths[c], s.toString().length());
                 tableData[r][c] = s.toString();
             });
@@ -589,7 +609,7 @@ public class AidaPvaTestUtils {
      * @return the real return type value for TYPE argument
      */
     private static String realReturnType(AidaType type) {
-        return type.equals(CHAR_ARRAY) ? "BYTE_ARRAY" : type.equals(CHAR) ? "BYTE" : type.toString();
+        return type.equals(AidaType.CHAR_ARRAY) ? "BYTE_ARRAY" : type.equals(AidaType.CHAR) ? "BYTE" : type.toString();
     }
 
     /**
@@ -599,7 +619,7 @@ public class AidaPvaTestUtils {
      * @return the pseudo return type
      */
     private static String pseudoReturnType(AidaType type) {
-        return type.equals(CHAR_ARRAY) ? "CHAR_ARRAY" : type.equals(CHAR) ? "CHAR" : realReturnType(type);
+        return type.equals(AidaType.CHAR_ARRAY) ? "CHAR_ARRAY" : type.equals(AidaType.CHAR) ? "CHAR" : realReturnType(type);
     }
 
     /**
@@ -675,20 +695,8 @@ public class AidaPvaTestUtils {
      * @throws RuntimeException if not
      */
     public static void assertNTScalarArray(PVStructure result) {
-        if (!result.getStructure().getID().equals(NTSCALARARRAY_ID)) {
-            throw new RuntimeException("Expected " + NTSCALARARRAY_ID + ", but got " + result.getStructure().getID());
-        }
-    }
-
-    /**
-     * Verify that the returned value is a scalar
-     *
-     * @param result the returned value
-     * @throws RuntimeException if not
-     */
-    public static void assertNTScalar(PVStructure result) {
-        if (!result.getStructure().getID().equals(NTSCALAR_ID)) {
-            throw new RuntimeException("Expected " + NTSCALAR_ID + ", but got " + result.getStructure().getID());
+        if (!result.getStructure().getID().equals(AidaType.NTSCALARARRAY_ID)) {
+            throw new RuntimeException("Expected " + AidaType.NTSCALARARRAY_ID + ", but got " + result.getStructure().getID());
         }
     }
 
@@ -717,8 +725,8 @@ public class AidaPvaTestUtils {
             exceptionMessage = exceptionMessage.substring(0, cause);
         }
 
-        if (length > MAX__MESSAGE_LEN) {
-            return exceptionMessage.substring(0, MAX__MESSAGE_LEN) + " ...";
+        if (length > MAX_MESSAGE_LEN) {
+            return exceptionMessage.substring(0, MAX_MESSAGE_LEN) + " ...";
         } else {
             return exceptionMessage;
         }

@@ -1,4 +1,8 @@
-package edu.stanford.slac.aida.utils;
+/**
+ * @file
+ * @brief Build arguments for use with the AidaPvaRequest.
+ */
+package edu.stanford.slac.aida.test.utils;
 
 import org.epics.pvdata.factory.ConvertFactory;
 import org.epics.pvdata.factory.FieldFactory;

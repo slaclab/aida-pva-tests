@@ -1,4 +1,10 @@
-package edu.stanford.slac.aida.utils;
+/**
+ * @file
+ * @brief Class to create and execute AIDA-PVA requests.
+ * Use static members of this class to create and execute AIDA-PVA requests.  It
+ * works using the builder pattern.
+ */
+package edu.stanford.slac.aida.test.utils;
 
 import org.epics.pvaccess.ClientFactory;
 import org.epics.pvaccess.client.rpc.RPCClientImpl;
@@ -6,8 +12,6 @@ import org.epics.pvaccess.server.rpc.RPCRequestException;
 import org.epics.pvdata.factory.FieldFactory;
 import org.epics.pvdata.factory.PVDataFactory;
 import org.epics.pvdata.pv.*;
-
-import static edu.stanford.slac.aida.utils.AidaType.*;
 
 /**
  * This is a general purpose AIDA PVA Request Executor
@@ -37,7 +41,7 @@ public class AidaPvaRequest {
      *
      * @param channelName the channel you want to get your request against
      */
-    public AidaPvaRequest(String channelName) {
+    AidaPvaRequest(String channelName) {
         this.channelName = channelName;
         this.message = "";
     }
@@ -47,7 +51,7 @@ public class AidaPvaRequest {
      *
      * @param channelName the channel you want to get your request against
      */
-    public AidaPvaRequest(String channelName, String message) {
+    AidaPvaRequest(String channelName, String message) {
         this.channelName = channelName;
         this.message = message;
     }
@@ -72,12 +76,12 @@ public class AidaPvaRequest {
      */
     public AidaPvaRequest returning(AidaType type) {
         queryType = type;
-        if (type.equals(CHAR)) {
+        if (type.equals(AidaType.CHAR)) {
             isForChar = true;
-            type = BYTE;
-        } else if (type.equals(CHAR_ARRAY)) {
+            type = AidaType.BYTE;
+        } else if (type.equals(AidaType.CHAR_ARRAY)) {
             isForCharArray = true;
-            type = BYTE_ARRAY;
+            type = AidaType.BYTE_ARRAY;
         }
         argumentBuilder.addArgument("TYPE", type.toString());
         return this;
@@ -100,23 +104,10 @@ public class AidaPvaRequest {
      * @param value to set
      */
     public void setAndExpectFailure(Object value) {
-        expectToFail=true;
+        expectToFail = true;
         argumentBuilder.addArgument("VALUE", value);
         AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
         AidaPvaTestUtils.displayResult(() -> setter(null), message, false, expectToFail);
-    }
-
-    /**
-     * To set VALUE argument of the request and execute the request
-     *
-     * @param value to set
-     * @return AidaPvaRequestExecutor
-     */
-    public PVStructure setter(Object value) throws RPCRequestException {
-        if (value != null) {
-            argumentBuilder.addArgument("VALUE", value);
-        }
-        return execute();
     }
 
     /**
@@ -133,7 +124,7 @@ public class AidaPvaRequest {
      * and then get the request
      */
     public <T extends PVField> void getAndExpectFailure() {
-        expectToFail=true;
+        expectToFail = true;
         get();
     }
 
@@ -143,7 +134,20 @@ public class AidaPvaRequest {
      *
      * @return the result of the request
      */
-    public PVStructure getter() throws RPCRequestException {
+    PVStructure getter() throws RPCRequestException {
+        return execute();
+    }
+
+    /**
+     * To set VALUE argument of the request and execute the request
+     *
+     * @param value to set
+     * @return AidaPvaRequestExecutor
+     */
+    PVStructure setter(Object value) throws RPCRequestException {
+        if (value != null) {
+            argumentBuilder.addArgument("VALUE", value);
+        }
         return execute();
     }
 
@@ -162,7 +166,7 @@ public class AidaPvaRequest {
 
         // Build the uri structure
         var uriStructure =
-                fieldCreate.createStructure(NTURI_ID,
+                fieldCreate.createStructure(AidaType.NTURI_ID,
                         new String[]{"path", "scheme", "query"},
                         new Field[]{fieldCreate.createScalar(ScalarType.pvString), fieldCreate.createScalar(ScalarType.pvString), arguments}
                 );
