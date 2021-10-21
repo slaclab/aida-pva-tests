@@ -6,40 +6,35 @@ package edu.stanford.slac.aida.test;
 
 import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 
+import java.util.Arrays;
+
 /**
  * This class is used to test the SLC BPM Orbit Data AIDA-PVA provider
  */
 public class SlcBpmTest {
 
     public static void main(String[] args) {
+        var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
+        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        var testId = 0;
+
         AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC BPM TESTS");
-        Integer testNumber = 0, testId = 0;
-        var argc = 0;
-        if (args.length != argc) {
-            // Optionally allow color flag to enable tests in color
-            if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                AidaPvaTestUtils.NO_COLOR_FLAG = false;
-                argc++;
-            }
-            if (args.length != argc) {
-                testNumber = Integer.valueOf(args[argc]);
-            }
-        }
 
         // 01
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "All values of all BPMs of LCLS dgrp under meas def 55, default options");
             AidaPvaTestUtils.channel("LCLS_SL2:BPMS", "BPM Values").with("BPMD", 55).get();
         }
 
         // 02
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "All values of all BPMs of P2BPMHER dgrp under meas def 38, default options");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "BPM Values").with("BPMD", 38).get();
         }
 
         // 03
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "All values of all BPMs of P2BPMHER dgrp, under meas def 38, SORTORDER=1 (by dgrp z)");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "BPM Values")
                     .with("BPMD", 38)
@@ -49,7 +44,7 @@ public class SlcBpmTest {
         }
 
         // 04
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get the diff to the GOLD orbit of all BPMs of P2BPMHER dgrp, under meas def 38");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "Get the diff to the GOLD orbit BPM Values")
                     .with("BPMD", 38)
@@ -59,7 +54,7 @@ public class SlcBpmTest {
         }
 
         // 05
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get the diff to the most recently loaded config, for all BPMs of P2BPMHER dgrp, under meas def 38");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "Diff to the most recently loaded BPM Values")
                     .with("BPMD", 38)
@@ -69,7 +64,7 @@ public class SlcBpmTest {
         }
 
         // 06
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get the diff to SCRATCH config #16386, for all BPMs of P2BPMHER dgrp, under meas def 38");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "Diff to the SCRATCH config #16386 BPM Values")
                     .with("BPMD", 38)
@@ -80,7 +75,7 @@ public class SlcBpmTest {
         }
 
         // 07
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get the diff to NORMAL config #1262, for all BPMs of P2BPMHER dgrp, under meas def 38");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "Diff to the NORMAL config #1262 BPM Values")
                     .with("BPMD", 38)
@@ -95,7 +90,7 @@ public class SlcBpmTest {
         // handling.
 
         // 08
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Bad argument Name - superfish=7");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "BPM Values")
                     .with("BPMD", 38)
@@ -104,7 +99,7 @@ public class SlcBpmTest {
         }
 
         // 09
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Bad argument value - invalid CNFNUM");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "BPM Values")
                     .with("BPMD", 38)
@@ -114,7 +109,7 @@ public class SlcBpmTest {
         }
 
         // 10
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "BPMD not valid for DGRP");
             AidaPvaTestUtils.channel("P2BPMHER:BPMS", "BPM Values")
                     .with("BPMD", 39)       // 39 is a LER measurement def.

@@ -7,6 +7,7 @@ package edu.stanford.slac.aida.test;
 import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 import edu.stanford.slac.aida.test.utils.AidaType;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -14,23 +15,15 @@ import java.util.Collections;
  */
 public class SlcTest {
     public static void main(String[] args) {
+        var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
+        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        var testId = 0;
+
         AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC TESTS");
 
-        Integer testNumber = 0, testId = 0;
-        var argc = 0;
-        if (args.length != argc) {
-            // Optionally allow color flag to enable tests in color
-            if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                AidaPvaTestUtils.NO_COLOR_FLAG = false;
-                argc++;
-            }
-            if (args.length != argc) {
-                testNumber = Integer.valueOf(args[argc]);
-            }
-        }
-
         // 01
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire scalar types SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:LEFF", AidaType.FLOAT, "Float BACT");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120//LEFF", AidaType.FLOAT, "Backwards compatibility - using legacy channel format: Float BACT");
@@ -48,55 +41,55 @@ public class SlcTest {
         }
 
         // 02
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire FLOAT type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:BACT", AidaType.FLOAT, "BACT");
         }
 
         // 03
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire LONG INT type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:VSTA", AidaType.LONG, "VSTA");
         }
 
         // 04
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire array of FLOAT type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:IMMS", AidaType.FLOAT_ARRAY, "IMMS");
         }
 
         // 05
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire array of DOUBLE type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:IMMS", AidaType.DOUBLE_ARRAY, "IMMS");
         }
 
         // 06
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire array of SHORT type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:NSCY", AidaType.SHORT_ARRAY, "NSCY");
         }
 
         // 07
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire array of LONG type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:RAMP", AidaType.LONG_ARRAY, "RAMP");
         }
 
         // 08
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire array of BOOLEAN type SLC PMUS");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:RAMP", AidaType.BOOLEAN_ARRAY, "RAMP");
         }
 
         // 09
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Acquire FLOAT type SLC Database PV");
             AidaPvaTestUtils.getWithNoArguments("XCOR:LI03:120:LEFF", AidaType.FLOAT, "LEFF");
         }
 
         // 10
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             var numberOfAcquisitionsToMake = 10;        // Make 10 iterations
             var delayMilliseconds = 10 * 1000;          // pausing 10 seconds between each iteration
 
@@ -112,7 +105,7 @@ public class SlcTest {
 
 
         // 11
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "ASTS channel name test");
             AidaPvaTestUtils.getWithNoArguments("ASTS:LI00:ISOPLAN2:DATA", AidaType.FLOAT, "DATA");
             AidaPvaTestUtils.getWithNoArguments("ASTS:PR02:VP3012:DATA", AidaType.FLOAT, "DATA");
@@ -126,13 +119,13 @@ public class SlcTest {
         }
 
         // 12
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "ASTS channel name with one of the pseudo-secondaries STAT, CTRL, or VSTA");
             AidaPvaTestUtils.getWithNoArguments("ASTS:PR02:T2092QUA:STAT", AidaType.STRING_ARRAY, "STAT");
         }
 
         // 13
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Set value test");
             AidaPvaTestUtils.setWithNoArguments("XCOR:LI31:41:BCON", Collections.singletonList(5.0f));
         }

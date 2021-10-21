@@ -4,6 +4,7 @@
  */
 package edu.stanford.slac.aida.test;
 
+import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 import edu.stanford.slac.aida.test.utils.AidaType;
 
 import java.util.Arrays;
@@ -17,23 +18,15 @@ import static java.lang.Math.PI;
  */
 public class ReferenceTest {
     public static void main(String[] args) {
+        var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
+        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        var testId = 0;
+
         testSuiteHeader("AIDA-PVA REFERENCE TESTS");
 
-        Integer testNumber = 0, testId = 0;
-        var argc = 0;
-        if (args.length != argc) {
-            // Optionally allow color flag to enable tests in color
-            if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                NO_COLOR_FLAG = false;
-                argc++;
-            }
-            if (args.length != argc) {
-                testNumber = Integer.valueOf(args[argc]);
-            }
-        }
-
         // 01
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Boolean");
 
             channel("AIDA:SAMPLE:TEST:attribute01", "Boolean").get();
@@ -60,7 +53,7 @@ public class ReferenceTest {
         }
 
         // 02
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Byte");
             channel("AIDA:SAMPLE:TEST:attribute02", "Byte").get();
             channel("AIDA:SAMPLE:TEST:attribute02", "Unprintable Char: 0x2").returning(AidaType.CHAR).get();
@@ -70,7 +63,7 @@ public class ReferenceTest {
         }
 
         // 03
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Short");
             channel("AIDA:SAMPLE:TEST:attribute03", "Short").get();
             channel("AIDA:SAMPLE:TEST:attribute03", "Short: 3 + x[3]").with("x", 3).get();
@@ -80,7 +73,7 @@ public class ReferenceTest {
         }
 
         // 04
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Integer");
             channel("AIDA:SAMPLE:TEST:attribute04", "Integer").get();
             channel("AIDA:SAMPLE:TEST:attribute04", "Integer: 4 + x[4]").with("x", 4).get();
@@ -90,7 +83,7 @@ public class ReferenceTest {
         }
 
         // 05
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Long");
             channel("AIDA:SAMPLE:TEST:attribute05", "Long").get();
             channel("AIDA:SAMPLE:TEST:attribute05", "Long: 5 + x[5]").with("x", 5).get();
@@ -102,7 +95,7 @@ public class ReferenceTest {
         }
 
         // 06
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Float");
             channel("AIDA:SAMPLE:TEST:attribute06", "Float").get();
             channel("AIDA:SAMPLE:TEST:attribute06", "Float: 6.6f * x[6.6f]").with("x", 6.6f).get();
@@ -116,7 +109,7 @@ public class ReferenceTest {
         }
 
         // 07
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Double");
             channel("AIDA:SAMPLE:TEST:attribute07", "Double").get();
             channel("AIDA:SAMPLE:TEST:attribute07", "Double: 7.7 * x[7.7]").with("x", 7.7).get();
@@ -130,14 +123,14 @@ public class ReferenceTest {
         }
 
         // 08
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get String");
             channel("AIDA:SAMPLE:TEST:attribute08", "String").get();
             channel("AIDA:SAMPLE:TEST:attribute08", "Concatenate String: \"eight: \" + x[\"Hello World\"]").with("x", "Hello World").get();
         }
 
         // 09
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Boolean Array");
             channel("AIDA:SAMPLE:TEST:attribute11", "Boolean Array").get();
             channel("AIDA:SAMPLE:TEST:attribute11", "Boolean Array: x[[\"TRUE\", \"FALSE\", \"T\", \"F\", \"Y\", \"N\", \"YES\", \"NO\"]]")
@@ -155,7 +148,7 @@ public class ReferenceTest {
         }
 
         // 10
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Byte Array");
             channel("AIDA:SAMPLE:TEST:attribute12", "Byte Array").get();
             channel("AIDA:SAMPLE:TEST:attribute12", "Byte Array: 12 | x[[0x4, 0x8, 0x48, 65]]")
@@ -171,7 +164,7 @@ public class ReferenceTest {
         }
 
         // 11
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Short Array");
             channel("AIDA:SAMPLE:TEST:attribute13", "Short Array").get();
             channel("AIDA:SAMPLE:TEST:attribute13", "Short Array: 13 + x[[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]]")
@@ -186,7 +179,7 @@ public class ReferenceTest {
         }
 
         // 12
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Integer Array");
             channel("AIDA:SAMPLE:TEST:attribute14", "Integer Array").get();
             channel("AIDA:SAMPLE:TEST:attribute14", "Integer Array: 14 + x[[10000019, 10000079,10000103,10000121,10000139,10000141]]")
@@ -198,7 +191,7 @@ public class ReferenceTest {
         }
 
         // 13
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Long Array");
             channel("AIDA:SAMPLE:TEST:attribute15", "Long Array").get();
             channel("AIDA:SAMPLE:TEST:attribute15", "Long Array: 15 + x[[1000000007L, 1000000009L, 1000000021L, 1000000033L, 1000000087L, 1000000093L]]")
@@ -210,7 +203,7 @@ public class ReferenceTest {
         }
 
         // 14
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Float Array");
             channel("AIDA:SAMPLE:TEST:attribute16", "Float Array").get();
             channel("AIDA:SAMPLE:TEST:attribute16", "Formats: Float Array: 16.6 * x[[PI/16.6, E/16.6, 1e-10f, 1e+10f, 1.234567e-23f, 1.234567e+23f, 1.23456789e+23f]]")
@@ -234,7 +227,7 @@ public class ReferenceTest {
         }
 
         // 15
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Double Array");
             channel("AIDA:SAMPLE:TEST:attribute17", "Double Array").get();
             channel("AIDA:SAMPLE:TEST:attribute17", "Formats: Double Array: 17.7 * x[[PI/17.7, E/17.7, 1e-100, 1e+100, 1.0000000234567e-230, 1.0000000234567e+230, 1.000000023456789e+230]]")
@@ -258,7 +251,7 @@ public class ReferenceTest {
         }
 
         // 16
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get String Array");
             channel("AIDA:SAMPLE:TEST:attribute18", "String Array").get();
             channel("AIDA:SAMPLE:TEST:attribute18", "Multiple Strings")
@@ -270,7 +263,7 @@ public class ReferenceTest {
         }
 
         // 17
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Table");
             channel("AIDA:SAMPLE:TEST:attribute20", "Table").get();
             channel("AIDA:SAMPLE:TEST:attribute20", "Table x[same operations as scalar]")
@@ -288,7 +281,7 @@ public class ReferenceTest {
         }
 
         // 18
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Void Setter");
             setWithNoArguments("AIDA:SAMPLE:TEST:attribute30", Boolean.TRUE);
             channel("AIDA:SAMPLE:TEST:attribute30", "Set Value: TRUE, x=FALSE")
@@ -297,7 +290,7 @@ public class ReferenceTest {
         }
 
         // 19
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Setter returning Table");
             channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: True, Return Table").set(Boolean.TRUE);
             channel("AIDA:SAMPLE:TEST:attribute31", "Set Value: False, Return Table").set(Boolean.FALSE);
@@ -309,7 +302,7 @@ public class ReferenceTest {
         }
 
         // 20
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Arbitrary Getters on the same channel");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BOOLEAN, "Boolean");
             getWithNoArguments("AIDA:SAMPLE:TEST:attribute32", AidaType.BYTE, "Byte");
@@ -333,13 +326,13 @@ public class ReferenceTest {
         }
 
         // 21
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Channel Not Supported");
             channel("AIDA:SAMPLE:TEST:attribute00", "Not Supported").getAndExpectFailure();
         }
 
         // 22
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Invalid Parameters");
             channel("AIDA:SAMPLE:TEST:attribute01", "Boolean: y[1] ").with("y", 1).getAndExpectFailure();
             channel("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | y[0x2]").with("y", 0x2).getAndExpectFailure();
@@ -395,7 +388,7 @@ public class ReferenceTest {
         }
 
         // 23
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Invalid Booleans");
             channel("AIDA:SAMPLE:TEST:attribute01", "Valid Boolean: x[1100] ").with("x", 1100).get();
             channel("AIDA:SAMPLE:TEST:attribute01", "Valid Boolean: x[0.0] ").with("x", 0.0).get();

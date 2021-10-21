@@ -14,23 +14,15 @@ import java.util.Collections;
  */
 public class SlcBuffAcqTest {
     public static void main(String[] args) {
+        var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
+        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        var testId = 0;
+
         AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
 
-        Integer testNumber = 0, testId = 0;
-        var argc = 0;
-        if (args.length != argc) {
-            // Optionally allow color flag to enable tests in color
-            if (args[argc].equals("-color") || args[argc].equals("-c")) {
-                AidaPvaTestUtils.NO_COLOR_FLAG = false;
-                argc++;
-            }
-            if (args.length != argc) {
-                testNumber = Integer.valueOf(args[argc]);
-            }
-        }
-
         // 01
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get values of given BPM for 1 pulse");
             AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
@@ -39,7 +31,7 @@ public class SlcBuffAcqTest {
         }
 
         // 02
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Get values of 4 BPMs");
             AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
@@ -59,7 +51,7 @@ public class SlcBuffAcqTest {
 
 
         // 03
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Bad argument Name - superfish=7");
             AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
@@ -68,7 +60,7 @@ public class SlcBuffAcqTest {
         }
 
         // 04
-        if (testNumber.equals(++testId) || testNumber == 0) {
+        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Bad argument value BPM1=BPMS:GREG:DOESNTEXIST");
             AidaPvaTestUtils.channel("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
