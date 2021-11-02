@@ -23,33 +23,30 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Go to aida-pva dir
-        continue-on-error: false
-        run: |
-          ls -lR
-          cd aida-pva
-          mkdir root
       - name: Maven Build & Test (also gets lombok)
         continue-on-error: false
-        run: mvn install
+        run: |
+          cd aida-pva
+          mkdir root
+          mvn install
       - name: De-lombok tests
         continue-on-error: false
         run: |
-          java -jar ~/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar delombok ../aida-pva-tests/src/main/java -d root/test/java
+          java -jar ~/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar delombok aida-pva-tests/src/main/java -d aida-pva/root/test/java
       - name: De-lombok src
         continue-on-error: false
         run: |
-          java -jar ~/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar delombok src -d root
+          java -jar ~/.m2/repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar delombok aida-pva/src -d aida-pva/root
       - name: Generate Documentation
         uses: mattnotmitt/doxygen-action@v1
         with:
-          working-directory: '.'
-          doxyfile-path: 'docs/doxygenConfig'
+          working-directory: 'aida-pva'
+          doxyfile-path: 'aida-pva/docs/doxygenConfig'
       - name: Deploy Documentation
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-          path: docGen/html/
+          path: aida-pva/docGen/html/
           remote_path: /afs/slac/www/grp/cd/soft/aida/aida-pva/
           remote_host: rhel6-64a.slac.stanford.edu
           remote_user: sly
