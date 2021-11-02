@@ -26,8 +26,8 @@ jobs:
       - name: Go to aida-pva dir
         continue-on-error: false
         run: |
-          ls ..
-          cd ../aida-pva
+          ls -lR
+          cd aida-pva
           mkdir root
       - name: Maven Build & Test (also gets lombok)
         continue-on-error: false
