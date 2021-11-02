@@ -32,7 +32,7 @@ jobs:
         uses: mattnotmitt/doxygen-action@v1
         with:
           working-directory: 'aida-pva'
-          doxyfile-path: 'aida-pva/docs/doxygenConfig'
+          doxyfile-path: 'docs/doxygenConfig'
       - name: Deploy Documentation
         uses: burnett01/rsync-deployments@5.1
         with:
