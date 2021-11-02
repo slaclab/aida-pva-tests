@@ -21,7 +21,9 @@ import org.epics.pvaccess.server.rpc.RPCRequestException;
 import org.epics.pvdata.pv.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @noop @formatter:off
@@ -104,6 +106,14 @@ public class AidaPvaTestUtils {
     // For abbreviate(), this is the maximum length of messages that will be displayed
     private static final int MAX_MESSAGE_LEN = 250;                //< Maximum message length
 
+    public static AidaPvaTestUtils testRunner(Object testId, String testHeader) {
+        return new AidaPvaTestUtils();
+    }
+
+    public static AidaPvaTestUtils testRunner() {
+        return new AidaPvaTestUtils();
+    }
+
     /**
      * This functional interface is the similar to a Supplier except that
      * we throw RPCRequestExceptions for errors and always return PVStructures
@@ -111,6 +121,29 @@ public class AidaPvaTestUtils {
     @FunctionalInterface
     public interface AidaGetter<T extends PVStructure> {
         T get() throws RPCRequestException;
+    }
+
+    public static void testSuiteRunner(String[] args, String testSuiteHeading, Consumer<Integer>... tests) {
+        var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
+        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        var testId = 0;
+        var totalTests = tests.length;
+
+        AidaPvaTestUtils.testSuiteHeader(testSuiteHeading);
+
+        for (testId = 1; testId <= totalTests; testId++) {
+            if (argString.contains(" " + ++testId + ",") || allTests) {
+                AidaPvaTestUtils.testHeader(testId, "Acquire SHORT type");
+                AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
+                        .with("BEAM", 1)
+                        .returning(AidaType.SHORT)
+                        .get();
+            }
+        }
+
+        // Because of threads started in background to process requests
+        System.exit(0);
     }
 
     /**
@@ -178,6 +211,7 @@ public class AidaPvaTestUtils {
      * @param message the message to be displayed alongside successful operation
      * @return An AidaPvaRequest that can be further configured before calling get() or set()
      */
+//    public AidaPvaRequest channel(final String query, String message) {
     public static AidaPvaRequest channel(final String query, String message) {
         return new AidaPvaRequest(query, message);
     }

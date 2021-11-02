@@ -45,12 +45,6 @@ public class SlcMagnetTest {
 
         // 04
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Test of magnet get without parameters (duplicate)");
-            AidaPvaTestUtils.channel("DEV_DGRP:XCOR:BDES", "BDES").get();
-        }
-
-        // 05
-        if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Test of magnet set");
             AidaPvaTestUtils.channel("MAGNETSET:BDES", "Magnet Set")
                     .with("MAGFUNC", "TRIM")
@@ -60,7 +54,7 @@ public class SlcMagnetTest {
                     }});
         }
 
-        // 06
+        // 05
         if (argString.contains(" " + ++testId + ",") || allTests) {
             var value = "{" +
                     "\"names\": [\"XCOR:LI31:41\"]," +
@@ -73,7 +67,7 @@ public class SlcMagnetTest {
                     .set(value);
         }
 
-        // 07
+        // 06
         if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Test of magnet set (duplicate)");
             AidaPvaTestUtils.channel("MAGNETSET:BDES", "Magnet Set")
@@ -84,7 +78,7 @@ public class SlcMagnetTest {
                     }});
         }
 
-        // 08
+        // 07
         if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Error handling invalid name: magnet set");
             AidaPvaTestUtils.channel("MAGNETSET:BDES", "Magnet Set")
@@ -95,7 +89,7 @@ public class SlcMagnetTest {
                     }});
         }
 
-        // 09
+        // 08
         if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Error handling values out of limits: magnet set");
             AidaPvaTestUtils.channel("MAGNETSET:BDES", "Magnet Set")
@@ -106,7 +100,7 @@ public class SlcMagnetTest {
                     }});
         }
 
-        // 10
+        // 09
         if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Test of magnet set without trim or perturb");
             AidaPvaTestUtils.channel("MAGNETSET:BDES", "Magnet Set")
@@ -117,7 +111,7 @@ public class SlcMagnetTest {
                     }});
         }
 
-        // 11
+        // 10
         if (argString.contains(" " + ++testId + ",") || allTests) {
             AidaPvaTestUtils.testHeader(testId, "Test of magnet set, setting the configuration secondary BCON");
             AidaPvaTestUtils.channel("MAGNETSET:BCON", "Magnet Set")

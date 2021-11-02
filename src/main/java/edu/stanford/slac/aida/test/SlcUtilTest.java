@@ -33,9 +33,8 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -57,9 +56,8 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -83,9 +81,8 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:li31test.mkb")
                         .setAndExpectFailure(-1.0f);
                 try {
@@ -97,8 +94,9 @@ public class SlcUtilTest {
 
         // 04
         if (argString.contains(" " + ++testId + ",") || allTests) {
-/*
             AidaPvaTestUtils.testHeader(testId, "PROD environment test Extract device string and secondary value vectors.  This test should only be run in the PROD environment");
+            System.out.println("Skipped");
+            /*
             for (var i = 0; i < 3; i++) {
                 AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li02b_xb.mkb")
