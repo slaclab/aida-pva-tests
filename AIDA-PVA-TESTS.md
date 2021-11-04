@@ -51,7 +51,7 @@ _________________________________________________
 get: XCOR:LI03:120:LEFF => FLOAT
     Float BACT: 0.262 ✔
 get: XCOR:LI03:120//LEFF => FLOAT
-    Backwards compatibility - using legacy channel format: Float BACT: 0.262 ✔
+    Backwards compatibility - using legacy request format: Float BACT: 0.262 ✔
 get: XCOR:LI03:120:LEFF => DOUBLE
     Double BACT: 0.2619999945163727 ✔
 get: XCOR:LI03:120:VSTA => BOOLEAN
@@ -173,7 +173,7 @@ get: XCOR:LI03:120:LEFF => FLOAT
 get: XCOR:LI03:120:LEFF => FLOAT
     LEFF: 0.262 ✔
 
-████ Test 11: ASTS channel name test
+████ Test 11: ASTS request name test
 _________________________________________________
 
 get: ASTS:LI00:ISOPLAN2:DATA => FLOAT
@@ -199,7 +199,7 @@ get: ASTS:PR02:T2092QUA:RAW => FLOAT
 get: ASTS:PR02:T2092QUA:STAT => STRING
     STAT: CamErr   RED        ✔
 
-████ Test 12: ASTS channel name with one of the pseudo-secondaries STAT, CTRL, or VSTA
+████ Test 12: ASTS request name with one of the pseudo-secondaries STAT, CTRL, or VSTA
 _________________________________________________
 
 get: ASTS:PR02:T2092QUA:STAT => STRING_ARRAY
@@ -299,17 +299,17 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC TESTS");
      testHeader(1, "Acquire scalar types SLC PMUS");
-     getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT"
+     getRequest("XCOR:LI03:120:LEFF", FLOAT, "Float BACT"
 }</pre>
 <p>
 #### e.g. 2: Multiple arguments
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Buffered Acquisition TESTS");
      testHeader(2, "Get values of 4 BPMs");
-     channel("NDRFACET:BUFFACQ", "BPM Values")
+     request("NDRFACET:BUFFACQ", "BPM Values")
                     .with("BPMD", 57)
                     .with("NRPOS", 180)
-                    .with("BPMS", Arrays.asList(
+                    .with("BPMS", List.of(
                             "BPMS:LI11:501",
                             "BPMS:LI11:601",
                             "BPMS:LI11:701",
@@ -321,14 +321,14 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC TESTS");
      testHeader(testId, "Set value test");
-     setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
+     setRequest("XCOR:LI31:41:BCON", 5.0f);
 }</pre>
 <p>
 #### e.g. 4: Advanced set
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Deactivate the specified klystron");
-     channel("KLYS:LI31:31:TACT", "Deactivated")
+     request("KLYS:LI31:31:TACT", "Deactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(0);
@@ -338,7 +338,7 @@ In order to write a test its very easy.
 <pre>{@code
      testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
      testHeader(testId, "Acquire STRING type");
-     channel("KLYS:LI31:31:TACT", "String")
+     request("KLYS:LI31:31:TACT", "String")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(STRING)

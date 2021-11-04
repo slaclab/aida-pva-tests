@@ -39,7 +39,7 @@ public class AidaPvaRequest {
     /**
      * Constructor
      *
-     * @param channelName the channel you want to get your request against
+     * @param channelName the request you want to get your request against
      */
     AidaPvaRequest(String channelName) {
         this.channelName = channelName;
@@ -49,7 +49,7 @@ public class AidaPvaRequest {
     /**
      * Constructor
      *
-     * @param channelName the channel you want to get your request against
+     * @param channelName the request you want to get your request against
      */
     AidaPvaRequest(String channelName, String message) {
         this.channelName = channelName;
@@ -155,7 +155,7 @@ public class AidaPvaRequest {
      * Execute a request and return the PVStructure result.  Exceptions are thrown to caller
      *
      * @return the PVStructure result
-     * @throws RPCRequestException if there is an error calling the channel
+     * @throws RPCRequestException if there is an error calling the request
      */
     private PVStructure execute() throws RPCRequestException {
         ClientFactory.start();

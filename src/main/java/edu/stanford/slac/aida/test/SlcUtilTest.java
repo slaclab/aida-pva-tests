@@ -4,10 +4,11 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 import edu.stanford.slac.aida.test.utils.AidaType;
 
 import java.util.Arrays;
+
+import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
 
 /**
  * This class is used to test the SLC Utility AIDA-PVA provider
@@ -15,17 +16,17 @@ import java.util.Arrays;
 public class SlcUtilTest {
     public static void main(String[] args) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
-        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
-        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
         var testId = 0;
 
-        AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC Utility TESTS");
+        testSuiteHeader("AIDA-PVA SLC Utility TESTS");
 
         // 01
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
+            testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                request("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -34,7 +35,7 @@ public class SlcUtilTest {
                 }
             }
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
+                request("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -46,9 +47,9 @@ public class SlcUtilTest {
 
         // 02
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
+            testHeader(testId, "set value for MKB.  sleeping for 5 seconds between runs");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                request("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(1.0f);
                 try {
@@ -57,7 +58,7 @@ public class SlcUtilTest {
                 }
             }
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
+                request("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:gregstestli31.mkb")
                         .set(-1.0f);
                 try {
@@ -69,11 +70,11 @@ public class SlcUtilTest {
 
         // 03
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  " +
+            testHeader(testId, "Test of specified absolute multiknob file, which is not permitted.  " +
                     "sleeping for 5 seconds between runs. The requested set operation should " +
                     "fail since the specified multiknob file is absolute, which is not permitted");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                request("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li31test.mkb")
                         .setAndExpectFailure(1.0f);
                 try {
@@ -82,7 +83,7 @@ public class SlcUtilTest {
                 }
             }
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL reversed sign")
+                request("MKB:VAL", "MKB VAL reversed sign")
                         .with("MKB", "mkb:li31test.mkb")
                         .setAndExpectFailure(-1.0f);
                 try {
@@ -94,11 +95,11 @@ public class SlcUtilTest {
 
         // 04
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "PROD environment test Extract device string and secondary value vectors.  This test should only be run in the PROD environment");
+            testHeader(testId, "PROD environment test Extract device string and secondary value vectors.  This test should only be run in the PROD environment");
             System.out.println("Skipped");
             /*
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                request("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li02b_xb.mkb")
                         .set(1.0f);
                 try {
@@ -106,9 +107,9 @@ public class SlcUtilTest {
                 } catch (InterruptedException ignored) {
                 }
             }
-            AidaPvaTestUtils.testHeader(testId, "reversing sign of relative delta");
+            testHeader(testId, "reversing sign of relative delta");
             for (var i = 0; i < 3; i++) {
-                AidaPvaTestUtils.channel("MKB:VAL", "MKB VAL")
+                request("MKB:VAL", "MKB VAL")
                         .with("MKB", "mkb:li02b_xb.mkb")
                         .set(-1.0f);
                 try {
@@ -122,8 +123,8 @@ public class SlcUtilTest {
 
         // 05
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Acquire SHORT type");
-            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
+            testHeader(testId, "Acquire SHORT type");
+            request("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
                     .returning(AidaType.SHORT)
                     .get();
@@ -132,8 +133,8 @@ public class SlcUtilTest {
 
         // 06
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Acquire STRING type");
-            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
+            testHeader(testId, "Acquire STRING type");
+            request("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
                     .returning(AidaType.STRING)
                     .get();
@@ -141,24 +142,24 @@ public class SlcUtilTest {
 
         // 07
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Deactivate the specified TRIG device");
-            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "Deactivated")
+            testHeader(testId, "Deactivate the specified TRIG device");
+            request("TRIG:LI31:109:TACT", "Deactivated")
                     .with("BEAM", 1)
                     .set(0);
         }
 
         // 08
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Reactivate the specified TRIG device");
-            AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "Reactivated")
+            testHeader(testId, "Reactivate the specified TRIG device");
+            request("TRIG:LI31:109:TACT", "Reactivated")
                     .with("BEAM", 1)
                     .set(1);
         }
 
         // 09
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"Y\"");
-            AidaPvaTestUtils.channel("BGRP:VAL", "Variable: T_CAV")
+            testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"Y\"");
+            request("BGRP:VAL", "Variable: T_CAV")
                     .with("BGRP", "LCLS")
                     .with("VARNAME", "T_CAV")
                     .set("N");
@@ -166,8 +167,8 @@ public class SlcUtilTest {
 
         // 10
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"N\"");
-            AidaPvaTestUtils.channel("BGRP:VAL", "Variable: T_CAV")
+            testHeader(testId, "Set the specified variable of a specified BGRP to the new value \"N\"");
+            request("BGRP:VAL", "Variable: T_CAV")
                     .with("BGRP", "LCLS")
                     .with("VARNAME", "T_CAV")
                     .set("Y");

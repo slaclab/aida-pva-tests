@@ -4,10 +4,11 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaPvaTestUtils;
 import edu.stanford.slac.aida.test.utils.AidaType;
 
 import java.util.Arrays;
+
+import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
 
 /**
  * This class is used to test the SLC Klystron AIDA-PVA provider
@@ -15,16 +16,16 @@ import java.util.Arrays;
 public class SlcKlysTest {
     public static void main(String[] args) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
-        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
-        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
         var testId = 0;
 
-        AidaPvaTestUtils.testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
+        testSuiteHeader("AIDA-PVA SLC Klystron TESTS");
 
         // 01
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Acquire SHORT type");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "Short")
+            testHeader(testId, "Acquire SHORT type");
+            request("KLYS:LI31:31:TACT", "Short")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(AidaType.SHORT)
@@ -33,8 +34,8 @@ public class SlcKlysTest {
 
         // 02
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Acquire STRING type");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "String")
+            testHeader(testId, "Acquire STRING type");
+            request("KLYS:LI31:31:TACT", "String")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(AidaType.STRING)
@@ -43,8 +44,8 @@ public class SlcKlysTest {
 
         // 03
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Acquire TABLE type");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "Table")
+            testHeader(testId, "Acquire TABLE type");
+            request("KLYS:LI31:31:TACT", "Table")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .returning(AidaType.TABLE)
@@ -53,8 +54,8 @@ public class SlcKlysTest {
 
         // 04
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Deactivate the specified klystron");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "Deactivated")
+            testHeader(testId, "Deactivate the specified klystron");
+            request("KLYS:LI31:31:TACT", "Deactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(0);
@@ -62,8 +63,8 @@ public class SlcKlysTest {
 
         // 05
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Reactivate the specified klystron");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "Reactivated")
+            testHeader(testId, "Reactivate the specified klystron");
+            request("KLYS:LI31:31:TACT", "Reactivated")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
                     .set(1);
@@ -71,53 +72,53 @@ public class SlcKlysTest {
 
         // 06
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set a sub-booster or klystron PDES value and trim it");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:PDES", "PDES").set(90.0f);
+            testHeader(testId, "Set a sub-booster or klystron PDES value and trim it");
+            request("KLYS:LI31:31:PDES", "PDES").set(90.0f);
         }
 
         // 07
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set a subbooster or klystron PDES value without the trim operation");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:PDES", "PDES")
+            testHeader(testId, "Set a subbooster or klystron PDES value without the trim operation");
+            request("KLYS:LI31:31:PDES", "PDES")
                     .with("TRIM", "NO")
                     .set(90.0f);
         }
 
         // 08
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set a subbooster or klystron KPHR value");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:KPHR", "KPHR").set(60.0f);
+            testHeader(testId, "Set a subbooster or klystron KPHR value");
+            request("KLYS:LI31:31:KPHR", "KPHR").set(60.0f);
         }
 
         // 09
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set configuration secondary PCON value");
-            AidaPvaTestUtils.setWithNoArguments("KLYS:LI31:31:PCON", 5.0f);
+            testHeader(testId, "Set configuration secondary PCON value");
+            setRequest("KLYS:LI31:31:PCON", 5.0f);
         }
 
         // 10
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Set configuration secondary ACON value");
-            AidaPvaTestUtils.setWithNoArguments("KLYS:LI31:31:ACON", 5.0f);
+            testHeader(testId, "Set configuration secondary ACON value");
+            setRequest("KLYS:LI31:31:ACON", 5.0f);
         }
 
         // 11
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Get configuration secondary PDES value");
-            AidaPvaTestUtils.getWithNoArguments("SLC::KLYS:LI31:31:PDES", AidaType.FLOAT, "PDES value");
+            testHeader(testId, "Get configuration secondary PDES value");
+            getRequest("SLC::KLYS:LI31:31:PDES", AidaType.FLOAT, "PDES value");
         }
 
         // 12
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Get configuration secondary KPHR value");
-            AidaPvaTestUtils.getWithNoArguments("SLC::KLYS:LI31:31:KPHR", AidaType.FLOAT, "KPHR value");
+            testHeader(testId, "Get configuration secondary KPHR value");
+            getRequest("SLC::KLYS:LI31:31:KPHR", AidaType.FLOAT, "KPHR value");
         }
 
 
         // 13
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Error Test: Invalid BEAM");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "PDES")
+            testHeader(testId, "Error Test: Invalid BEAM");
+            request("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", "XYZ")
                     .with("DGRP", "DEV_DGRP")
                     .setAndExpectFailure(1);
@@ -125,8 +126,8 @@ public class SlcKlysTest {
 
         // 14
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            AidaPvaTestUtils.testHeader(testId, "Error Test: Invalid BEAM");
-            AidaPvaTestUtils.channel("KLYS:LI31:31:TACT", "PDES")
+            testHeader(testId, "Error Test: Invalid BEAM");
+            request("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", 1)
                     .with("DGRP", "LIN_KLYS")
                     .returning(AidaType.SHORT)

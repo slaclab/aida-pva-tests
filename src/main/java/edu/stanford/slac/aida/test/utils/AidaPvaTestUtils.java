@@ -7,12 +7,12 @@
  *    - Test Cases
  *
  * @see
- *  AidaGetter::testSuiteHeader(),
+ *  testSuiteHeader(),
  *  testCaseHeader(),
  *  testHeader(),
- *  channel(),
- *  getWithNoArguments(),
- *  setWithNoArguments()
+ *  request(),
+ *  getRequest(),
+ *  setRequest()
  * @noop @formatter:on
  */
 package edu.stanford.slac.aida.test.utils;
@@ -35,16 +35,16 @@ import java.util.function.Consumer;
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
  *  testHeader(1, "Acquire scalar types SLC PMUS");
- *  getWithNoArguments("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
+ *  getRequest("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
  * @endcode
  * @paragraph p2 e.g. 2: Multiple arguments
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC Buffered Acquisition TESTS ");
  *  testHeader(2, "Get values of 4 BPMs");
- *  channel("NDRFACET:BUFFACQ", "BPM Values")
+ *  request("NDRFACET:BUFFACQ", "BPM Values")
  *      .with("BPMD", 57)
  *      .with("NRPOS", 180)
- *      .with("BPMS", Arrays.asList(
+ *      .with("BPMS", List.of(
  *              "BPMS:LI11:501",
  *              "BPMS:LI11:601",
  *              "BPMS:LI11:701",
@@ -55,13 +55,13 @@ import java.util.function.Consumer;
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
  *  testHeader(testId, "Set value test");
- *  setWithNoArguments("XCOR:LI31:41:BCON", 5.0f);
+ *  setRequest("XCOR:LI31:41:BCON", 5.0f);
  * @endcode
  * @paragraph p4 e.g. 4: Advanced set
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
  *  testHeader(testId, "Deactivate the specified klystron");
- *  channel("KLYS:LI31:31:TACT", "Deactivated")
+ *  request("KLYS:LI31:31:TACT", "Deactivated")
  *      .with("BEAM", 8)
  *      .with("DGRP", "DEV_DGRP")
  *      .set(0);
@@ -69,7 +69,7 @@ import java.util.function.Consumer;
  * @paragraph p5 e.g. 5: Selecting the return value type
  * @code testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
  *  testHeader(testId, "Acquire STRING type");
- *  channel("KLYS:LI31:31:TACT", "String")
+ *  request("KLYS:LI31:31:TACT", "String")
  *      .with("BEAM", 8)
  *      .with("DGRP", "DEV_DGRP")
  *      .returning(STRING)
@@ -125,17 +125,17 @@ public class AidaPvaTestUtils {
 
     public static void testSuiteRunner(String[] args, String testSuiteHeading, Consumer<Integer>... tests) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
-        AidaPvaTestUtils.NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
-        var allTests = (AidaPvaTestUtils.NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
+        NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");
+        var allTests = (NO_COLOR_FLAG ? args.length == 0 : args.length == 1);
         var testId = 0;
         var totalTests = tests.length;
 
-        AidaPvaTestUtils.testSuiteHeader(testSuiteHeading);
+        testSuiteHeader(testSuiteHeading);
 
         for (testId = 1; testId <= totalTests; testId++) {
             if (argString.contains(" " + ++testId + ",") || allTests) {
-                AidaPvaTestUtils.testHeader(testId, "Acquire SHORT type");
-                AidaPvaTestUtils.channel("TRIG:LI31:109:TACT", "TACT")
+                testHeader(testId, "Acquire SHORT type");
+                request("TRIG:LI31:109:TACT", "TACT")
                         .with("BEAM", 1)
                         .returning(AidaType.SHORT)
                         .get();
@@ -204,43 +204,43 @@ public class AidaPvaTestUtils {
     }
 
     /**
-     * Builder for any channel request.  When the get() or set() are finally called the test runs and
+     * Builder for any request request.  When the get() or set() are finally called the test runs and
      * the results are displayed in a standardised format
      *
-     * @param query   the starting query for this channel request
+     * @param query   the starting query for this request request
      * @param message the message to be displayed alongside successful operation
      * @return An AidaPvaRequest that can be further configured before calling get() or set()
      */
-//    public AidaPvaRequest channel(final String query, String message) {
-    public static AidaPvaRequest channel(final String query, String message) {
+//    public AidaPvaRequest request(final String query, String message) {
+    public static AidaPvaRequest request(final String query, String message) {
         return new AidaPvaRequest(query, message);
     }
 
     /**
      * Call this to run a test and display results for channels with no arguments
      *
-     * @param query   the channel
+     * @param query   the request
      * @param type    the type expected
      * @param message any message to display next to the returned data
      */
-    public static void getWithNoArguments(final String query, AidaType type, String message) {
+    public static void getRequest(final String query, AidaType type, String message) {
         var stringType = type.toString();
         if (type.equals(AidaType.TABLE)) {
-            getTableWithNoArguments(query, message);
+            getTableRequest(query, message);
         } else if (stringType.endsWith("_ARRAY")) {
-            getArrayWithNoArguments(query, type, message);
+            getArrayRequest(query, type, message);
         } else {
-            getScalarWithNoArguments(query, type, message);
+            getScalarRequest(query, type, message);
         }
     }
 
     /**
      * Call this to run a setter test that does not return anything
      *
-     * @param query the channel
+     * @param query the request
      * @param value the value to set
      */
-    public static void setWithNoArguments(final String query, Object value) {
+    public static void setRequest(final String query, Object value) {
         testCaseHeader(query, "VALUE=" + value, null, false);
         try {
             new AidaPvaRequest(query).setter(value);
@@ -368,11 +368,11 @@ public class AidaPvaTestUtils {
     /**
      * Call this to run a test and display results for scalar channels with no arguments
      *
-     * @param query   the channel
+     * @param query   the request
      * @param type    the scalar type expected
      * @param message any message to display next to the returned data
      */
-    private static void getScalarWithNoArguments(final String query, AidaType type, String message) {
+    private static void getScalarRequest(final String query, AidaType type, String message) {
         var clazz = type.toPVFieldClass();
         testCaseHeader(query, null, pseudoReturnType(type), true);
         displayScalarResult(
@@ -385,11 +385,11 @@ public class AidaPvaTestUtils {
     /**
      * Call this to run a test and display results for scalar array channels with no arguments
      *
-     * @param query   the channel
+     * @param query   the request
      * @param type    the scalar array type expected
      * @param message any message to display above the returned data
      */
-    private static <T extends PVField> void getArrayWithNoArguments(final String query, AidaType type, String message) {
+    private static <T extends PVField> void getArrayRequest(final String query, AidaType type, String message) {
         Class<T> clazz = type.toPVFieldClass();
         testCaseHeader(query, null, pseudoReturnType(type), true);
         displayScalarArrayResults(
@@ -402,10 +402,10 @@ public class AidaPvaTestUtils {
     /**
      * Call this to run a test and display results for scalar array channels with no arguments
      *
-     * @param query   the channel
+     * @param query   the request
      * @param message any message to display above the returned data
      */
-    private static void getTableWithNoArguments(final String query, String message) {
+    private static void getTableRequest(final String query, String message) {
         testCaseHeader(query, null, "TABLE", true);
         displayTableResults(
                 () -> new AidaPvaRequest(query)
@@ -647,7 +647,7 @@ public class AidaPvaTestUtils {
     }
 
     /**
-     * Determine the pseudo return type for channel to be used in display
+     * Determine the pseudo return type for request to be used in display
      *
      * @param type the given AidaType
      * @return the pseudo return type
