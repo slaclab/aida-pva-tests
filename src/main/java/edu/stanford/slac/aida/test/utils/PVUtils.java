@@ -9,6 +9,9 @@ import org.epics.pvdata.pv.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * @brief Utilities to manipulate PVField.
+ */
 public class PVUtils {
 
     /**

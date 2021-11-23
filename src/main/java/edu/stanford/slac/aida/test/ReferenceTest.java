@@ -18,6 +18,11 @@ import static java.lang.Math.PI;
  * This class is used to test the Reference Service Provider
  */
 public class ReferenceTest {
+    /**
+     * Main entry point to the reference test
+     *
+     * @param args command line arguments -c for color, list of numbers to select test numbers
+     */
     public static void main(String[] args) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
         NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");

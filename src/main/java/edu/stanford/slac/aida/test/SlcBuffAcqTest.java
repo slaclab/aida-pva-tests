@@ -13,6 +13,11 @@ import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
  * This class is used to test the SLC Buffered Acquisition AIDA-PVA provider
  */
 public class SlcBuffAcqTest {
+    /**
+     * Main entry point to the BPM Buffer Acquisition test
+     *
+     * @param args command line arguments -c for color, list of numbers to select test numbers
+     */
     public static void main(String[] args) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
         NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");

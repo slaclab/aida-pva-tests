@@ -29,15 +29,15 @@ import java.util.function.Consumer;
  * @noop @formatter:off
  * Utility class to facilitate running all the AIDA-PVA tests.
  *
- * @paragraph Details
+ * @section Details
  * In order to write a test its very easy.
- * @paragraph p1 e.g. 1: Simple get
+ * @subsection p1 e.g. 1: Simple get
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
  *  testHeader(1, "Acquire scalar types SLC PMUS");
  *  getRequest("XCOR:LI03:120:LEFF", FLOAT, "Float BACT");
  * @endcode
- * @paragraph p2 e.g. 2: Multiple arguments
+ * @subsection p2 e.g. 2: Multiple arguments
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC Buffered Acquisition TESTS ");
  *  testHeader(2, "Get values of 4 BPMs");
@@ -51,13 +51,13 @@ import java.util.function.Consumer;
  *              "BPMS:LI11:801"))
  *      .get();
  * @endcode
- * @paragraph p3 e.g. 3: Simple set
+ * @subsection p3 e.g. 3: Simple set
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC TESTS ");
  *  testHeader(testId, "Set value test");
  *  setRequest("XCOR:LI31:41:BCON", 5.0f);
  * @endcode
- * @paragraph p4 e.g. 4: Advanced set
+ * @subsection p4 e.g. 4: Advanced set
  * @code
  *  testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
  *  testHeader(testId, "Deactivate the specified klystron");
@@ -66,7 +66,7 @@ import java.util.function.Consumer;
  *      .with("DGRP", "DEV_DGRP")
  *      .set(0);
  * @endcode
- * @paragraph p5 e.g. 5: Selecting the return value type
+ * @subsection p5 e.g. 5: Selecting the return value type
  * @code testSuiteHeader(" AIDA - PVA SLC Klystron TESTS ");
  *  testHeader(testId, "Acquire STRING type");
  *  request("KLYS:LI31:31:TACT", "String")
@@ -79,37 +79,101 @@ import java.util.function.Consumer;
  */
 public class AidaPvaTestUtils {
     // For pretty output - colors
+    /**
+     * If no colors are needed then set this flag to true - default.
+     */
     public static boolean NO_COLOR_FLAG = true;
 
+    /**
+     * Reset the ANSI text color
+     */
     private static final String ANSI_RESET = "\u001B[0m";           //< ANSI escape sequence for RESET
+    /**
+     * Set text color to black
+     */
     private static final String ANSI_BLACK = "\u001B[30m";          //< ANSI escape sequence for BLACK
+    /**
+     * Set text color to red
+     */
     private static final String ANSI_RED = "\u001B[31m";            //< ANSI escape sequence for RED
+    /**
+     * Set text color to green
+     */
     private static final String ANSI_GREEN = "\u001B[32m";          //< ANSI escape sequence for GREEN
+    /**
+     * Set text color to yellow
+     */
     private static final String ANSI_YELLOW = "\u001B[33m";         //< ANSI escape sequence for YELLOW
+    /**
+     * Set text color to blue
+     */
     private static final String ANSI_BLUE = "\u001B[34m";           //< ANSI escape sequence for BLUE
+    /**
+     * Set text color to purple
+     */
     private static final String ANSI_PURPLE = "\u001B[35m";         //< ANSI escape sequence for PURPLE
+    /**
+     * Set text color to cyan
+     */
     private static final String ANSI_CYAN = "\u001B[36m";           //< ANSI escape sequence for CYAN
+    /**
+     * Set text color to white
+     */
     private static final String ANSI_WHITE = "\u001B[37m";          //< ANSI escape sequence for WHITE
 
+    /**
+     * Set text to invert the foreground and background colors
+     */
     private static final String ANSI_INVERSE = "\u001B[7m";         //< ANSI escape sequence for INVERTED
+    /**
+     * Set text to normal, non-inverted foreground and background colors
+     */
     private static final String ANSI_NORMAL = "\u001B[m";           //< ANSI escape sequence for NON-INVERTED
 
     // To show success and failure signs
+    /**
+     * Success symbol
+     */
     private static final String TEST_SUCCESS = "✔";                 //< Check mark symbol
+    /**
+     * Failure symbol
+     */
     private static final String TEST_FAILURE = "✘";                 //< Cross symbol
+    /**
+     * Colored success symbol
+     */
     private static final String TEST_SUCCESS_COLOR = ANSI_GREEN + "✔" + ANSI_RESET;     //< Colored Check mark symbol
+    /**
+     * Colored failure symbol
+     */
     private static final String TEST_FAILURE_COLOR = ANSI_RED + "✘" + ANSI_RESET;       //< Colored Cross symbol
 
-    // To introduce each test
+    /**
+     * Solid block, To introduce each test
+     */
     private static final String BLOCK = "████";                     //< A graphic block
 
-    // For abbreviate(), this is the maximum length of messages that will be displayed
+    /**
+     * For abbreviate(), this is the maximum length of messages that will be displayed
+     */
     private static final int MAX_MESSAGE_LEN = 250;                //< Maximum message length
 
+    /**
+     * Return a new test runner
+     *
+     * @param testId     the identifier of the test to run
+     * @param testHeader the test header
+     * @return a new test runner
+     */
     public static AidaPvaTestUtils testRunner(Object testId, String testHeader) {
         return new AidaPvaTestUtils();
     }
 
+    /**
+     * To return a test runner
+     *
+     * @return new test runner
+     */
     public static AidaPvaTestUtils testRunner() {
         return new AidaPvaTestUtils();
     }
@@ -123,6 +187,13 @@ public class AidaPvaTestUtils {
         T get() throws RPCRequestException;
     }
 
+    /**
+     * To run a suite of tests
+     *
+     * @param args             command line arguments
+     * @param testSuiteHeading the heading of the test suite
+     * @param tests            the tests to run
+     */
     public static void testSuiteRunner(String[] args, String testSuiteHeading, Consumer<Integer>... tests) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
         NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");

@@ -14,6 +14,11 @@ import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
  * This class is used to test the SLC Klystron AIDA-PVA provider
  */
 public class SlcKlysTest {
+    /**
+     * Main entry point to the Klystron test
+     *
+     * @param args command line arguments -c for color, list of numbers to select test numbers
+     */
     public static void main(String[] args) {
         var argString = Arrays.toString(args).replace("]", ",").replace("[", " ");
         NO_COLOR_FLAG = !argString.contains("-c") && !argString.contains("-color");

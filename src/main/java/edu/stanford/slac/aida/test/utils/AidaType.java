@@ -8,58 +8,24 @@ package edu.stanford.slac.aida.test.utils;
 import org.epics.pvdata.pv.*;
 
 /**
- *  @enum Enumerated type representing an AIDA-PVA data type.  This enum
- *  contains static methods to help manipulate and work with AidaType.
+ * Enumerated type representing an AIDA-PVA data type.  This enum
+ * contains static methods to help manipulate and work with AidaType.
  */
 public enum AidaType {
-    /**
-     * Means that this setter does not return a value (only valid for setters)
-     */
-    VOID,
-    /**
-     * Getter returns a boolean
-     */
-    BOOLEAN,
-    /**
-     * Getter returns a byte
-     */
-    BYTE,
-    /**
-     * There is no CHAR type in AIDA-PVA you must use BYTE, but if you want to obtain a char you can specify CHAR to our test suite, and it will request a BYTE and automatically translate the resulting byte response to char.
-     */
-    CHAR,
-    /**
-     * Getter returns a short
-     */
-    SHORT,
-    /**
-     * Getter returns an integer
-     */
-    INTEGER,
-    /**
-     * Getter returns a long
-     */
-    LONG,
-    /**
-     * Getter returns a float
-     */
-    FLOAT,
-    /**
-     * Getter returns a double
-     */
-    DOUBLE,
-    /**
-     * Getter returns a string
-     */
-    STRING,
-    /**
-     * Getter returns a boolean array
-     */
-    BOOLEAN_ARRAY,
-    /**
-     * Getter returns a byte array
-     */
-    BYTE_ARRAY,
+    VOID,           ///< Means that this setter does not return a value (only valid for setters)
+
+    BOOLEAN,        ///< Getter returns a boolean
+    BYTE,           ///< Getter returns a byte
+    CHAR,           ///< There is no CHAR type in AIDA-PVA you must use BYTE, but if you want to obtain a char you can specify CHAR to our test suite, and it will request a BYTE and automatically translate the resulting byte response to char.
+    SHORT,          ///< Getter returns a short
+    INTEGER,        ///< Getter returns an integer
+    LONG,           ///< Getter returns a long
+    FLOAT,          ///< Getter returns a float
+    DOUBLE,         ///< Getter returns a double
+    STRING,         ///< Getter returns a string
+
+    BOOLEAN_ARRAY,  ///< Getter returns a boolean array
+    BYTE_ARRAY,     ///< Getter returns a byte array
     /**
      * There is no #CHAR_ARRAY type in AIDA-PVA's edu.stanford.slac.aida.lib.model.AidaType you must use
      * edu.stanford.slac.aida.lib.model.AidaType.BYTE_ARRAY, but if you want to obtain a char[]
@@ -67,34 +33,13 @@ public enum AidaType {
      * a edu.stanford.slac.aida.lib.model.AidaType.BYTE_ARRAY and automatically translate the resulting byte[] response to char[].
      */
     CHAR_ARRAY,
-    /**
-     * Getter returns a short array
-     */
-    SHORT_ARRAY,
-    /**
-     * Getter returns an integer array
-     */
-    INTEGER_ARRAY,
-    /**
-     * Getter returns a long array
-     */
-    LONG_ARRAY,
-    /**
-     * Getter returns a float array
-     */
-    FLOAT_ARRAY,
-    /**
-     * Getter returns a double array
-     */
-    DOUBLE_ARRAY,
-    /**
-     * Getter returns a string array
-     */
-    STRING_ARRAY,
-    /**
-     * Getter or setter returns a table
-     */
-    TABLE;
+    SHORT_ARRAY,    ///< Getter returns a short array
+    INTEGER_ARRAY,  ///< Getter returns an integer array
+    LONG_ARRAY,     ///< Getter returns a long array
+    FLOAT_ARRAY,    ///< Getter returns a float array
+    DOUBLE_ARRAY,   ///< Getter returns a double array
+    STRING_ARRAY,   ///< Getter returns a string array
+    TABLE;          ///< Getter or setter returns a table
 
     /**
      *  Normative Type ID string for URIs
