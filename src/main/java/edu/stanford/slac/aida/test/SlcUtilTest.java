@@ -9,6 +9,7 @@ import edu.stanford.slac.aida.test.utils.AidaType;
 import java.util.Arrays;
 
 import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
+import static edu.stanford.slac.aida.test.utils.AidaType.AIDA_SHORT;
 
 /**
  * This class is used to test the SLC Utility AIDA-PVA provider
@@ -131,7 +132,7 @@ public class SlcUtilTest {
             testHeader(testId, "Acquire SHORT type");
             request("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
-                    .returning(AidaType.SHORT)
+                    .returning(AIDA_SHORT)
                     .get();
         }
 
@@ -141,7 +142,7 @@ public class SlcUtilTest {
             testHeader(testId, "Acquire STRING type");
             request("TRIG:LI31:109:TACT", "TACT")
                     .with("BEAM", 1)
-                    .returning(AidaType.STRING)
+                    .returning(AidaType.AIDA_STRING)
                     .get();
         }
 

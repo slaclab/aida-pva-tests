@@ -12,41 +12,44 @@ import org.epics.pvdata.pv.*;
  * contains static methods to help manipulate and work with AidaType.
  */
 public enum AidaType {
-    VOID,           ///< Means that this setter does not return a value (only valid for setters)
+    AIDA_VOID,           ///< Means that this setter does not return a value (only valid for setters)
 
-    BOOLEAN,        ///< Getter returns a boolean
-    BYTE,           ///< Getter returns a byte
-    CHAR,           ///< There is no CHAR type in AIDA-PVA you must use BYTE, but if you want to obtain a char you can specify CHAR to our test suite, and it will request a BYTE and automatically translate the resulting byte response to char.
-    SHORT,          ///< Getter returns a short
-    INTEGER,        ///< Getter returns an integer
-    LONG,           ///< Getter returns a long
-    FLOAT,          ///< Getter returns a float
-    DOUBLE,         ///< Getter returns a double
-    STRING,         ///< Getter returns a string
+    AIDA_BOOLEAN,        ///< Getter returns a boolean
+    AIDA_BYTE,           ///< Getter returns a byte
+    AIDA_CHAR,           ///< There is no CHAR type in AIDA-PVA you must use BYTE, but if you want to obtain a char you can specify CHAR to our test suite, and it will request a BYTE and automatically translate the resulting byte response to char.
+    AIDA_SHORT,          ///< Getter returns a short
+    AIDA_INTEGER,        ///< Getter returns an integer
+    AIDA_LONG,           ///< Getter returns a long
+    AIDA_FLOAT,          ///< Getter returns a float
+    AIDA_DOUBLE,         ///< Getter returns a double
+    AIDA_STRING,         ///< Getter returns a string
 
-    BOOLEAN_ARRAY,  ///< Getter returns a boolean array
-    BYTE_ARRAY,     ///< Getter returns a byte array
+    AIDA_BOOLEAN_ARRAY,  ///< Getter returns a boolean array
+    AIDA_BYTE_ARRAY,     ///< Getter returns a byte array
     /**
      * There is no #CHAR_ARRAY type in AIDA-PVA's edu.stanford.slac.aida.lib.model.AidaType you must use
      * edu.stanford.slac.aida.lib.model.AidaType.BYTE_ARRAY, but if you want to obtain a char[]
      * you can specify #CHAR_ARRAY to our test suite, and it will request
      * a edu.stanford.slac.aida.lib.model.AidaType.BYTE_ARRAY and automatically translate the resulting byte[] response to char[].
      */
-    CHAR_ARRAY,
-    SHORT_ARRAY,    ///< Getter returns a short array
-    INTEGER_ARRAY,  ///< Getter returns an integer array
-    LONG_ARRAY,     ///< Getter returns a long array
-    FLOAT_ARRAY,    ///< Getter returns a float array
-    DOUBLE_ARRAY,   ///< Getter returns a double array
-    STRING_ARRAY,   ///< Getter returns a string array
-    TABLE;          ///< Getter or setter returns a table
+    AIDA_CHAR_ARRAY,
+    AIDA_SHORT_ARRAY,    ///< Getter returns a short array
+    AIDA_INTEGER_ARRAY,  ///< Getter returns an integer array
+    AIDA_LONG_ARRAY,     ///< Getter returns a long array
+    AIDA_FLOAT_ARRAY,    ///< Getter returns a float array
+    AIDA_DOUBLE_ARRAY,   ///< Getter returns a double array
+    AIDA_STRING_ARRAY,   ///< Getter returns a string array
+    AIDA_TABLE;          ///< Getter or setter returns a table
+
+    private final static String PREFIX = "AIDA_";
+    private final static int PREFIX_LENGTH = PREFIX.length();
 
     /**
-     *  Normative Type ID string for URIs
+     * Normative Type ID string for URIs
      */
     public static final String NTURI_ID = "epics:nt/NTURI:1.0";
     /**
-     *  Normative Type ID string for Scalars
+     * Normative Type ID string for Scalars
      */
     public static final String NTSCALAR_ID = "epics:nt/NTScalar:1.0";
     /**
@@ -60,13 +63,26 @@ public enum AidaType {
 
     // AIDA-PVA standard field names in normative types
     /**
-     *  Normative Type standard field name for value field
+     * Normative Type standard field name for value field
      */
     public static final String NT_FIELD_NAME = "value";
     /**
-     *  Normative Type standard field name for labels field
+     * Normative Type standard field name for labels field
      */
     public static final String NT_LABELS_NAME = "labels";
+    /**
+     * Normative Type standard field name for description field
+     */
+    public static final String NT_DESCRIPTIONS_NAME = "descriptions";
+
+    /**
+     * Return the string representation of the type without the prefix
+     *
+     * @return the string representation of the type without the prefix
+     */
+    public final String string() {
+        return toString().substring(PREFIX_LENGTH);
+    }
 
     /**
      * Convert this AidaType to a PVField.
@@ -77,41 +93,41 @@ public enum AidaType {
     @SuppressWarnings("unchecked")
     public <T extends PVField> Class<T> toPVFieldClass() {
         switch (this) {
-            case BOOLEAN:
+            case AIDA_BOOLEAN:
                 return (Class<T>) PVBoolean.class;
-            case BYTE:
-            case CHAR:
+            case AIDA_BYTE:
+            case AIDA_CHAR:
                 return (Class<T>) PVByte.class;
-            case SHORT:
+            case AIDA_SHORT:
                 return (Class<T>) PVShort.class;
-            case INTEGER:
+            case AIDA_INTEGER:
                 return (Class<T>) PVInt.class;
-            case LONG:
+            case AIDA_LONG:
                 return (Class<T>) PVLong.class;
-            case FLOAT:
+            case AIDA_FLOAT:
                 return (Class<T>) PVFloat.class;
-            case DOUBLE:
+            case AIDA_DOUBLE:
                 return (Class<T>) PVDouble.class;
-            case STRING:
+            case AIDA_STRING:
                 return (Class<T>) PVString.class;
-            case BOOLEAN_ARRAY:
+            case AIDA_BOOLEAN_ARRAY:
                 return (Class<T>) PVBooleanArray.class;
-            case BYTE_ARRAY:
-            case CHAR_ARRAY:
+            case AIDA_BYTE_ARRAY:
+            case AIDA_CHAR_ARRAY:
                 return (Class<T>) PVByteArray.class;
-            case SHORT_ARRAY:
+            case AIDA_SHORT_ARRAY:
                 return (Class<T>) PVShortArray.class;
-            case INTEGER_ARRAY:
+            case AIDA_INTEGER_ARRAY:
                 return (Class<T>) PVIntArray.class;
-            case LONG_ARRAY:
+            case AIDA_LONG_ARRAY:
                 return (Class<T>) PVLongArray.class;
-            case FLOAT_ARRAY:
+            case AIDA_FLOAT_ARRAY:
                 return (Class<T>) PVFloatArray.class;
-            case DOUBLE_ARRAY:
+            case AIDA_DOUBLE_ARRAY:
                 return (Class<T>) PVDoubleArray.class;
-            case STRING_ARRAY:
+            case AIDA_STRING_ARRAY:
                 return (Class<T>) PVStringArray.class;
-            case TABLE:
+            case AIDA_TABLE:
                 return (Class<T>) PVStructure.class;
         }
         return null;
@@ -125,6 +141,10 @@ public enum AidaType {
      * @return the AidaType corresponding to the given @p pvStructure
      */
     public static AidaType from(PVStructure pvStructure) {
+        if (pvStructure == null) {
+            return AIDA_VOID;
+        }
+
         return from(pvStructure, NT_FIELD_NAME);
     }
 
@@ -137,44 +157,44 @@ public enum AidaType {
      */
     public static AidaType from(PVStructure pvStructure, String fieldName) {
         if (pvStructure.getStructure().getID().equals(NTTABLE_ID)) {
-            return TABLE;
+            return AIDA_TABLE;
         }
 
         var field = pvStructure.getSubField(fieldName);
         if (field instanceof PVBoolean) {
-            return BOOLEAN;
+            return AIDA_BOOLEAN;
         } else if (field instanceof PVByte) {
-            return BYTE;
+            return AIDA_BYTE;
         } else if (field instanceof PVShort) {
-            return SHORT;
+            return AIDA_SHORT;
         } else if (field instanceof PVInt) {
-            return INTEGER;
+            return AIDA_INTEGER;
         } else if (field instanceof PVLong) {
-            return LONG;
+            return AIDA_LONG;
         } else if (field instanceof PVFloat) {
-            return FLOAT;
+            return AIDA_FLOAT;
         } else if (field instanceof PVDouble) {
-            return DOUBLE;
+            return AIDA_DOUBLE;
         } else if (field instanceof PVString) {
-            return STRING;
+            return AIDA_STRING;
         } else if (field instanceof PVBooleanArray) {
-            return BOOLEAN_ARRAY;
+            return AIDA_BOOLEAN_ARRAY;
         } else if (field instanceof PVByteArray) {
-            return BYTE_ARRAY;
+            return AIDA_BYTE_ARRAY;
         } else if (field instanceof PVShortArray) {
-            return SHORT_ARRAY;
+            return AIDA_SHORT_ARRAY;
         } else if (field instanceof PVIntArray) {
-            return INTEGER_ARRAY;
+            return AIDA_INTEGER_ARRAY;
         } else if (field instanceof PVLongArray) {
-            return LONG_ARRAY;
+            return AIDA_LONG_ARRAY;
         } else if (field instanceof PVFloatArray) {
-            return FLOAT_ARRAY;
+            return AIDA_FLOAT_ARRAY;
         } else if (field instanceof PVDoubleArray) {
-            return DOUBLE_ARRAY;
+            return AIDA_DOUBLE_ARRAY;
         } else if (field instanceof PVStringArray) {
-            return STRING_ARRAY;
+            return AIDA_STRING_ARRAY;
         } else {
-            return VOID;
+            return AIDA_VOID;
         }
     }
 }

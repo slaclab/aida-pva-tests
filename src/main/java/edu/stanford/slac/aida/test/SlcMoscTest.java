@@ -4,11 +4,11 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaType;
-
 import java.util.Arrays;
 
 import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
+import static edu.stanford.slac.aida.test.utils.AidaType.AIDA_DOUBLE;
+import static edu.stanford.slac.aida.test.utils.AidaType.AIDA_TABLE;
 
 /**
  * This class is used to test the SLC Master Oscillator AIDA-PVA provider
@@ -30,19 +30,19 @@ public class SlcMoscTest {
         // 01
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Test of Master Oscillator get method");
-            getRequest("MASTEROSC:VAL", AidaType.TABLE, "VAL");
+            getRequest("MASTEROSC:VAL", AIDA_TABLE, "VAL");
         }
 
         // 02
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Test of Master Oscillator get method for double");
-            getRequest("MASTEROSC:VAL", AidaType.DOUBLE, "VAL");
+            getRequest("MASTEROSC:VAL", AIDA_DOUBLE, "VAL");
         }
 
         // 03
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Test of Master Oscillator get method for table");
-            getRequest("MASTEROSC:VAL", AidaType.TABLE, "VAL");
+            getRequest("MASTEROSC:VAL", AIDA_TABLE, "VAL");
         }
 
         // 04

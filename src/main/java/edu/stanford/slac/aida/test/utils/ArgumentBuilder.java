@@ -134,8 +134,28 @@ class ArgumentBuilder {
             return (fieldCreate.createScalar(ScalarType.pvFloat));
         } else if (value instanceof Double) {
             return (fieldCreate.createScalar(ScalarType.pvDouble));
-        } else if (value instanceof String) {
+        } else if (value instanceof String || value instanceof Character || value instanceof Character[]) {
             return (fieldCreate.createScalar(ScalarType.pvString));
+        } else if (value instanceof Object[]) {
+            Object[] objects = (Object[]) value;
+            boolean hasElements = objects.length > 0;
+            if (value instanceof Boolean[] || (hasElements && objects[0] instanceof Boolean)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvBoolean));
+            } else if (value instanceof Byte[] || (hasElements && objects[0] instanceof Byte)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvByte));
+            } else if (value instanceof Short[] || (hasElements && objects[0] instanceof Short)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvShort));
+            } else if (value instanceof Integer[] || (hasElements && objects[0] instanceof Integer)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvInt));
+            } else if (value instanceof Long[] || (hasElements && objects[0] instanceof Long)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvLong));
+            } else if (value instanceof Float[] || (hasElements && objects[0] instanceof Float)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvFloat));
+            } else if (value instanceof Double[] || (hasElements && objects[0] instanceof Double)) {
+                return (fieldCreate.createScalarArray(ScalarType.pvDouble));
+            } else {
+                return (fieldCreate.createScalarArray(ScalarType.pvString));
+            }
         } else if (value instanceof List) {
             // determine type of list by getting first element.
             var valueList = (List<?>) value;
@@ -157,7 +177,7 @@ class ArgumentBuilder {
                 return (fieldCreate.createScalarArray(ScalarType.pvFloat));
             } else if (firstElement instanceof Double) {
                 return (fieldCreate.createScalarArray(ScalarType.pvDouble));
-            } else if (firstElement instanceof String) {
+            } else if (firstElement instanceof String || firstElement instanceof Character) {
                 return (fieldCreate.createScalarArray(ScalarType.pvString));
             }
             return (fieldCreate.createScalar(ScalarType.pvString));
@@ -167,7 +187,7 @@ class ArgumentBuilder {
             @SuppressWarnings("unchecked") var map = (Map<String, Object>) value;
             return getStructure(map);
         } else {
-            throw new RuntimeException("Unknown type specified for argument value");
+            throw new RuntimeException("Unsupported type specified for argument value: " + value.getClass());
         }
     }
 
@@ -211,7 +231,18 @@ class ArgumentBuilder {
             } else if (pvField instanceof PVDouble) {
                 ((PVDouble) (pvField)).put((Double) value);
             } else if (pvField instanceof PVString) {
-                ((PVString) (pvField)).put((String) value);
+                if (value instanceof Character) {
+                    ((PVString) (pvField)).put(((Character) value).toString());
+                } else if (value instanceof Character[]) {
+                    Character[] valueArray = ((Character[]) value);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (char character : valueArray) {
+                        stringBuilder.append(character);
+                    }
+                    ((PVString) (pvField)).put(stringBuilder.toString());
+                } else {
+                    ((PVString) (pvField)).put((String) value);
+                }
             } else if (pvField instanceof PVBooleanArray) {
                 var valueList = (List<Boolean>) value;
                 var list = valueList.toArray(new Boolean[0]);

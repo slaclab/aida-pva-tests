@@ -7,17 +7,23 @@ package edu.stanford.slac.aida.test.utils;
 import org.epics.pvdata.pv.*;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @brief Utilities to manipulate PVField.
  */
 public class PVUtils {
+    @FunctionalInterface
+    private interface ArrayExtractor<A extends PVArray, D extends ArrayData<?>> {
+        int get(A array, int offset, int length, D data);
+    }
 
     /**
      * An iterator to iterate over PVArrays.  You can provide a consumer of the items to carry out
      * any action you want on the array elements.
-     *
+     * <p>
      * e.g.
      * <pre>{@code
      *      PVBooleanArray booleanPvArray = pvStruct.getSubfield(PVBooleanArray.class, "value");
@@ -37,7 +43,7 @@ public class PVUtils {
      * Sometimes you want to process an array but have a index counter automatically maintained for
      * you so that you can know which element you're processing.  For that you'll use the
      * array loop.
-     *
+     * <p>
      * e.g.
      * <pre>{@code
      *      PVStringArray stringPvArray = pvStruct.getSubfield(PVStringArray.class, "value");
@@ -76,46 +82,16 @@ public class PVUtils {
      * @param array    the pv boolean array
      * @param consumer the consumer function you provide to process the elements.
      *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void booleanArrayIterator(PVBooleanArray array, Consumer<Boolean> consumer) {
-        booleanArrayLoop(array, (s, i) -> consumer.accept(s));
-    }
-
-    /**
-     * An iterator to iterate over PVBooleanArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv boolean array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void booleanArrayLoop(PVBooleanArray array, BiConsumer<Boolean, Integer> consumer) {
-        var index = 0;
-        var data = new BooleanArrayData();
-        var offset = 0;
-        var len = array.getLength();
-        while (offset < len) {
-            var num = array.get(offset, (len - offset), data);
-            for (var i = 0; i < num; i++) {
-                consumer.accept(data.data[offset + i], index++);
-            }
-            offset += num;
-        }
-    }
-
-    /**
-     * An iterator to iterate over PVStringArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv string array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void stringArrayIterator(PVStringArray array, Consumer<String> consumer) {
-        stringArrayLoop(array, (s, i) -> consumer.accept(s));
+        consumeArray(
+                array,
+                BooleanArrayData::new,
+                (arrayData, offset, length, data) -> arrayData.get(offset, (length - offset), data),
+                (data, index) -> data.data[index],
+                consumer
+        );
     }
 
     /**
@@ -128,30 +104,13 @@ public class PVUtils {
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void stringArrayLoop(PVStringArray array, BiConsumer<String, Integer> consumer) {
-        var index = 0;
-        var data = new StringArrayData();
-        var offset = 0;
-        var len = array.getLength();
-        while (offset < len) {
-            var num = array.get(offset, (len - offset), data);
-            for (var i = 0; i < num; i++) {
-                consumer.accept(data.data[offset + i], index++);
-            }
-            offset += num;
-        }
-    }
-
-    /**
-     * An iterator to iterate over PVDoubleArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv double array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void doubleArrayIterator(PVDoubleArray array, Consumer<Double> consumer) {
-        doubleArrayLoop(array, (s, i) -> consumer.accept(s));
+        consumeArray(
+                array,
+                StringArrayData::new,
+                (arrayData, offset, length, data) -> arrayData.get(offset, (length - offset), data),
+                (data, index) -> data.data[index],
+                consumer
+        );
     }
 
     /**
@@ -178,19 +137,6 @@ public class PVUtils {
      * @param array    the pv float array
      * @param consumer the consumer function you provide to process the elements.
      *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void floatArrayIterator(PVFloatArray array, Consumer<Float> consumer) {
-        floatArrayLoop(array, (s, i) -> consumer.accept(s));
-    }
-
-    /**
-     * An iterator to iterate over PVFloatArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv float array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void floatArrayLoop(PVFloatArray array, BiConsumer<Float, Integer> consumer) {
@@ -199,19 +145,6 @@ public class PVUtils {
         while (it.hasNext()) {
             consumer.accept(it.nextFloat(), index++);
         }
-    }
-
-    /**
-     * An iterator to iterate over PVLongArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv lon array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void longArrayIterator(PVLongArray array, Consumer<Long> consumer) {
-        longArrayLoop(array, (s, i) -> consumer.accept(s));
     }
 
     /**
@@ -238,19 +171,6 @@ public class PVUtils {
      * @param array    the pv integer array
      * @param consumer the consumer function you provide to process the elements.
      *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void integerArrayIterator(PVIntArray array, Consumer<Integer> consumer) {
-        integerArrayLoop(array, (s, i) -> consumer.accept(s));
-    }
-
-    /**
-     * An iterator to iterate over PVIntArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv integer array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
      *                 <pre>@{code biConsumer(Object o, Integer i); }</pre>
      */
     static void integerArrayLoop(PVIntArray array, BiConsumer<Integer, Integer> consumer) {
@@ -259,19 +179,6 @@ public class PVUtils {
         while (it.hasNext()) {
             consumer.accept(it.nextInt(), index++);
         }
-    }
-
-    /**
-     * An iterator to iterate over PVShortArray.  You can provide a consumer of the items to carry out
-     * any action you want on the array elements.
-     *
-     * @param array    the pv shor array
-     * @param consumer the consumer function you provide to process the elements.
-     *                 The consumer signature
-     *                 <pre>@{code consumer(Object o); }</pre>
-     */
-    static void shortArrayIterator(PVShortArray array, Consumer<Short> consumer) {
-        shortArrayLoop(array, (s, i) -> consumer.accept(s));
     }
 
     /**
@@ -346,5 +253,36 @@ public class PVUtils {
             return ((PVByte) value).get();
         }
         return null;
+    }
+
+    /**
+     * Generic array consumer to iterate over any type of PVArray calling the consumer for each value
+     *
+     * @param array          the PVArray to iterate over
+     * @param dataCreator    the ArrayData buffer creator
+     * @param arrayExtractor the ArrayData extractor - this extracts from PVArrays
+     * @param dataGetter     the ArrayData element getter
+     * @param consumer       the consumer
+     * @param <A>            the PVArray subtype e.g. PVBooleanArray
+     * @param <D>            the ArrayData subtype e.g. BooleanArrayData
+     * @param <T>            the type of data that the consumer expects e.g. Boolean
+     */
+    private static <A extends PVArray, D extends ArrayData<?>, T>
+    void consumeArray(
+            A array,
+            Supplier<D> dataCreator,
+            ArrayExtractor<A, D> arrayExtractor,
+            BiFunction<D, Integer, T> dataGetter,
+            BiConsumer<T, Integer> consumer) {
+
+        int len = array.getLength(), offset = 0, index = 0;
+        while (offset < len) {
+            D data = dataCreator.get();
+            int num = arrayExtractor.get(array, offset, (len - offset), data);
+            for (int i = 0; i < num; i++, index++) {
+                consumer.accept(dataGetter.apply(data, i), index);
+            }
+            offset += num;
+        }
     }
 }

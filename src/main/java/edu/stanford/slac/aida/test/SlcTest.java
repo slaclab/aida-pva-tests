@@ -4,12 +4,11 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaType;
-
 import java.util.Arrays;
 import java.util.List;
 
 import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
+import static edu.stanford.slac.aida.test.utils.AidaType.*;
 
 /**
  * This class is used to test the SLC Database AIDA-PVA provider
@@ -31,67 +30,67 @@ public class SlcTest {
         // 01
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire scalar types SLC PMUS");
-            getRequest("XCOR:LI03:120:LEFF", AidaType.FLOAT, "Float BACT");
-            getRequest("XCOR:LI03:120//LEFF", AidaType.FLOAT, "Backwards compatibility - using legacy request format: Float BACT");
-            getRequest("XCOR:LI03:120:LEFF", AidaType.DOUBLE, "Double BACT");
-            getRequest("XCOR:LI03:120:VSTA", AidaType.BOOLEAN, "Boolean VSTA");
-            getRequest("XCOR:LI03:120:SETL", AidaType.SHORT, "Short SETL");
-            getRequest("XCOR:LI03:120:ADCP", AidaType.BYTE, "Byte ADCP");
-            getRequest("XCOR:LI03:120:ADCP", AidaType.CHAR, "Char ADCP");
-            getRequest("XCOR:LI03:120:ADCP", AidaType.CHAR, "WCHAR not possible in AIDA-PVA: Falling back to CHAR: ADCP");
-            getRequest("XCOR:LI03:120:PSNM", AidaType.STRING, "String PSNM");
-            getRequest("XCOR:LI03:120:PSNM", AidaType.STRING, "WSTRING not possible in AIDA-PVA: Falling back to STRING: PSNM");
+            getRequest("XCOR:LI03:120:LEFF", AIDA_FLOAT, "Float BACT");
+            getRequest("XCOR:LI03:120//LEFF", AIDA_FLOAT, "Backwards compatibility - using legacy request format: Float BACT");
+            getRequest("XCOR:LI03:120:LEFF", AIDA_DOUBLE, "Double BACT");
+            getRequest("XCOR:LI03:120:VSTA", AIDA_BOOLEAN, "Boolean VSTA");
+            getRequest("XCOR:LI03:120:SETL", AIDA_SHORT, "Short SETL");
+            getRequest("XCOR:LI03:120:ADCP", AIDA_BYTE, "Byte ADCP");
+            getRequest("XCOR:LI03:120:ADCP", AIDA_CHAR, "Char ADCP");
+            getRequest("XCOR:LI03:120:ADCP", AIDA_CHAR, "WCHAR not possible in AIDA-PVA: Falling back to CHAR: ADCP");
+            getRequest("XCOR:LI03:120:PSNM", AIDA_STRING, "String PSNM");
+            getRequest("XCOR:LI03:120:PSNM", AIDA_STRING, "WSTRING not possible in AIDA-PVA: Falling back to STRING: PSNM");
 
-            getRequest("XCOR:LI03:120:PSNM", AidaType.BYTE_ARRAY, "Byte array PSNM");
-            getRequest("XCOR:LI03:120:PSNM", AidaType.CHAR_ARRAY, "Char array PSNM");
+            getRequest("XCOR:LI03:120:PSNM", AIDA_BYTE_ARRAY, "Byte array PSNM");
+            getRequest("XCOR:LI03:120:PSNM", AIDA_CHAR_ARRAY, "Char array PSNM");
         }
 
         // 02
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire FLOAT type SLC PMUS");
-            getRequest("XCOR:LI03:120:BACT", AidaType.FLOAT, "BACT");
+            getRequest("XCOR:LI03:120:BACT", AIDA_FLOAT, "BACT");
         }
 
         // 03
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire LONG INT type SLC PMUS");
-            getRequest("XCOR:LI03:120:VSTA", AidaType.LONG, "VSTA");
+            getRequest("XCOR:LI03:120:VSTA", AIDA_LONG, "VSTA");
         }
 
         // 04
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire array of FLOAT type SLC PMUS");
-            getRequest("XCOR:LI03:120:IMMS", AidaType.FLOAT_ARRAY, "IMMS");
+            getRequest("XCOR:LI03:120:IMMS", AIDA_FLOAT_ARRAY, "IMMS");
         }
 
         // 05
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire array of DOUBLE type SLC PMUS");
-            getRequest("XCOR:LI03:120:IMMS", AidaType.DOUBLE_ARRAY, "IMMS");
+            getRequest("XCOR:LI03:120:IMMS", AIDA_DOUBLE_ARRAY, "IMMS");
         }
 
         // 06
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire array of SHORT type SLC PMUS");
-            getRequest("XCOR:LI03:120:NSCY", AidaType.SHORT_ARRAY, "NSCY");
+            getRequest("XCOR:LI03:120:NSCY", AIDA_SHORT_ARRAY, "NSCY");
         }
 
         // 07
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire array of LONG type SLC PMUS");
-            getRequest("XCOR:LI03:120:RAMP", AidaType.LONG_ARRAY, "RAMP");
+            getRequest("XCOR:LI03:120:RAMP", AIDA_LONG_ARRAY, "RAMP");
         }
 
         // 08
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire array of BOOLEAN type SLC PMUS");
-            getRequest("XCOR:LI03:120:RAMP", AidaType.BOOLEAN_ARRAY, "RAMP");
+            getRequest("XCOR:LI03:120:RAMP", AIDA_BOOLEAN_ARRAY, "RAMP");
         }
 
         // 09
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Acquire FLOAT type SLC Database PV");
-            getRequest("XCOR:LI03:120:LEFF", AidaType.FLOAT, "LEFF");
+            getRequest("XCOR:LI03:120:LEFF", AIDA_FLOAT, "LEFF");
         }
 
         // 10
@@ -101,7 +100,7 @@ public class SlcTest {
 
             testHeader(testId, "Looping acquire FLOAT type SLC Database PV" + " pausing " + delayMilliseconds / 1000 + " seconds between each.");
             for (var i = 0; i < numberOfAcquisitionsToMake; i++) {
-                getRequest("XCOR:LI03:120:LEFF", AidaType.FLOAT, "LEFF");
+                getRequest("XCOR:LI03:120:LEFF", AIDA_FLOAT, "LEFF");
                 try {
                     Thread.sleep(delayMilliseconds);
                 } catch (InterruptedException ignored) {
@@ -113,21 +112,21 @@ public class SlcTest {
         // 11
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "ASTS request name test");
-            getRequest("ASTS:LI00:ISOPLAN2:DATA", AidaType.FLOAT, "DATA");
-            getRequest("ASTS:PR02:VP3012:DATA", AidaType.FLOAT, "DATA");
-            getRequest("ASTS:PR02:VP3012:STAT", AidaType.SHORT, "STAT");
-            getRequest("ASTS:PR02:T2092BLW:LIM1", AidaType.FLOAT, "LIM1");
-            getRequest("ASTS:PR02:T2092BLW:LIM2", AidaType.FLOAT, "LIM2");
-            getRequest("ASTS:PR02:T2092BLW:LIMS", AidaType.FLOAT_ARRAY, "LIMS");
-            getRequest("ASTS:PR02:T2092QUA:SCAL", AidaType.FLOAT_ARRAY, "SCAL");
-            getRequest("ASTS:PR02:T2092QUA:RAW", AidaType.FLOAT, "RAW");
-            getRequest("ASTS:PR02:T2092QUA:STAT", AidaType.STRING, "STAT");
+            getRequest("ASTS:LI00:ISOPLAN2:DATA", AIDA_FLOAT, "DATA");
+            getRequest("ASTS:PR02:VP3012:DATA", AIDA_FLOAT, "DATA");
+            getRequest("ASTS:PR02:VP3012:STAT", AIDA_SHORT, "STAT");
+            getRequest("ASTS:PR02:T2092BLW:LIM1", AIDA_FLOAT, "LIM1");
+            getRequest("ASTS:PR02:T2092BLW:LIM2", AIDA_FLOAT, "LIM2");
+            getRequest("ASTS:PR02:T2092BLW:LIMS", AIDA_FLOAT_ARRAY, "LIMS");
+            getRequest("ASTS:PR02:T2092QUA:SCAL", AIDA_FLOAT_ARRAY, "SCAL");
+            getRequest("ASTS:PR02:T2092QUA:RAW", AIDA_FLOAT, "RAW");
+            getRequest("ASTS:PR02:T2092QUA:STAT", AIDA_STRING, "STAT");
         }
 
         // 12
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "ASTS request name with one of the pseudo-secondaries STAT, CTRL, or VSTA");
-            getRequest("ASTS:PR02:T2092QUA:STAT", AidaType.STRING_ARRAY, "STAT");
+            getRequest("ASTS:PR02:T2092QUA:STAT", AIDA_STRING_ARRAY, "STAT");
         }
 
         // 13

@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static edu.stanford.slac.aida.test.utils.AidaType.*;
+
 /**
  * @noop @formatter:off
  * Utility class to facilitate running all the AIDA-PVA tests.
@@ -208,7 +210,7 @@ public class AidaPvaTestUtils {
                 testHeader(testId, "Acquire SHORT type");
                 request("TRIG:LI31:109:TACT", "TACT")
                         .with("BEAM", 1)
-                        .returning(AidaType.SHORT)
+                        .returning(AIDA_SHORT)
                         .get();
             }
         }
@@ -295,8 +297,8 @@ public class AidaPvaTestUtils {
      * @param message any message to display next to the returned data
      */
     public static void getRequest(final String query, AidaType type, String message) {
-        var stringType = type.toString();
-        if (type.equals(AidaType.TABLE)) {
+        var stringType = type.string();
+        if (type.equals(AIDA_TABLE)) {
             getTableRequest(query, message);
         } else if (stringType.endsWith("_ARRAY")) {
             getArrayRequest(query, type, message);
@@ -359,7 +361,7 @@ public class AidaPvaTestUtils {
             var clazz = type.toPVFieldClass();
 
             System.out.print("    " + message + ": ");
-            if (type == AidaType.VOID || clazz == null) {
+            if (type == AIDA_VOID || clazz == null) {
                 System.out.println(" " + (expectToFail ? color(TEST_FAILURE_COLOR, TEST_FAILURE) : color(TEST_SUCCESS_COLOR, TEST_SUCCESS)));
                 return;
             }
@@ -448,9 +450,9 @@ public class AidaPvaTestUtils {
         testCaseHeader(query, null, pseudoReturnType(type), true);
         displayScalarResult(
                 () -> new AidaPvaRequest(query)
-                        .returning(AidaType.valueOf(realReturnType(type)))
+                        .returning(realReturnType(type))
                         .getter(),
-                clazz, message, type.equals(AidaType.CHAR));
+                clazz, message, type.equals(AIDA_CHAR));
     }
 
     /**
@@ -465,9 +467,9 @@ public class AidaPvaTestUtils {
         testCaseHeader(query, null, pseudoReturnType(type), true);
         displayScalarArrayResults(
                 () -> new AidaPvaRequest(query)
-                        .returning(AidaType.valueOf(realReturnType(type)))
+                        .returning(realReturnType(type))
                         .getter(),
-                clazz, message, type.equals(AidaType.CHAR_ARRAY));
+                clazz, message, type.equals(AIDA_CHAR_ARRAY));
     }
 
     /**
@@ -480,7 +482,7 @@ public class AidaPvaTestUtils {
         testCaseHeader(query, null, "TABLE", true);
         displayTableResults(
                 () -> new AidaPvaRequest(query)
-                        .returning(AidaType.TABLE)
+                        .returning(AIDA_TABLE)
                         .getter(),
                 message);
     }
@@ -713,8 +715,8 @@ public class AidaPvaTestUtils {
      * @param type the given AidaType
      * @return the real return type value for TYPE argument
      */
-    private static String realReturnType(AidaType type) {
-        return type.equals(AidaType.CHAR_ARRAY) ? "BYTE_ARRAY" : type.equals(AidaType.CHAR) ? "BYTE" : type.toString();
+    private static AidaType realReturnType(AidaType type) {
+        return type.equals(AIDA_CHAR_ARRAY) ? AIDA_BYTE_ARRAY : type.equals(AIDA_CHAR) ? AIDA_BYTE : type;
     }
 
     /**
@@ -724,7 +726,7 @@ public class AidaPvaTestUtils {
      * @return the pseudo return type
      */
     private static String pseudoReturnType(AidaType type) {
-        return type.equals(AidaType.CHAR_ARRAY) ? "CHAR_ARRAY" : type.equals(AidaType.CHAR) ? "CHAR" : realReturnType(type);
+        return type.equals(AIDA_CHAR_ARRAY) ? "CHAR_ARRAY" : type.equals(AIDA_CHAR) ? "CHAR" : realReturnType(type).string();
     }
 
     /**

@@ -4,11 +4,10 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaType;
-
 import java.util.Arrays;
 
 import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
+import static edu.stanford.slac.aida.test.utils.AidaType.*;
 
 /**
  * This class is used to test the SLC Klystron AIDA-PVA provider
@@ -33,7 +32,7 @@ public class SlcKlysTest {
             request("KLYS:LI31:31:TACT", "Short")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
-                    .returning(AidaType.SHORT)
+                    .returning(AIDA_SHORT)
                     .get();
         }
 
@@ -43,7 +42,7 @@ public class SlcKlysTest {
             request("KLYS:LI31:31:TACT", "String")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
-                    .returning(AidaType.STRING)
+                    .returning(AIDA_STRING)
                     .get();
         }
 
@@ -53,7 +52,7 @@ public class SlcKlysTest {
             request("KLYS:LI31:31:TACT", "Table")
                     .with("BEAM", 8)
                     .with("DGRP", "DEV_DGRP")
-                    .returning(AidaType.TABLE)
+                    .returning(AIDA_TABLE)
                     .get();
         }
 
@@ -110,13 +109,13 @@ public class SlcKlysTest {
         // 11
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get configuration secondary PDES value");
-            getRequest("SLC::KLYS:LI31:31:PDES", AidaType.FLOAT, "PDES value");
+            getRequest("SLC::KLYS:LI31:31:PDES", AIDA_FLOAT, "PDES value");
         }
 
         // 12
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get configuration secondary KPHR value");
-            getRequest("SLC::KLYS:LI31:31:KPHR", AidaType.FLOAT, "KPHR value");
+            getRequest("SLC::KLYS:LI31:31:KPHR", AIDA_FLOAT, "KPHR value");
         }
 
 
@@ -135,7 +134,7 @@ public class SlcKlysTest {
             request("KLYS:LI31:31:TACT", "PDES")
                     .with("BEAM", 1)
                     .with("DGRP", "LIN_KLYS")
-                    .returning(AidaType.SHORT)
+                    .returning(AIDA_SHORT)
                     .getAndExpectFailure();
         }
 

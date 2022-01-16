@@ -6,12 +6,13 @@
  */
 package edu.stanford.slac.aida.test.utils;
 
-import org.epics.pvaccess.ClientFactory;
 import org.epics.pvaccess.client.rpc.RPCClientImpl;
 import org.epics.pvaccess.server.rpc.RPCRequestException;
 import org.epics.pvdata.factory.FieldFactory;
 import org.epics.pvdata.factory.PVDataFactory;
 import org.epics.pvdata.pv.*;
+
+import static edu.stanford.slac.aida.test.utils.AidaType.*;
 
 /**
  * This is a general purpose AIDA PVA Request Executor
@@ -76,14 +77,14 @@ public class AidaPvaRequest {
      */
     public AidaPvaRequest returning(AidaType type) {
         queryType = type;
-        if (type.equals(AidaType.CHAR)) {
+        if (type.equals(AIDA_CHAR)) {
             isForChar = true;
-            type = AidaType.BYTE;
-        } else if (type.equals(AidaType.CHAR_ARRAY)) {
+            type = AIDA_BYTE;
+        } else if (type.equals(AIDA_CHAR_ARRAY)) {
             isForCharArray = true;
-            type = AidaType.BYTE_ARRAY;
+            type = AIDA_BYTE_ARRAY;
         }
-        argumentBuilder.addArgument("TYPE", type.toString());
+        argumentBuilder.addArgument("TYPE", type.string());
         return this;
     }
 
@@ -94,7 +95,7 @@ public class AidaPvaRequest {
      */
     public void set(Object value) {
         argumentBuilder.addArgument("VALUE", value);
-        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
+        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.string() : null), true);
         AidaPvaTestUtils.displayResult(() -> setter(null), message, false, expectToFail);
     }
 
@@ -106,7 +107,7 @@ public class AidaPvaRequest {
     public void setAndExpectFailure(Object value) {
         expectToFail = true;
         argumentBuilder.addArgument("VALUE", value);
-        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
+        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.string() : null), true);
         AidaPvaTestUtils.displayResult(() -> setter(null), message, false, expectToFail);
     }
 
@@ -115,7 +116,7 @@ public class AidaPvaRequest {
      * and then get the request
      */
     public <T extends PVField> void get() {
-        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.toString() : null), true);
+        AidaPvaTestUtils.testCaseHeader(channelName, argumentBuilder.toString(), (queryType != null ? queryType.string() : null), true);
         AidaPvaTestUtils.displayResult(this::getter, message, isForChar || isForCharArray, expectToFail);
     }
 
@@ -158,9 +159,6 @@ public class AidaPvaRequest {
      * @throws RPCRequestException if there is an error calling the request
      */
     private PVStructure execute() throws RPCRequestException {
-        ClientFactory.start();
-        var client = new RPCClientImpl(channelName);
-
         // Build the arguments structure
         var arguments = argumentBuilder.build();
 
@@ -182,9 +180,8 @@ public class AidaPvaRequest {
         argumentBuilder.initializeQuery(query);
 
         // Execute the query
+        var client = new RPCClientImpl(channelName);
         var result = client.request(request, 3.0);
-        client.destroy();
-        ClientFactory.stop();
         return result;
     }
 }

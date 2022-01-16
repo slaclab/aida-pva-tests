@@ -4,13 +4,12 @@
  */
 package edu.stanford.slac.aida.test;
 
-import edu.stanford.slac.aida.test.utils.AidaType;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static edu.stanford.slac.aida.test.utils.AidaPvaTestUtils.*;
+import static edu.stanford.slac.aida.test.utils.AidaType.*;
 import static java.lang.Math.E;
 import static java.lang.Math.PI;
 
@@ -62,10 +61,10 @@ public class ReferenceTest {
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Get Byte");
             request("AIDA:SAMPLE:TEST:attribute02", "Byte").get();
-            request("AIDA:SAMPLE:TEST:attribute02", "Unprintable Char: 0x2").returning(AidaType.CHAR).get();
+            request("AIDA:SAMPLE:TEST:attribute02", "Unprintable Char: 0x2").returning(AIDA_CHAR).get();
             request("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | x[0x4]").with("x", 0x4).get();
             request("AIDA:SAMPLE:TEST:attribute02", "Byte: 0x2 | x[0x8]").with("x", 0x8).get();
-            request("AIDA:SAMPLE:TEST:attribute02", "Char: 0x2 | x[0x48]").with("x", 0x48).returning(AidaType.CHAR).get();
+            request("AIDA:SAMPLE:TEST:attribute02", "Char: 0x2 | x[0x48]").with("x", 0x48).returning(AIDA_CHAR).get();
         }
 
         // 03
@@ -162,7 +161,7 @@ public class ReferenceTest {
                     .get();
             request("AIDA:SAMPLE:TEST:attribute12", "Char Array: 12 | x[[0x40, 0x41, 0x48, 0x49]]")
                     .with("x", List.of(0x40, 0x41, 0x48, 0x49))
-                    .returning(AidaType.CHAR_ARRAY)
+                    .returning(AIDA_CHAR_ARRAY)
                     .get();
             request("AIDA:SAMPLE:TEST:attribute12", "As Json: 12 | x[[0x4, 0x8, 0x48, 65]]")
                     .with("x", "[4, 8, 72, 65]")
@@ -311,25 +310,25 @@ public class ReferenceTest {
         // 20
         if (argString.contains(" " + ++testId + ",") || allTests) {
             testHeader(testId, "Arbitrary Getters on the same request");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.BOOLEAN, "Boolean");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.BYTE, "Byte");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.CHAR, "Char");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.SHORT, "Short");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.INTEGER, "Integer");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.LONG, "Long");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.FLOAT, "Float");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.DOUBLE, "Double");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.STRING, "String");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.BOOLEAN_ARRAY, "Boolean Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.BYTE_ARRAY, "Byte Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.CHAR_ARRAY, "Char Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.SHORT_ARRAY, "Short Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.INTEGER_ARRAY, "Integer Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.LONG_ARRAY, "Long Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.FLOAT_ARRAY, "Float Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.DOUBLE_ARRAY, "Double Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.STRING_ARRAY, "String Array");
-            getRequest("AIDA:SAMPLE:TEST:attribute32", AidaType.TABLE, "Table");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_BOOLEAN, "Boolean");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_BYTE, "Byte");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_CHAR, "Char");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_SHORT, "Short");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_INTEGER, "Integer");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_LONG, "Long");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_FLOAT, "Float");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_DOUBLE, "Double");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_STRING, "String");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_BOOLEAN_ARRAY, "Boolean Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_BYTE_ARRAY, "Byte Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_CHAR_ARRAY, "Char Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_SHORT_ARRAY, "Short Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_INTEGER_ARRAY, "Integer Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_LONG_ARRAY, "Long Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_FLOAT_ARRAY, "Float Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_DOUBLE_ARRAY, "Double Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_STRING_ARRAY, "String Array");
+            getRequest("AIDA:SAMPLE:TEST:attribute32", AIDA_TABLE, "Table");
         }
 
         // 21
