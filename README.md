@@ -10,7 +10,7 @@ cd aida-pva-tests
 mvn install
 
 ```
-The shaded jar file is found in the target directory. `./target/aida-pva-tests-1.0-SNAPSHOT.jar`
+The shaded jar file is found in the target directory. `./target/aida-pva-tests-1.0.jar`
 
 ## To run the tests
 Running the tests are equally simple. You need to make sure that your environment is set up so that you can find the
@@ -30,7 +30,7 @@ the tests is as follows:
 ```shell
 export EPICS_PVA_ADDR_LIST=mccdev.slac.stanford.edu
 cd ./target
-java -cp aida-pva-tests-1.0-SNAPSHOT.jar  "SlcTest"
+java -cp aida-pva-tests-1.0.jar  "SlcTest"
 ```
 
 #### output

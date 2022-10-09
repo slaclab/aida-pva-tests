@@ -82,7 +82,7 @@ public class SlcKlysTest {
 
         // 07
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            testHeader(testId, "Set a subbooster or klystron PDES value without the trim operation");
+            testHeader(testId, "Set a sub-booster or klystron PDES value without the trim operation");
             request("KLYS:LI31:31:PDES", "PDES")
                     .with("TRIM", "NO")
                     .set(90.0f);
@@ -90,7 +90,7 @@ public class SlcKlysTest {
 
         // 08
         if (argString.contains(" " + ++testId + ",") || allTests) {
-            testHeader(testId, "Set a subbooster or klystron KPHR value");
+            testHeader(testId, "Set a sub-booster or klystron KPHR value");
             request("KLYS:LI31:31:KPHR", "KPHR").set(60.0f);
         }
 
